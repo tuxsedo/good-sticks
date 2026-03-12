@@ -17,15 +17,6 @@ const FLAVOR_LABELS: { key: keyof CigarReview["flavors"]; label: string }[] = [
   { key: "sweetness", label: "Sweetness" },
   { key: "spice", label: "Spice" },
   { key: "earthiness", label: "Earthiness" },
-  { key: "woodiness", label: "Woodiness" },
-  { key: "creaminess", label: "Creaminess" },
-  { key: "nuttiness", label: "Nuttiness" },
-  { key: "leather", label: "Leather" },
-  { key: "pepper", label: "Pepper" },
-  { key: "cocoa", label: "Cocoa" },
-  { key: "coffee", label: "Coffee" },
-  { key: "fruit", label: "Fruit" },
-  { key: "floral", label: "Floral" },
 ];
 
 const SMOKE_LABELS = [
