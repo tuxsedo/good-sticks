@@ -9,7 +9,7 @@ const Wishlist = () => {
   const [showForm, setShowForm] = useState(false);
   const [brand, setBrand] = useState("");
   const [name, setName] = useState("");
-  const [vitola, setVitola] = useState("");
+  const [vitola, setVitola] = useState<Vitola | "">("");
 
   useEffect(() => {
     try {
