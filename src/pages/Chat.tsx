@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import MessageBubble from "@/components/MessageBubble";
-import CigarSidebar from "@/components/CigarSidebar";
 import { Cigarette, Send } from "lucide-react";
 import type { ChatMessage, PalateProfile } from "@/lib/types";
 
@@ -17,7 +16,6 @@ const Chat = () => {
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const palate: PalateProfile | null = (() => {
@@ -63,67 +61,63 @@ const Chat = () => {
   };
 
   return (
-    <div className="h-screen bg-ember-gradient flex">
-      <CigarSidebar />
-
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Header */}
-        <div className="flex items-center gap-3 px-4 py-4 border-b border-border/50">
-          <div className="h-9 w-9 rounded-full bg-primary/15 flex items-center justify-center">
-            <Cigarette className="h-5 w-5 text-primary" />
-          </div>
-          <div>
-            <span className="font-display text-lg font-semibold text-foreground">GoodSticks</span>
-            <p className="text-xs text-muted-foreground">Your best smoke sidekick</p>
-          </div>
+    <div className="flex-1 flex flex-col min-w-0">
+      {/* Header */}
+      <div className="flex items-center gap-3 px-4 py-4 border-b border-border/50">
+        <div className="h-9 w-9 rounded-full bg-primary/15 flex items-center justify-center">
+          <Cigarette className="h-5 w-5 text-primary" />
         </div>
+        <div>
+          <span className="font-display text-lg font-semibold text-foreground">Ember</span>
+          <p className="text-xs text-muted-foreground">Your best smoke sidekick</p>
+        </div>
+      </div>
 
-        {/* Messages */}
-        <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
-          {messages.map((msg) => (
-            <MessageBubble
-              key={msg.id}
-              message={msg}
-              onSuggestionClick={(s) => handleSend(s)}
-            />
-          ))}
-          {isTyping && (
-            <div className="flex gap-3">
-              <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary/15 flex items-center justify-center">
-                <Cigarette className="h-4 w-4 text-primary animate-ember-pulse" />
-              </div>
-              <div className="bg-secondary rounded-2xl rounded-bl-sm px-4 py-3">
-                <div className="flex gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: "0ms" }} />
-                  <span className="h-2 w-2 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: "150ms" }} />
-                  <span className="h-2 w-2 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: "300ms" }} />
-                </div>
+      {/* Messages */}
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+        {messages.map((msg) => (
+          <MessageBubble
+            key={msg.id}
+            message={msg}
+            onSuggestionClick={(s) => handleSend(s)}
+          />
+        ))}
+        {isTyping && (
+          <div className="flex gap-3">
+            <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary/15 flex items-center justify-center">
+              <Cigarette className="h-4 w-4 text-primary animate-ember-pulse" />
+            </div>
+            <div className="bg-secondary rounded-2xl rounded-bl-sm px-4 py-3">
+              <div className="flex gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: "0ms" }} />
+                <span className="h-2 w-2 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: "150ms" }} />
+                <span className="h-2 w-2 rounded-full bg-muted-foreground/40 animate-bounce" style={{ animationDelay: "300ms" }} />
               </div>
             </div>
-          )}
-        </div>
-
-        {/* Input */}
-        <div className="border-t border-border/50 px-4 py-3">
-          <div className="flex items-end gap-2 max-w-2xl mx-auto">
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Ask about cigars..."
-              rows={1}
-              className="flex-1 resize-none rounded-xl border border-border bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-            />
-            <Button
-              variant="ember"
-              size="icon"
-              className="h-11 w-11 rounded-xl flex-shrink-0"
-              disabled={!input.trim() || isTyping}
-              onClick={() => handleSend()}
-            >
-              <Send className="h-4 w-4" />
-            </Button>
           </div>
+        )}
+      </div>
+
+      {/* Input */}
+      <div className="border-t border-border/50 px-4 py-3">
+        <div className="flex items-end gap-2 max-w-2xl mx-auto">
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Ask about cigars..."
+            rows={1}
+            className="flex-1 resize-none rounded-xl border border-border bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
+          />
+          <Button
+            variant="ember"
+            size="icon"
+            className="h-11 w-11 rounded-xl flex-shrink-0"
+            disabled={!input.trim() || isTyping}
+            onClick={() => handleSend()}
+          >
+            <Send className="h-4 w-4" />
+          </Button>
         </div>
       </div>
     </div>

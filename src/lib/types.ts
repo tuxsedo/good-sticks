@@ -28,3 +28,21 @@ export interface CigarItem {
   notes?: string;
   addedAt: string;
 }
+
+export interface HumidorCigar {
+  id: string;
+  brand: string;
+  name: string;
+  vitola: string;
+  addedAt: string;
+  notes?: string;
+}
+
+export interface WishlistCigar {
+  id: string;
+  brand: string;
+  name: string;
+  vitola?: string;
+  addedAt: string;
+  notes?: string;
+}
