@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Plus, X, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { WishlistCigar } from "@/lib/types";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { VITOLA_OPTIONS, type WishlistCigar, type Vitola } from "@/lib/types";
 
 const Wishlist = () => {
   const [cigars, setCigars] = useState<WishlistCigar[]>([]);
