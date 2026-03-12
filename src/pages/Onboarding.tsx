@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import OnboardingStep from "@/components/OnboardingStep";
-import { Flame, ArrowRight, SkipForward } from "lucide-react";
+import FavoriteCigarsStep from "@/components/FavoriteCigarsStep";
+import { Cigarette, ArrowRight, SkipForward } from "lucide-react";
 import type { PalateProfile, FlavorNote } from "@/lib/types";
 
 const FLAVOR_OPTIONS = [
@@ -19,6 +20,8 @@ const FLAVOR_OPTIONS = [
   { value: "floral", label: "Floral / Honey" },
   { value: "sweet", label: "Natural Sweetness" },
 ];
+
+const TOTAL_STEPS = 6;
 
 const steps = [
   {
@@ -49,7 +52,7 @@ const steps = [
   },
   {
     headline: "Anything you want to avoid?",
-    subtext: "This helps Ember steer clear. Skip if nothing comes to mind.",
+    subtext: "This helps GoodSticks steer clear. Skip if nothing comes to mind.",
     multiSelect: true,
     skippable: true,
     options: FLAVOR_OPTIONS,
@@ -81,19 +84,23 @@ const Onboarding = () => {
     loveFlavors: [] as string[],
     dislikeFlavors: [] as string[],
     drinkPairing: "" as string,
+    favoriteCigars: [] as string[],
   });
 
+  const isCigarStep = currentStep === 5;
   const step = steps[currentStep];
-  const isMultiSelect = step?.multiSelect;
 
   const getCurrentValue = () => {
+    if (isCigarStep) return answers.favoriteCigars;
     const keys = ["experience", "strength", "loveFlavors", "dislikeFlavors", "drinkPairing"] as const;
     return answers[keys[currentStep]];
   };
 
   const handleSelect = (value: string) => {
+    if (isCigarStep) return;
     const keys = ["experience", "strength", "loveFlavors", "dislikeFlavors", "drinkPairing"] as const;
     const key = keys[currentStep];
+    const isMultiSelect = step?.multiSelect;
 
     if (isMultiSelect) {
       const current = answers[key] as string[];
@@ -107,6 +114,7 @@ const Onboarding = () => {
   };
 
   const canAdvance = () => {
+    if (isCigarStep) return answers.favoriteCigars.length > 0;
     const val = getCurrentValue();
     if (step?.skippable) return true;
     if (Array.isArray(val)) return val.length > 0;
@@ -114,18 +122,19 @@ const Onboarding = () => {
   };
 
   const handleNext = () => {
-    if (currentStep < steps.length - 1) {
+    if (currentStep < TOTAL_STEPS - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Save profile
       const profile: PalateProfile = {
         experience: answers.experience as PalateProfile["experience"],
         strength: answers.strength as PalateProfile["strength"],
         loveFlavors: answers.loveFlavors as FlavorNote[],
         dislikeFlavors: answers.dislikeFlavors as FlavorNote[],
         drinkPairing: answers.drinkPairing as PalateProfile["drinkPairing"],
+        favoriteCigars: answers.favoriteCigars,
       };
-      localStorage.setItem("ember_palate", JSON.stringify(profile));
+      localStorage.setItem("gs_palate", JSON.stringify(profile));
+      localStorage.setItem("gs_conversations", "0");
       setShowCompletion(true);
     }
   };
@@ -134,13 +143,13 @@ const Onboarding = () => {
     return (
       <div className="min-h-screen bg-ember-gradient flex flex-col items-center justify-center px-6 text-center">
         <div className="animate-fade-in max-w-md">
-          <Flame className="h-12 w-12 text-primary mx-auto mb-6 animate-ember-pulse" />
+          <Cigarette className="h-12 w-12 text-primary mx-auto mb-6 animate-ember-pulse" />
           <h1 className="font-display text-3xl sm:text-4xl font-bold mb-4">
             Your palate profile is set.
           </h1>
           <p className="text-muted-foreground text-lg mb-10 leading-relaxed">
-            Ember is ready. Tell me about right now — the setting, what you're drinking, 
-            how much time you have — and I'll tell you exactly what to light.
+            GoodSticks is ready. Let's talk cigars — ask about recommendations, 
+            pairings, brands, or anything on your mind.
           </p>
           <Button
             variant="ember"
@@ -148,7 +157,7 @@ const Onboarding = () => {
             className="text-base px-8 py-6"
             onClick={() => navigate("/chat")}
           >
-            Let's smoke
+            Let's talk cigars
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>
@@ -158,47 +167,50 @@ const Onboarding = () => {
 
   return (
     <div className="min-h-screen bg-ember-gradient flex flex-col">
-      {/* Header */}
       <div className="flex items-center justify-between px-6 py-5">
         <div className="flex items-center gap-2">
-          <Flame className="h-5 w-5 text-primary" />
-          <span className="font-display text-lg font-semibold text-foreground">Ember</span>
+          <Cigarette className="h-5 w-5 text-primary" />
+          <span className="font-display text-lg font-semibold text-foreground">GoodSticks</span>
         </div>
         <span className="text-sm text-muted-foreground">
-          {currentStep + 1} of {steps.length}
+          {currentStep + 1} of {TOTAL_STEPS}
         </span>
       </div>
 
-      {/* Progress bar */}
       <div className="px-6">
         <div className="h-1 rounded-full bg-secondary">
           <div
             className="h-1 rounded-full bg-primary transition-all duration-500"
-            style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
+            style={{ width: `${((currentStep + 1) / TOTAL_STEPS) * 100}%` }}
           />
         </div>
       </div>
 
-      {/* Intro text on first step */}
       {currentStep === 0 && (
         <p className="text-muted-foreground text-sm px-6 mt-6 italic">
-          Let's learn your palate. Takes about 60 seconds.
+          Let's learn your palate. Takes about 90 seconds.
         </p>
       )}
 
-      {/* Content */}
       <main className="flex-1 flex flex-col px-6 pt-8 pb-6 max-w-lg mx-auto w-full" key={currentStep}>
-        <OnboardingStep
-          headline={step.headline}
-          subtext={step.subtext}
-          options={step.options}
-          selected={getCurrentValue()}
-          multiSelect={isMultiSelect}
-          onSelect={handleSelect}
-        />
+        {isCigarStep ? (
+          <FavoriteCigarsStep
+            cigars={answers.favoriteCigars}
+            onChange={(cigars) => setAnswers({ ...answers, favoriteCigars: cigars })}
+          />
+        ) : (
+          <OnboardingStep
+            headline={step.headline}
+            subtext={step.subtext}
+            options={step.options}
+            selected={getCurrentValue()}
+            multiSelect={step.multiSelect}
+            onSelect={handleSelect}
+          />
+        )}
 
         <div className="mt-auto pt-8 flex gap-3">
-          {step.skippable && (
+          {!isCigarStep && step?.skippable && (
             <Button
               variant="ember-ghost"
               size="lg"
@@ -216,7 +228,7 @@ const Onboarding = () => {
             disabled={!canAdvance()}
             onClick={handleNext}
           >
-            {currentStep === steps.length - 1 ? "Finish" : "Continue"}
+            {currentStep === TOTAL_STEPS - 1 ? "Finish" : "Continue"}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>

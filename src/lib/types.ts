@@ -1,4 +1,4 @@
-export const FREE_MESSAGE_LIMIT = 3;
+export const CONVERSATION_LIMIT = 20;
 
 export type ExperienceLevel = 'beginner' | 'getting_serious' | 'experienced' | 'veteran';
 export type Strength = 'mild' | 'mild_medium' | 'medium' | 'medium_full' | 'full';
@@ -11,10 +11,20 @@ export interface PalateProfile {
   loveFlavors: FlavorNote[];
   dislikeFlavors: FlavorNote[];
   drinkPairing: DrinkPairing;
+  favoriteCigars: string[];
 }
 
 export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   content: string;
+  suggestions?: string[];
+}
+
+export interface CigarItem {
+  id: string;
+  name: string;
+  brand?: string;
+  notes?: string;
+  addedAt: string;
 }
