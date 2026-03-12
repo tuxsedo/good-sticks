@@ -58,20 +58,11 @@ export interface CigarReview {
   burn: number; // 1-5
   construction: number; // 1-5
   flavors: {
-    strength: number; // 1-5
-    body: number; // 1-5
-    sweetness: number; // 1-5
-    spice: number; // 1-5
-    earthiness: number; // 1-5
-    woodiness: number; // 1-5
-    creaminess: number; // 1-5
-    nuttiness: number; // 1-5
-    leather: number; // 1-5
-    pepper: number; // 1-5
-    cocoa: number; // 1-5
-    coffee: number; // 1-5
-    fruit: number; // 1-5
-    floral: number; // 1-5
+    strength: number; // 0-5
+    body: number; // 0-5
+    sweetness: number; // 0-5
+    spice: number; // 0-5
+    earthiness: number; // 0-5
   };
   notes?: string;
   reviewedAt: string;

@@ -65,15 +65,6 @@ const emptyFlavors = (): CigarReview["flavors"] => ({
   sweetness: 0,
   spice: 0,
   earthiness: 0,
-  woodiness: 0,
-  creaminess: 0,
-  nuttiness: 0,
-  leather: 0,
-  pepper: 0,
-  cocoa: 0,
-  coffee: 0,
-  fruit: 0,
-  floral: 0,
 });
 
 const CigarReviewDialog = ({ cigar, open, onOpenChange, onSave }: Props) => {

@@ -77,13 +77,16 @@ const Wishlist = () => {
                 placeholder="Cigar name *"
                 className="rounded-lg border border-border bg-secondary/30 px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
               />
-              <input
-                type="text"
-                value={vitola}
-                onChange={(e) => setVitola(e.target.value)}
-                placeholder="Vitola (optional)"
-                className="rounded-lg border border-border bg-secondary/30 px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-              />
+              <Select value={vitola} onValueChange={(v) => setVitola(v as Vitola)}>
+                <SelectTrigger className="rounded-lg border border-border bg-secondary/30 text-sm">
+                  <SelectValue placeholder="Vitola (optional)" />
+                </SelectTrigger>
+                <SelectContent>
+                  {VITOLA_OPTIONS.map((v) => (
+                    <SelectItem key={v} value={v}>{v}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex gap-2">
               <Button variant="ember" size="sm" disabled={!name.trim()} onClick={addCigar}>
