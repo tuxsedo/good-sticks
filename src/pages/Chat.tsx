@@ -74,7 +74,7 @@ const Chat = () => {
           </div>
           <div>
             <span className="font-display text-lg font-semibold text-foreground">GoodSticks</span>
-            <p className="text-xs text-muted-foreground">Your cigar sommelier</p>
+            <p className="text-xs text-muted-foreground">Your best smoke sidekick</p>
           </div>
         </div>
 
