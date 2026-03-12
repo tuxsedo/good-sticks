@@ -64,17 +64,11 @@ const Chat = () => {
 
   return (
     <div className="h-screen bg-ember-gradient flex">
-      <CigarSidebar open={sidebarOpen} onOpenChange={setSidebarOpen} />
+      <CigarSidebar />
 
       <div className="flex-1 flex flex-col min-w-0">
         {/* Header */}
         <div className="flex items-center gap-3 px-4 py-4 border-b border-border/50">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className="h-9 w-9 rounded-lg flex items-center justify-center hover:bg-secondary/50 transition-colors"
-          >
-            <PanelLeftOpen className="h-5 w-5 text-muted-foreground" />
-          </button>
           <div className="h-9 w-9 rounded-full bg-primary/15 flex items-center justify-center">
             <Cigarette className="h-5 w-5 text-primary" />
           </div>
