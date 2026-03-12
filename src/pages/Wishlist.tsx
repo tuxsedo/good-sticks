@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import { Plus, X, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { WishlistCigar } from "@/lib/types";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { VITOLA_OPTIONS, type WishlistCigar, type Vitola } from "@/lib/types";
 
 const Wishlist = () => {
   const [cigars, setCigars] = useState<WishlistCigar[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [brand, setBrand] = useState("");
   const [name, setName] = useState("");
-  const [vitola, setVitola] = useState("");
+  const [vitola, setVitola] = useState<Vitola | "">("");
 
   useEffect(() => {
     try {
@@ -28,7 +29,7 @@ const Wishlist = () => {
       id: Date.now().toString(),
       brand: brand.trim(),
       name: name.trim(),
-      vitola: vitola.trim() || undefined,
+      vitola: vitola || undefined,
       addedAt: new Date().toISOString(),
     };
     save([item, ...cigars]);
@@ -76,13 +77,16 @@ const Wishlist = () => {
                 placeholder="Cigar name *"
                 className="rounded-lg border border-border bg-secondary/30 px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
               />
-              <input
-                type="text"
-                value={vitola}
-                onChange={(e) => setVitola(e.target.value)}
-                placeholder="Vitola (optional)"
-                className="rounded-lg border border-border bg-secondary/30 px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-              />
+              <Select value={vitola} onValueChange={(v) => setVitola(v as Vitola)}>
+                <SelectTrigger className="rounded-lg border border-border bg-secondary/30 text-sm">
+                  <SelectValue placeholder="Vitola (optional)" />
+                </SelectTrigger>
+                <SelectContent>
+                  {VITOLA_OPTIONS.map((v) => (
+                    <SelectItem key={v} value={v}>{v}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
             <div className="flex gap-2">
               <Button variant="ember" size="sm" disabled={!name.trim()} onClick={addCigar}>
