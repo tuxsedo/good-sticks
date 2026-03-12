@@ -114,7 +114,7 @@ const Onboarding = () => {
   };
 
   const canAdvance = () => {
-    if (isCigarStep) return answers.favoriteCigars.length > 0;
+    if (isCigarStep) return true;
     const val = getCurrentValue();
     if (step?.skippable) return true;
     if (Array.isArray(val)) return val.length > 0;
