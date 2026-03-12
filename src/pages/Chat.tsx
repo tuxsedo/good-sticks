@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import MessageBubble from "@/components/MessageBubble";
 import CigarSidebar from "@/components/CigarSidebar";
-import { Cigarette, Send, PanelLeftOpen } from "lucide-react";
+import { Cigarette, Send } from "lucide-react";
 import type { ChatMessage, PalateProfile } from "@/lib/types";
 
 const GREETING = `Hey — I'm GoodSticks, your cigar sommelier. I already know your palate, so we can skip the basics.\n\nWhat's on your mind? Looking for a recommendation, curious about a brand, or want to talk about something you smoked recently?`;
