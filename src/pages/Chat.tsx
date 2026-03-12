@@ -17,7 +17,7 @@ const Chat = () => {
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const palate: PalateProfile | null = (() => {
