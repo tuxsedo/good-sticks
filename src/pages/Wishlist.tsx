@@ -29,7 +29,7 @@ const Wishlist = () => {
       id: Date.now().toString(),
       brand: brand.trim(),
       name: name.trim(),
-      vitola: vitola.trim() || undefined,
+      vitola: vitola || undefined,
       addedAt: new Date().toISOString(),
     };
     save([item, ...cigars]);
