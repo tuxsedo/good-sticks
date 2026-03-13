@@ -39,18 +39,18 @@ const AppSidebar = () => {
       <nav className="flex-1 px-3 py-4 space-y-1">
         {navItem("/home", <Home className="h-4 w-4" />, "Home")}
 
-        {/* Ember Chat — primary action */}
+        {/* Ember Chat */}
         <button
           onClick={() => navigate("/chat")}
           className={cn(
-            "w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all",
+            "w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
             isActive("/chat")
-              ? "bg-primary text-primary-foreground shadow-md"
-              : "bg-primary/10 text-primary hover:bg-primary/20"
+              ? "bg-primary/15 text-primary font-medium"
+              : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
           )}
         >
-          <div className="h-5 w-5 flex items-center justify-center">
-            <Flame className="h-[18px] w-[18px]" />
+          <div className="h-5 w-5 rounded-md bg-primary/15 flex items-center justify-center">
+            <Flame className="h-3.5 w-3.5 text-primary" />
           </div>
           Ember Chat
         </button>
