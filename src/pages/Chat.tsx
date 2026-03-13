@@ -31,7 +31,7 @@ const Chat = () => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
-  const handleSend = (text?: string) => {
+  const handleSend = async (text?: string) => {
     const content = (text || input).trim();
     if (!content || isTyping) return;
 
@@ -40,17 +40,80 @@ const Chat = () => {
     setInput("");
     setIsTyping(true);
 
-    setTimeout(() => {
-      const { response, suggestions } = getSimulatedResponse(content, palate);
-      const assistantMsg: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        role: "assistant",
-        content: response,
-        suggestions,
-      };
-      setMessages((prev) => [...prev, assistantMsg]);
+    const assistantId = (Date.now() + 1).toString();
+    let firstChunk = true;
+    let fullText = "";
+
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: [...messages, userMsg], palate }),
+      });
+
+      if (!response.ok || !response.body) throw new Error("API error");
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        for (const line of decoder.decode(value).split("\n")) {
+          if (!line.startsWith("data: ")) continue;
+          const data = line.slice(6);
+          if (data === "[DONE]") break;
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.text) {
+              fullText += parsed.text;
+              if (firstChunk) {
+                firstChunk = false;
+                setIsTyping(false);
+                setMessages((prev) => [
+                  ...prev,
+                  { id: assistantId, role: "assistant", content: fullText },
+                ]);
+              } else {
+                setMessages((prev) =>
+                  prev.map((m) =>
+                    m.id === assistantId ? { ...m, content: fullText } : m
+                  )
+                );
+              }
+            }
+          } catch {
+            // skip malformed SSE lines
+          }
+        }
+      }
+
+      // Parse |||SUGGESTIONS:[...]||| out of the completed response
+      const suggestionsMatch = fullText.match(/\|\|\|SUGGESTIONS:(\[.*?\])\|\|\|/s);
+      const suggestions: string[] = suggestionsMatch
+        ? JSON.parse(suggestionsMatch[1])
+        : [];
+      const cleanContent = fullText
+        .replace(/\n*\|\|\|SUGGESTIONS:.*?\|\|\|/s, "")
+        .trim();
+
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === assistantId ? { ...m, content: cleanContent, suggestions } : m
+        )
+      );
+    } catch {
       setIsTyping(false);
-    }, 1500);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: assistantId,
+          role: "assistant",
+          content: "Sorry, something went wrong. Please try again.",
+        },
+      ]);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -123,24 +186,5 @@ const Chat = () => {
     </div>
   );
 };
-
-function getSimulatedResponse(userMessage: string, palate: PalateProfile | null): { response: string; suggestions: string[] } {
-  const responses = [
-    {
-      response: `Based on what you're telling me, I'd go with a **Padrón 1964 Anniversary Maduro** in the Exclusivo vitola.\n\nThe rich chocolate and espresso notes pair beautifully, and the medium-full body matches your palate. At about 45 minutes, it won't rush you.\n\nWatch for the transition around the second third — it opens up with this incredible cedar sweetness.\n\nWant me to add it to your wishlist?`,
-      suggestions: ["Add to wishlist", "What else from Padrón?", "Something different"],
-    },
-    {
-      response: `For this, you want the **Oliva Serie V Melanio Figurado**.\n\nIt's got depth — earth, dark chocolate, a touch of pepper — but the figurado shape means the flavor builds gradually. Perfect for when you're not in a hurry.\n\nPay attention to the retrohale in the first third. There's a cinnamon note that most people miss.\n\nHave you tried any Oliva before?`,
-      suggestions: ["Add to wishlist", "Tell me more about Oliva", "Suggest a pairing"],
-    },
-    {
-      response: `I'd reach for the **My Father Le Bijou 1922 Torpedo** here.\n\nFull-bodied, yes, but it's not a brawler — there's a dark chocolate sweetness underneath all that strength that keeps it refined.\n\nOne thing to watch: the final third gets intense. If you're not ready for it, set it down with an inch and a half to go. No shame in that.\n\nWhat are you planning to drink with it?`,
-      suggestions: ["Add to wishlist", "Pairing ideas?", "Something milder"],
-    },
-  ];
-
-  return responses[Math.floor(Math.random() * responses.length)];
-}
 
 export default Chat;

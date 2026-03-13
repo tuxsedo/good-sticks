@@ -18,7 +18,7 @@ const Landing = () => {
         <div className="animate-fade-in">
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-secondary/50 px-4 py-1.5 text-sm text-primary mb-8">Your Perfect Cigar Guide
             <Cigarette className="h-3.5 w-3.5" />
-            Your AI cigar sommelier
+            Your AI cigar guide
           </div>
 
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6">
