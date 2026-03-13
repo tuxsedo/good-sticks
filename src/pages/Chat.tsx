@@ -4,7 +4,7 @@ import MessageBubble from "@/components/MessageBubble";
 import { Cigarette, Send } from "lucide-react";
 import type { ChatMessage, PalateProfile } from "@/lib/types";
 
-const GREETING = `Hey — I'm Ember, your cigar sidekick. I already know your palate, so we can skip the basics.\n\nWhat's on your mind? Looking for a recommendation, curious about a brand, or want to talk about something you smoked recently?`;
+const GREETING = `Hey, I'm Ember, your cigar sidekick. I already know your palate, so we can skip the basics.\n\nWhat's on your mind? Looking for a recommendation, curious about a brand, or want to talk about something you smoked recently?`;
 
 const Chat = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
