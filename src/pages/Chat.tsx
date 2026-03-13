@@ -128,7 +128,7 @@ function getSimulatedResponse(userMessage: string, palate: PalateProfile | null)
   const responses = [
     {
       response: `Based on what you're telling me, I'd go with a **Padrón 1964 Anniversary Maduro** in the Exclusivo vitola.\n\nThe rich chocolate and espresso notes pair beautifully, and the medium-full body matches your palate. At about 45 minutes, it won't rush you.\n\nWatch for the transition around the second third — it opens up with this incredible cedar sweetness.\n\nWant me to add it to your wishlist?`,
-      suggestions: ["Add to my wishlist", "What else from Padrón?", "Something different"],
+      suggestions: ["Add to wishlist", "What else from Padrón?", "Something different"],
     },
     {
       response: `For this, you want the **Oliva Serie V Melanio Figurado**.\n\nIt's got depth — earth, dark chocolate, a touch of pepper — but the figurado shape means the flavor builds gradually. Perfect for when you're not in a hurry.\n\nPay attention to the retrohale in the first third. There's a cinnamon note that most people miss.\n\nHave you tried any Oliva before?`,
