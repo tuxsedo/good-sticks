@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Star, Package, MessageCircle, Cigarette, ChevronDown } from "lucide-react";
+import { Home, Star, Package, Flame, Cigarette, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
