@@ -114,7 +114,7 @@ export default async function handler(req: Request): Promise<Response> {
     async start(controller) {
       try {
         const anthropicStream = client.messages.stream({
-          model: "claude-sonnet-4-6",
+          model: "claude-haiku-4-5-20251001",
           max_tokens: 1024,
           system: buildSystemPrompt(palate),
           messages: apiMessages,
