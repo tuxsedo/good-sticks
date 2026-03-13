@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Star, Package, Flame, Cigarette, ChevronDown } from "lucide-react";
+import { Home, Star, Package, Flame, Cigarette } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 
 const AppSidebar = () => {
   const location = useLocation();
