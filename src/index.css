@@ -73,17 +73,25 @@
   }
 
   .text-gradient-ember {
-    background: linear-gradient(135deg, hsl(38 55% 58%), hsl(30 70% 45%));
+    background: linear-gradient(135deg, hsl(25 85% 55%), hsl(38 65% 55%));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .bg-ember-gradient {
-    background: linear-gradient(180deg, hsl(30 30% 7%) 0%, hsl(30 25% 10%) 100%);
+    background: linear-gradient(180deg, hsl(220 20% 7%) 0%, hsl(220 18% 10%) 100%);
+  }
+
+  .bg-gradient-primary {
+    background: linear-gradient(135deg, hsl(25 85% 55%), hsl(15 80% 48%));
+  }
+
+  .bg-gradient-primary-hover {
+    background: linear-gradient(135deg, hsl(25 85% 50%), hsl(15 80% 43%));
   }
 
   .glow-ember {
-    box-shadow: 0 0 30px -5px hsl(38 55% 58% / 0.3);
+    box-shadow: 0 0 20px -5px hsl(25 85% 55% / 0.35), 0 0 40px -10px hsl(25 85% 55% / 0.15);
   }
 }
