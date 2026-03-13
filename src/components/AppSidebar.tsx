@@ -38,6 +38,22 @@ const AppSidebar = () => {
           Home
         </button>
 
+        {/* Ember Chat — primary action */}
+        <button
+          onClick={() => navigate("/chat")}
+          className={cn(
+            "w-full flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-all",
+            isActive("/chat")
+              ? "bg-primary text-primary-foreground shadow-md"
+              : "bg-primary/10 text-primary hover:bg-primary/20"
+          )}
+        >
+          <div className="h-5 w-5 flex items-center justify-center">
+            <Flame className="h-[18px] w-[18px]" />
+          </div>
+          Ember Chat
+        </button>
+
         {/* My Cigars group */}
         <div className="pt-2">
           <button
@@ -76,22 +92,6 @@ const AppSidebar = () => {
               </button>
             </div>
           )}
-        </div>
-
-        {/* Ember Chat */}
-        <div className="pt-2">
-          <button
-            onClick={() => navigate("/chat")}
-            className={cn(
-              "w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
-              isActive("/chat")
-                ? "bg-primary/15 text-primary"
-                : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
-            )}
-          >
-            <MessageCircle className="h-4 w-4" />
-            Ember Chat
-          </button>
         </div>
       </nav>
 
