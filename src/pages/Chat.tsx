@@ -128,15 +128,15 @@ function getSimulatedResponse(userMessage: string, palate: PalateProfile | null)
   const responses = [
     {
       response: `Based on what you're telling me, I'd go with a **Padrón 1964 Anniversary Maduro** in the Exclusivo vitola.\n\nThe rich chocolate and espresso notes pair beautifully, and the medium-full body matches your palate. At about 45 minutes, it won't rush you.\n\nWatch for the transition around the second third — it opens up with this incredible cedar sweetness.\n\nWant me to add it to your wishlist?`,
-      suggestions: ["Add to my wishlist", "What else from Padrón?", "Something different"],
+      suggestions: ["Add to wishlist", "What else from Padrón?", "Something different"],
     },
     {
       response: `For this, you want the **Oliva Serie V Melanio Figurado**.\n\nIt's got depth — earth, dark chocolate, a touch of pepper — but the figurado shape means the flavor builds gradually. Perfect for when you're not in a hurry.\n\nPay attention to the retrohale in the first third. There's a cinnamon note that most people miss.\n\nHave you tried any Oliva before?`,
-      suggestions: ["Tell me more about Oliva", "Add to humidor", "Suggest a pairing"],
+      suggestions: ["Add to wishlist", "Tell me more about Oliva", "Suggest a pairing"],
     },
     {
       response: `I'd reach for the **My Father Le Bijou 1922 Torpedo** here.\n\nFull-bodied, yes, but it's not a brawler — there's a dark chocolate sweetness underneath all that strength that keeps it refined.\n\nOne thing to watch: the final third gets intense. If you're not ready for it, set it down with an inch and a half to go. No shame in that.\n\nWhat are you planning to drink with it?`,
-      suggestions: ["Pairing ideas?", "Something milder", "Add to wishlist"],
+      suggestions: ["Add to wishlist", "Pairing ideas?", "Something milder"],
     },
   ];
 
