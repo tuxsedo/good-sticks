@@ -132,7 +132,7 @@ function getSimulatedResponse(userMessage: string, palate: PalateProfile | null)
     },
     {
       response: `For this, you want the **Oliva Serie V Melanio Figurado**.\n\nIt's got depth — earth, dark chocolate, a touch of pepper — but the figurado shape means the flavor builds gradually. Perfect for when you're not in a hurry.\n\nPay attention to the retrohale in the first third. There's a cinnamon note that most people miss.\n\nHave you tried any Oliva before?`,
-      suggestions: ["Tell me more about Oliva", "Add to humidor", "Suggest a pairing"],
+      suggestions: ["Add to wishlist", "Tell me more about Oliva", "Suggest a pairing"],
     },
     {
       response: `I'd reach for the **My Father Le Bijou 1922 Torpedo** here.\n\nFull-bodied, yes, but it's not a brawler — there's a dark chocolate sweetness underneath all that strength that keeps it refined.\n\nOne thing to watch: the final third gets intense. If you're not ready for it, set it down with an inch and a half to go. No shame in that.\n\nWhat are you planning to drink with it?`,
