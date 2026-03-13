@@ -136,7 +136,7 @@ function getSimulatedResponse(userMessage: string, palate: PalateProfile | null)
     },
     {
       response: `I'd reach for the **My Father Le Bijou 1922 Torpedo** here.\n\nFull-bodied, yes, but it's not a brawler — there's a dark chocolate sweetness underneath all that strength that keeps it refined.\n\nOne thing to watch: the final third gets intense. If you're not ready for it, set it down with an inch and a half to go. No shame in that.\n\nWhat are you planning to drink with it?`,
-      suggestions: ["Pairing ideas?", "Something milder", "Add to wishlist"],
+      suggestions: ["Add to wishlist", "Pairing ideas?", "Something milder"],
     },
   ];
 
