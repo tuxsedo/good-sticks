@@ -10,8 +10,8 @@ const Chat = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: "1", role: "assistant", content: GREETING, suggestions: [
       "Recommend something new",
-      "What pairs with bourbon?",
-      "Tell me about Padrón",
+      "Best smoke for right now",
+      "How do I find my go-to cigar?",
     ]},
   ]);
   const [input, setInput] = useState("");
@@ -66,6 +66,7 @@ const Chat = () => {
           if (data === "[DONE]") break;
           try {
             const parsed = JSON.parse(data);
+            if (parsed.error) throw new Error(parsed.error);
             if (parsed.text) {
               fullText += parsed.text;
               if (firstChunk) {
@@ -103,14 +104,15 @@ const Chat = () => {
           m.id === assistantId ? { ...m, content: cleanContent, suggestions } : m
         )
       );
-    } catch {
+    } catch (err) {
       setIsTyping(false);
+      const message = err instanceof Error ? err.message : "Unknown error";
       setMessages((prev) => [
         ...prev,
         {
           id: assistantId,
           role: "assistant",
-          content: "Sorry, something went wrong. Please try again.",
+          content: `Error: ${message}`,
         },
       ]);
     }
