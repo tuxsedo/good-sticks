@@ -41,8 +41,6 @@ const Chat = () => {
     setIsTyping(true);
 
     const assistantId = (Date.now() + 1).toString();
-    let firstChunk = true;
-    let fullText = "";
 
     try {
       const response = await fetch("/api/chat", {
@@ -51,61 +49,20 @@ const Chat = () => {
         body: JSON.stringify({ messages: [...messages, userMsg], palate }),
       });
 
-      if (!response.ok || !response.body) throw new Error("API error");
+      const data = await response.json();
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
+      if (data.error) throw new Error(data.error);
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        for (const line of decoder.decode(value).split("\n")) {
-          if (!line.startsWith("data: ")) continue;
-          const data = line.slice(6);
-          if (data === "[DONE]") break;
-          try {
-            const parsed = JSON.parse(data);
-            if (parsed.error) throw new Error(parsed.error);
-            if (parsed.text) {
-              fullText += parsed.text;
-              if (firstChunk) {
-                firstChunk = false;
-                setIsTyping(false);
-                setMessages((prev) => [
-                  ...prev,
-                  { id: assistantId, role: "assistant", content: fullText },
-                ]);
-              } else {
-                setMessages((prev) =>
-                  prev.map((m) =>
-                    m.id === assistantId ? { ...m, content: fullText } : m
-                  )
-                );
-              }
-            }
-          } catch {
-            // skip malformed SSE lines
-          }
-        }
-      }
-
-      // Parse |||SUGGESTIONS:[...]||| out of the completed response
-      const suggestionsMatch = fullText.match(/\|\|\|SUGGESTIONS:(\[.*?\])\|\|\|/s);
-      const suggestions: string[] = suggestionsMatch
-        ? JSON.parse(suggestionsMatch[1])
-        : [];
-      const cleanContent = fullText
-        .replace(/\n*\|\|\|SUGGESTIONS:.*?\|\|\|/s, "")
-        .trim();
-
-      setMessages((prev) =>
-        prev.map((m) =>
-          m.id === assistantId ? { ...m, content: cleanContent, suggestions } : m
-        )
-      );
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: assistantId,
+          role: "assistant",
+          content: data.text,
+          suggestions: data.suggestions ?? [],
+        },
+      ]);
     } catch (err) {
-      setIsTyping(false);
       const message = err instanceof Error ? err.message : "Unknown error";
       setMessages((prev) => [
         ...prev,
@@ -115,6 +72,8 @@ const Chat = () => {
           content: `Error: ${message}`,
         },
       ]);
+    } finally {
+      setIsTyping(false);
     }
   };
 

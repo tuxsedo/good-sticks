@@ -1,7 +1,5 @@
 import Anthropic from "@anthropic-ai/sdk";
 
-export const config = { runtime: "edge" };
-
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 const STRENGTH_LABELS: Record<string, string> = {
@@ -97,57 +95,33 @@ export default async function handler(req: Request): Promise<Response> {
     return new Response("Method not allowed", { status: 405 });
   }
 
-  const { messages, palate } = (await req.json()) as {
-    messages: ChatMessage[];
-    palate: PalateProfile | null;
-  };
+  try {
+    const { messages, palate } = (await req.json()) as {
+      messages: ChatMessage[];
+      palate: PalateProfile | null;
+    };
 
-  // Strip leading assistant messages — Anthropic requires the conversation to start with a user turn.
-  let apiMessages = messages.map((m) => ({ role: m.role, content: m.content }));
-  while (apiMessages.length > 0 && apiMessages[0].role === "assistant") {
-    apiMessages = apiMessages.slice(1);
+    let apiMessages = messages.map((m) => ({ role: m.role, content: m.content }));
+    while (apiMessages.length > 0 && apiMessages[0].role === "assistant") {
+      apiMessages = apiMessages.slice(1);
+    }
+
+    const response = await client.messages.create({
+      model: "claude-haiku-4-5-20251001",
+      max_tokens: 1024,
+      system: buildSystemPrompt(palate),
+      messages: apiMessages,
+    });
+
+    const fullText = response.content[0].type === "text" ? response.content[0].text : "";
+
+    const suggestionsMatch = fullText.match(/\|\|\|SUGGESTIONS:(\[.*?\])\|\|\|/s);
+    const suggestions: string[] = suggestionsMatch ? JSON.parse(suggestionsMatch[1]) : [];
+    const text = fullText.replace(/\n*\|\|\|SUGGESTIONS:.*?\|\|\|/s, "").trim();
+
+    return Response.json({ text, suggestions }, { headers: CORS_HEADERS });
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    return Response.json({ error: message }, { status: 500, headers: CORS_HEADERS });
   }
-
-  const encoder = new TextEncoder();
-
-  const stream = new ReadableStream({
-    async start(controller) {
-      try {
-        const anthropicStream = client.messages.stream({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 1024,
-          system: buildSystemPrompt(palate),
-          messages: apiMessages,
-        });
-
-        for await (const chunk of anthropicStream) {
-          if (
-            chunk.type === "content_block_delta" &&
-            chunk.delta.type === "text_delta"
-          ) {
-            controller.enqueue(
-              encoder.encode(`data: ${JSON.stringify({ text: chunk.delta.text })}\n\n`)
-            );
-          }
-        }
-
-        controller.enqueue(encoder.encode("data: [DONE]\n\n"));
-      } catch (err) {
-        const message = err instanceof Error ? err.message : "Unknown error";
-        controller.enqueue(
-          encoder.encode(`data: ${JSON.stringify({ error: message })}\n\n`)
-        );
-      } finally {
-        controller.close();
-      }
-    },
-  });
-
-  return new Response(stream, {
-    headers: {
-      "Content-Type": "text/event-stream",
-      "Cache-Control": "no-cache",
-      ...CORS_HEADERS,
-    },
-  });
 }
