@@ -1,6 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
-
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
 
 const STRENGTH_LABELS: Record<string, string> = {
   mild: "Mild",
@@ -106,14 +104,23 @@ export default async function handler(req: Request): Promise<Response> {
       apiMessages = apiMessages.slice(1);
     }
 
-    const response = await client.messages.create({
-      model: "claude-haiku-4-5-20251001",
-      max_tokens: 1024,
-      system: buildSystemPrompt(palate),
-      messages: apiMessages,
+    const anthropicResponse = await fetch(ANTHROPIC_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": process.env.ANTHROPIC_API_KEY ?? "",
+        "anthropic-version": "2023-06-01",
+      },
+      body: JSON.stringify({
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 1024,
+        system: buildSystemPrompt(palate),
+        messages: apiMessages,
+      }),
     });
 
-    const fullText = response.content[0].type === "text" ? response.content[0].text : "";
+    const result = await anthropicResponse.json() as { content: Array<{ type: string; text: string }> };
+    const fullText = result.content?.[0]?.text ?? "";
 
     const suggestionsMatch = fullText.match(/\|\|\|SUGGESTIONS:(\[.*?\])\|\|\|/s);
     const suggestions: string[] = suggestionsMatch ? JSON.parse(suggestionsMatch[1]) : [];
