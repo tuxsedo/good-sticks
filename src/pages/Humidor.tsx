@@ -10,8 +10,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import CigarReviewDialog from "@/components/CigarReviewDialog";
+import CigarAutocomplete from "@/components/CigarAutocomplete";
 import type { HumidorCigar, CigarReview, Vitola } from "@/lib/types";
 import { VITOLA_OPTIONS } from "@/lib/types";
+import type { CigarEntry } from "@/lib/cigars";
 
 const Humidor = () => {
   const [cigars, setCigars] = useState<HumidorCigar[]>([]);
@@ -21,6 +23,8 @@ const Humidor = () => {
   const [vitola, setVitola] = useState<Vitola | "">("");
   const [quantity, setQuantity] = useState(1);
   const [reviewCigar, setReviewCigar] = useState<HumidorCigar | null>(null);
+  // Vitola options for the currently selected line (from DB), or fall back to full list
+  const [vitolaOptions, setVitolaOptions] = useState<string[]>([...VITOLA_OPTIONS]);
 
   useEffect(() => {
     try {
@@ -32,6 +36,16 @@ const Humidor = () => {
   const save = (items: HumidorCigar[]) => {
     setCigars(items);
     localStorage.setItem("gs_humidor", JSON.stringify(items));
+  };
+
+  // Called when user picks a line from the autocomplete dropdown
+  const handleCigarSelect = (entry: CigarEntry) => {
+    setBrand(entry.brand);
+    setName(entry.lineName);
+    setVitola(""); // reset so user picks the specific vitola for this line
+    // Populate vitola dropdown with shapes available for this line
+    const shapes = entry.vitolaShapes.length > 0 ? entry.vitolaShapes : [...VITOLA_OPTIONS];
+    setVitolaOptions(shapes);
   };
 
   const addCigar = () => {
@@ -49,6 +63,7 @@ const Humidor = () => {
     setName("");
     setVitola("");
     setQuantity(1);
+    setVitolaOptions([...VITOLA_OPTIONS]);
     setShowForm(false);
   };
 
@@ -92,33 +107,31 @@ const Humidor = () => {
       <div className="flex-1 overflow-y-auto px-6 py-4">
         {showForm && (
           <div className="rounded-xl border border-primary/30 bg-card/50 p-4 mb-4 space-y-3 animate-fade-in">
+            {/* Row 1: autocomplete spans 2 cols, vitola + qty fill the rest */}
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-              <input
-                type="text"
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-                placeholder="Brand *"
-                className="rounded-lg border border-border bg-secondary/30 px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-              />
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Cigar name *"
-                className="rounded-lg border border-border bg-secondary/30 px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-              />
+              {/* Cigar search — fills brand + name on selection */}
+              <div className="sm:col-span-2">
+                <CigarAutocomplete
+                  onSelect={handleCigarSelect}
+                  initialValue={name}
+                  placeholder="Search brand or line…"
+                />
+              </div>
+
+              {/* Vitola — shows line-specific shapes after a selection, full list otherwise */}
               <Select value={vitola} onValueChange={(v) => setVitola(v as Vitola)}>
                 <SelectTrigger className="rounded-lg border-border bg-secondary/30 text-sm h-[42px]">
                   <SelectValue placeholder="Vitola *" />
                 </SelectTrigger>
                 <SelectContent>
-                  {VITOLA_OPTIONS.map((v) => (
+                  {vitolaOptions.map((v) => (
                     <SelectItem key={v} value={v}>
                       {v}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
+
               <input
                 type="number"
                 min={1}
@@ -128,6 +141,16 @@ const Humidor = () => {
                 className="rounded-lg border border-border bg-secondary/30 px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
               />
             </div>
+
+            {/* Show selected brand/name as confirmation when filled */}
+            {brand && name && (
+              <p className="text-xs text-muted-foreground px-1">
+                <span className="text-primary font-medium">{brand}</span>
+                {" · "}
+                {name}
+              </p>
+            )}
+
             <div className="flex gap-2">
               <Button
                 variant="ember"
@@ -140,7 +163,13 @@ const Humidor = () => {
               <Button
                 variant="ember-ghost"
                 size="sm"
-                onClick={() => setShowForm(false)}
+                onClick={() => {
+                  setShowForm(false);
+                  setBrand("");
+                  setName("");
+                  setVitola("");
+                  setVitolaOptions([...VITOLA_OPTIONS]);
+                }}
               >
                 Cancel
               </Button>
