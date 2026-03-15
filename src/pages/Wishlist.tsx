@@ -3,6 +3,8 @@ import { Plus, X, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { VITOLA_OPTIONS, type WishlistCigar, type Vitola } from "@/lib/types";
+import CigarAutocomplete from "@/components/CigarAutocomplete";
+import type { CigarEntry } from "@/lib/cigars";
 
 const Wishlist = () => {
   const [cigars, setCigars] = useState<WishlistCigar[]>([]);
@@ -10,6 +12,12 @@ const Wishlist = () => {
   const [brand, setBrand] = useState("");
   const [name, setName] = useState("");
   const [vitola, setVitola] = useState<Vitola | "">("");
+  const [autocompleteKey, setAutocompleteKey] = useState(0);
+
+  const handleCigarSelect = (entry: CigarEntry) => {
+    setBrand(entry.brand);
+    setName(entry.lineName);
+  };
 
   useEffect(() => {
     try {
@@ -36,6 +44,7 @@ const Wishlist = () => {
     setBrand("");
     setName("");
     setVitola("");
+    setAutocompleteKey((k) => k + 1);
     setShowForm(false);
   };
 
@@ -62,21 +71,21 @@ const Wishlist = () => {
       <div className="flex-1 overflow-y-auto px-6 py-4">
         {showForm && (
           <div className="rounded-xl border border-primary/30 bg-card/50 p-4 mb-4 space-y-3 animate-fade-in">
-            <div className="grid gap-3 sm:grid-cols-3">
-              <input
-                type="text"
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-                placeholder="Brand (e.g. Padrón)"
-                className="rounded-lg border border-border bg-secondary/30 px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-              />
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Cigar name *"
-                className="rounded-lg border border-border bg-secondary/30 px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-              />
+            <CigarAutocomplete
+              key={autocompleteKey}
+              onSelect={handleCigarSelect}
+              initialValue={name ? `${brand} ${name}`.trim() : ""}
+              placeholder="Search cigar by brand or name…"
+            />
+            <div className="grid gap-3 sm:grid-cols-2">
+              {name && (
+                <div className="rounded-lg border border-border bg-secondary/10 px-3 py-2.5 text-sm text-foreground col-span-full flex items-center justify-between">
+                  <span><span className="text-muted-foreground">{brand} · </span>{name}</span>
+                  <button onClick={() => { setBrand(""); setName(""); setAutocompleteKey((k) => k + 1); }} className="text-muted-foreground hover:text-foreground ml-2">
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              )}
               <Select value={vitola} onValueChange={(v) => setVitola(v as Vitola)}>
                 <SelectTrigger className="rounded-lg border border-border bg-secondary/30 text-sm">
                   <SelectValue placeholder="Vitola (optional)" />

@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { X, Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
+import CigarAutocomplete from "@/components/CigarAutocomplete";
+import type { CigarEntry } from "@/lib/cigars";
 
 interface FavoriteCigarsStepProps {
   cigars: string[];
@@ -8,26 +9,17 @@ interface FavoriteCigarsStepProps {
 }
 
 const FavoriteCigarsStep = ({ cigars, onChange }: FavoriteCigarsStepProps) => {
-  const [input, setInput] = useState("");
+  const [resetKey, setResetKey] = useState(0);
 
-  const addCigar = () => {
-    const name = input.trim();
-    if (!name || cigars.length >= 3) return;
-    if (!cigars.includes(name)) {
-      onChange([...cigars, name]);
-    }
-    setInput("");
+  const handleSelect = (entry: CigarEntry) => {
+    const name = entry.lineName;
+    if (!name || cigars.length >= 3 || cigars.includes(name)) return;
+    onChange([...cigars, name]);
+    setResetKey((k) => k + 1);
   };
 
   const removeCigar = (index: number) => {
     onChange(cigars.filter((_, i) => i !== index));
-  };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      addCigar();
-    }
   };
 
   return (
@@ -54,25 +46,11 @@ const FavoriteCigarsStep = ({ cigars, onChange }: FavoriteCigarsStepProps) => {
       </div>
 
       {cigars.length < 3 && (
-        <div className="flex gap-2">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={`Cigar ${cigars.length + 1} of 3 — e.g. "Padrón 1964"`}
-            className="flex-1 rounded-lg border border-border bg-secondary/30 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-          />
-          <Button
-            variant="ember"
-            size="icon"
-            className="h-11 w-11 rounded-lg flex-shrink-0"
-            disabled={!input.trim()}
-            onClick={addCigar}
-          >
-            <Plus className="h-4 w-4" />
-          </Button>
-        </div>
+        <CigarAutocomplete
+          key={resetKey}
+          onSelect={handleSelect}
+          placeholder={`Cigar ${cigars.length + 1} of 3 — search by brand or name`}
+        />
       )}
 
       {cigars.length < 3 && (
