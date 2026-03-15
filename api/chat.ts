@@ -78,23 +78,22 @@ HOW TO USE THE PROFILE:
   return prompt;
 }
 
-const CORS_HEADERS = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-  "Access-Control-Allow-Headers": "Content-Type",
-};
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function handler(req: any, res: any) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
-export default async function handler(req: Request): Promise<Response> {
   if (req.method === "OPTIONS") {
-    return new Response(null, { status: 204, headers: CORS_HEADERS });
+    return res.status(204).end();
   }
 
   if (req.method !== "POST") {
-    return new Response("Method not allowed", { status: 405 });
+    return res.status(405).json({ error: "Method not allowed" });
   }
 
   try {
-    const { messages, palate } = (await req.json()) as {
+    const { messages, palate } = req.body as {
       messages: ChatMessage[];
       palate: PalateProfile | null;
     };
@@ -119,16 +118,23 @@ export default async function handler(req: Request): Promise<Response> {
       }),
     });
 
-    const result = await anthropicResponse.json() as { content: Array<{ type: string; text: string }> };
-    const fullText = result.content?.[0]?.text ?? "";
+    const result = await anthropicResponse.json() as {
+      content: Array<{ type: string; text: string }>;
+      error?: { message: string };
+    };
 
+    if (result.error) {
+      return res.status(500).json({ error: result.error.message });
+    }
+
+    const fullText = result.content?.[0]?.text ?? "";
     const suggestionsMatch = fullText.match(/\|\|\|SUGGESTIONS:(\[.*?\])\|\|\|/s);
     const suggestions: string[] = suggestionsMatch ? JSON.parse(suggestionsMatch[1]) : [];
     const text = fullText.replace(/\n*\|\|\|SUGGESTIONS:.*?\|\|\|/s, "").trim();
 
-    return Response.json({ text, suggestions }, { headers: CORS_HEADERS });
+    return res.status(200).json({ text, suggestions });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
-    return Response.json({ error: message }, { status: 500, headers: CORS_HEADERS });
+    return res.status(500).json({ error: message });
   }
 }
