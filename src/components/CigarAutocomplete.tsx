@@ -5,6 +5,12 @@ import { searchCigars, type CigarEntry } from "@/lib/cigars";
 interface CigarAutocompleteProps {
   /** Called when the user selects a line from the dropdown */
   onSelect: (entry: CigarEntry) => void;
+  /**
+   * Called when the user explicitly confirms a free-text entry
+   * that doesn't match anything in the database.
+   * If omitted, custom entries are not allowed.
+   */
+  onCustomEntry?: (value: string) => void;
   /** Optional initial display value */
   initialValue?: string;
   placeholder?: string;
@@ -18,6 +24,7 @@ interface CigarAutocompleteProps {
  */
 export default function CigarAutocomplete({
   onSelect,
+  onCustomEntry,
   initialValue = "",
   placeholder = "Search brand or line…",
   className,
@@ -56,17 +63,32 @@ export default function CigarAutocomplete({
     [onSelect]
   );
 
+  const trimmedQuery = query.trim();
+  const showCustomOption =
+    onCustomEntry !== undefined && open && trimmedQuery.length >= 3 && results.length === 0;
+
+  const handleCustomEntry = useCallback(() => {
+    if (!onCustomEntry || trimmedQuery.length < 3) return;
+    setOpen(false);
+    setResults([]);
+    onCustomEntry(trimmedQuery);
+  }, [onCustomEntry, trimmedQuery]);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!open || results.length === 0) return;
+    if (!open) return;
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setActiveIndex((i) => Math.min(i + 1, results.length - 1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setActiveIndex((i) => Math.max(i - 1, 0));
-    } else if (e.key === "Enter" && activeIndex >= 0) {
+    } else if (e.key === "Enter") {
       e.preventDefault();
-      handleSelect(results[activeIndex]);
+      if (activeIndex >= 0 && results[activeIndex]) {
+        handleSelect(results[activeIndex]);
+      } else if (showCustomOption) {
+        handleCustomEntry();
+      }
     } else if (e.key === "Escape") {
       setOpen(false);
     }
@@ -105,7 +127,7 @@ export default function CigarAutocomplete({
       </div>
 
       {/* Dropdown */}
-      {open && results.length > 0 && (
+      {(open && results.length > 0) || showCustomOption ? (
         <ul
           className="absolute left-0 right-0 z-50 mt-1 overflow-y-auto rounded-xl border border-border bg-card shadow-xl"
           style={{ maxHeight: 280 }}
@@ -143,8 +165,21 @@ export default function CigarAutocomplete({
               </span>
             </li>
           ))}
+
+          {/* Custom entry row — only shown when query has no DB matches */}
+          {showCustomOption && (
+            <li
+              onMouseDown={handleCustomEntry}
+              className="flex cursor-pointer items-center gap-3 border-t border-border/50 px-3 py-2.5 text-sm text-muted-foreground hover:bg-secondary/30 transition-colors"
+            >
+              <span className="mt-0.5 h-1.5 w-1.5 shrink-0 rounded-full border border-muted-foreground/40" />
+              <span>
+                Add <span className="font-medium text-foreground">"{trimmedQuery}"</span> as custom cigar
+              </span>
+            </li>
+          )}
         </ul>
-      )}
+      ) : null}
     </div>
   );
 }

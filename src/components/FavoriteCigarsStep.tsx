@@ -11,12 +11,17 @@ interface FavoriteCigarsStepProps {
 const FavoriteCigarsStep = ({ cigars, onChange }: FavoriteCigarsStepProps) => {
   const [resetKey, setResetKey] = useState(0);
 
-  const handleSelect = (entry: CigarEntry) => {
-    const name = entry.lineName;
-    if (!name || cigars.length >= 3 || cigars.includes(name)) return;
+  const isDuplicate = (name: string) =>
+    cigars.some((c) => c.toLowerCase() === name.toLowerCase());
+
+  const addCigar = (name: string) => {
+    if (!name || cigars.length >= 3 || isDuplicate(name)) return;
     onChange([...cigars, name]);
     setResetKey((k) => k + 1);
   };
+
+  const handleSelect = (entry: CigarEntry) => addCigar(entry.lineName);
+  const handleCustomEntry = (value: string) => addCigar(value);
 
   const removeCigar = (index: number) => {
     onChange(cigars.filter((_, i) => i !== index));
@@ -49,6 +54,7 @@ const FavoriteCigarsStep = ({ cigars, onChange }: FavoriteCigarsStepProps) => {
         <CigarAutocomplete
           key={resetKey}
           onSelect={handleSelect}
+          onCustomEntry={handleCustomEntry}
           placeholder={`Cigar ${cigars.length + 1} of 3 — search by brand or name`}
         />
       )}

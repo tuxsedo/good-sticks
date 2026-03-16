@@ -14,9 +14,19 @@ const Wishlist = () => {
   const [vitola, setVitola] = useState<Vitola | "">("");
   const [autocompleteKey, setAutocompleteKey] = useState(0);
 
+  const isDuplicate = (cigarName: string) =>
+    cigars.some((c) => c.name.toLowerCase() === cigarName.toLowerCase());
+
   const handleCigarSelect = (entry: CigarEntry) => {
+    if (isDuplicate(entry.lineName)) return;
     setBrand(entry.brand);
     setName(entry.lineName);
+  };
+
+  const handleCustomEntry = (value: string) => {
+    if (isDuplicate(value)) return;
+    setBrand("");
+    setName(value);
   };
 
   useEffect(() => {
@@ -74,6 +84,7 @@ const Wishlist = () => {
             <CigarAutocomplete
               key={autocompleteKey}
               onSelect={handleCigarSelect}
+              onCustomEntry={handleCustomEntry}
               initialValue={name ? `${brand} ${name}`.trim() : ""}
               placeholder="Search cigar by brand or name…"
             />
