@@ -41,7 +41,7 @@ const Humidor = () => {
   // Called when user picks a line from the autocomplete dropdown
   const handleCigarSelect = (entry: CigarEntry) => {
     setBrand(entry.brand);
-    setName(entry.lineName);
+    setName(entry.displayLineName);
     setVitola(""); // reset so user picks the specific vitola for this line
     // Populate vitola dropdown with shapes available for this line
     const shapes = entry.vitolaShapes.length > 0 ? entry.vitolaShapes : [...VITOLA_OPTIONS];

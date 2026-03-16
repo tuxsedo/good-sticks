@@ -103,8 +103,6 @@ export default async function handler(req: any, res: any) {
       apiMessages = apiMessages.slice(1);
     }
 
-    console.log("Calling Anthropic, key present:", !!process.env.ANTHROPIC_API_KEY);
-
     const anthropicResponse = await fetch(ANTHROPIC_API_URL, {
       method: "POST",
       headers: {
@@ -120,8 +118,6 @@ export default async function handler(req: any, res: any) {
       }),
       signal: AbortSignal.timeout(15000),
     });
-
-    console.log("Anthropic response status:", anthropicResponse.status);
 
     const result = await anthropicResponse.json() as {
       content: Array<{ type: string; text: string }>;

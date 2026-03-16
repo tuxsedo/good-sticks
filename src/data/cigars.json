@@ -1360,119 +1360,210 @@
     "country_of_origin": "Dominican Republic",
     "lines": [
       {
-        "name": "Davidoff Signature",
+        "name": "No. 1",
         "wrapper": "Connecticut",
         "strength": "Mild-Medium",
         "vitolas": [
           {
-            "name": "No. 1",
+            "name": "Lancero",
             "length": "7.5",
             "ring_gauge": 38,
             "shape": "Lancero"
-          },
-          {
-            "name": "No. 2",
-            "length": "6.0",
-            "ring_gauge": 38,
-            "shape": "Corona"
-          },
-          {
-            "name": "No. 3",
-            "length": "4.875",
-            "ring_gauge": 42,
-            "shape": "Petit Corona"
-          },
-          {
-            "name": "2000",
-            "length": "5.0",
-            "ring_gauge": 42,
-            "shape": "Corona"
-          },
-          {
-            "name": "3000",
-            "length": "7.0",
-            "ring_gauge": 33,
-            "shape": "Panetela"
           }
         ]
       },
       {
-        "name": "Davidoff Aniversario",
+        "name": "No. 2",
+        "wrapper": "Connecticut",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Panatela",
+            "length": "6.0",
+            "ring_gauge": 38,
+            "shape": "Panatela"
+          }
+        ]
+      },
+      {
+        "name": "No. 3",
+        "wrapper": "Connecticut",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Small Panatela",
+            "length": "4.875",
+            "ring_gauge": 40,
+            "shape": "Small Panatela"
+          }
+        ]
+      },
+      {
+        "name": "2000",
+        "wrapper": "Connecticut",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Cigarillo",
+            "length": "4.875",
+            "ring_gauge": 38,
+            "shape": "Cigarillo"
+          }
+        ]
+      },
+      {
+        "name": "3000",
+        "wrapper": "Connecticut",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Small Cigarillo",
+            "length": "4.625",
+            "ring_gauge": 32,
+            "shape": "Small Cigarillo"
+          }
+        ]
+      },
+      {
+        "name": "Aniversario No. 1",
         "wrapper": "Cameroon",
         "strength": "Medium",
         "vitolas": [
           {
-            "name": "Special R",
-            "length": "4.875",
-            "ring_gauge": 52,
-            "shape": "Robusto"
-          },
+            "name": "Double Corona",
+            "length": "8.0",
+            "ring_gauge": 48,
+            "shape": "Double Corona"
+          }
+        ]
+      },
+      {
+        "name": "Aniversario No. 2",
+        "wrapper": "Cameroon",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "Special T",
+            "name": "Toro",
             "length": "6.0",
-            "ring_gauge": 52,
-            "shape": "Torpedo"
-          },
+            "ring_gauge": 50,
+            "shape": "Toro"
+          }
+        ]
+      },
+      {
+        "name": "Aniversario No. 3",
+        "wrapper": "Cameroon",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "Double R",
+            "name": "Robusto Extra",
+            "length": "5.375",
+            "ring_gauge": 50,
+            "shape": "Robusto Extra"
+          }
+        ]
+      },
+      {
+        "name": "Aniversario Special R",
+        "wrapper": "Cameroon",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.375",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          }
+        ]
+      },
+      {
+        "name": "Aniversario Special T",
+        "wrapper": "Cameroon",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Figurado",
+            "length": "6.0",
+            "ring_gauge": 56,
+            "shape": "Figurado"
+          }
+        ]
+      },
+      {
+        "name": "Aniversario Double R",
+        "wrapper": "Cameroon",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Churchill",
             "length": "7.5",
             "ring_gauge": 50,
             "shape": "Churchill"
-          },
+          }
+        ]
+      },
+      {
+        "name": "Grand Cru No. 1",
+        "wrapper": "Cameroon",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "No. 1",
-            "length": "7.5",
-            "ring_gauge": 38,
-            "shape": "Lancero"
-          },
-          {
-            "name": "No. 2",
-            "length": "6.0",
-            "ring_gauge": 38,
-            "shape": "Corona"
-          },
-          {
-            "name": "No. 3",
-            "length": "4.875",
+            "name": "Corona",
+            "length": "6.625",
             "ring_gauge": 42,
+            "shape": "Corona"
+          }
+        ]
+      },
+      {
+        "name": "Grand Cru No. 2",
+        "wrapper": "Cameroon",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Corona",
+            "length": "5.625",
+            "ring_gauge": 43,
+            "shape": "Corona"
+          }
+        ]
+      },
+      {
+        "name": "Grand Cru No. 3",
+        "wrapper": "Cameroon",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.25",
+            "ring_gauge": 46,
+            "shape": "Robusto"
+          }
+        ]
+      },
+      {
+        "name": "Grand Cru No. 4",
+        "wrapper": "Cameroon",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Petit Corona",
+            "length": "4.75",
+            "ring_gauge": 40,
             "shape": "Petit Corona"
           }
         ]
       },
       {
-        "name": "Davidoff Grand Cru",
+        "name": "Grand Cru No. 5",
         "wrapper": "Cameroon",
         "strength": "Medium",
         "vitolas": [
           {
-            "name": "No. 1",
-            "length": "7.5",
-            "ring_gauge": 38,
-            "shape": "Lancero"
-          },
-          {
-            "name": "No. 2",
-            "length": "6.0",
-            "ring_gauge": 38,
-            "shape": "Corona"
-          },
-          {
-            "name": "No. 3",
-            "length": "5.5",
-            "ring_gauge": 42,
-            "shape": "Corona"
-          },
-          {
-            "name": "No. 4",
-            "length": "5.0",
-            "ring_gauge": 40,
-            "shape": "Corona"
-          },
-          {
-            "name": "No. 5",
+            "name": "Minuto",
             "length": "4.0",
             "ring_gauge": 40,
-            "shape": "Petit Corona"
+            "shape": "Minuto"
           }
         ]
       },
@@ -1681,60 +1772,116 @@
     "country_of_origin": "Cuba",
     "lines": [
       {
-        "name": "Montecristo Classic",
+        "name": "No. 1",
         "wrapper": "Cuban",
         "strength": "Medium",
         "vitolas": [
           {
-            "name": "No. 1",
+            "name": "Corona Extra",
             "length": "6.625",
-            "ring_gauge": 42,
-            "shape": "Corona"
-          },
+            "ring_gauge": 44,
+            "shape": "Corona Extra"
+          }
+        ]
+      },
+      {
+        "name": "No. 2",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "No. 2",
+            "name": "Torpedo",
             "length": "6.125",
             "ring_gauge": 52,
             "shape": "Torpedo"
-          },
+          }
+        ]
+      },
+      {
+        "name": "No. 3",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "No. 3",
+            "name": "Corona",
             "length": "5.5",
             "ring_gauge": 42,
             "shape": "Corona"
-          },
+          }
+        ]
+      },
+      {
+        "name": "No. 4",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "No. 4",
+            "name": "Petit Corona",
             "length": "5.125",
             "ring_gauge": 42,
-            "shape": "Corona"
-          },
+            "shape": "Petit Corona"
+          }
+        ]
+      },
+      {
+        "name": "No. 5",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "No. 5",
+            "name": "Petit Bouquet",
             "length": "4.0",
             "ring_gauge": 40,
-            "shape": "Petit Corona"
-          },
+            "shape": "Petit Bouquet"
+          }
+        ]
+      },
+      {
+        "name": "A",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "A",
+            "name": "Gran Corona",
             "length": "9.25",
             "ring_gauge": 47,
             "shape": "Gran Corona"
-          },
+          }
+        ]
+      },
+      {
+        "name": "Especial",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "Especial",
+            "name": "Lancero",
             "length": "7.5",
             "ring_gauge": 38,
             "shape": "Lancero"
-          },
+          }
+        ]
+      },
+      {
+        "name": "Especial No. 2",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "Especial No. 2",
+            "name": "Panatela",
             "length": "6.0",
             "ring_gauge": 38,
-            "shape": "Corona"
-          },
+            "shape": "Panatela"
+          }
+        ]
+      },
+      {
+        "name": "Open Eagle",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "Open Eagle",
+            "name": "Toro",
             "length": "5.875",
             "ring_gauge": 54,
             "shape": "Toro"
@@ -1785,7 +1932,7 @@
     "country_of_origin": "Cuba",
     "lines": [
       {
-        "name": "Romeo y Julieta Classic",
+        "name": "Churchill",
         "wrapper": "Cuban",
         "strength": "Medium",
         "vitolas": [
@@ -1794,78 +1941,162 @@
             "length": "7.0",
             "ring_gauge": 47,
             "shape": "Churchill"
-          },
+          }
+        ]
+      },
+      {
+        "name": "Petit Churchill",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "Petit Churchill",
-            "length": "4.875",
+            "name": "Robusto",
+            "length": "5.0",
             "ring_gauge": 50,
             "shape": "Robusto"
-          },
+          }
+        ]
+      },
+      {
+        "name": "Short Churchill",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "Short Churchill",
+            "name": "Petit Robusto",
             "length": "4.875",
             "ring_gauge": 50,
-            "shape": "Robusto"
-          },
+            "shape": "Petit Robusto"
+          }
+        ]
+      },
+      {
+        "name": "No. 1",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "No. 1",
+            "name": "Lonsdale",
             "length": "6.625",
-            "ring_gauge": 42,
-            "shape": "Corona"
-          },
+            "ring_gauge": 44,
+            "shape": "Lonsdale"
+          }
+        ]
+      },
+      {
+        "name": "No. 2",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "No. 2",
+            "name": "Torpedo",
+            "length": "6.125",
+            "ring_gauge": 52,
+            "shape": "Torpedo"
+          }
+        ]
+      },
+      {
+        "name": "No. 3",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Corona",
             "length": "5.5",
             "ring_gauge": 42,
             "shape": "Corona"
-          },
-          {
-            "name": "No. 3",
-            "length": "5.0",
-            "ring_gauge": 40,
-            "shape": "Corona"
-          },
+          }
+        ]
+      },
+      {
+        "name": "Belicoso",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
             "name": "Belicoso",
             "length": "5.5",
             "ring_gauge": 52,
             "shape": "Belicoso"
-          },
+          }
+        ]
+      },
+      {
+        "name": "Cazadores",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "Cazadores",
+            "name": "Lonsdale",
             "length": "6.625",
             "ring_gauge": 44,
             "shape": "Lonsdale"
-          },
+          }
+        ]
+      },
+      {
+        "name": "Exhibition No. 3",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "Exhibition No. 3",
+            "name": "Corona",
             "length": "5.5",
             "ring_gauge": 43,
             "shape": "Corona"
-          },
+          }
+        ]
+      },
+      {
+        "name": "Exhibition No. 4",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "Exhibition No. 4",
+            "name": "Robusto",
             "length": "5.0",
             "ring_gauge": 48,
-            "shape": "Corona"
-          },
+            "shape": "Robusto"
+          }
+        ]
+      },
+      {
+        "name": "Cedros de Luxe No. 1",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "Cedros de Luxe No. 1",
+            "name": "Lonsdale",
             "length": "6.625",
-            "ring_gauge": 44,
-            "shape": "Lonsdale"
-          },
-          {
-            "name": "Cedros de Luxe No. 2",
-            "length": "6.0",
             "ring_gauge": 42,
-            "shape": "Corona"
-          },
+            "shape": "Lonsdale"
+          }
+        ]
+      },
+      {
+        "name": "Cedros de Luxe No. 2",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
           {
-            "name": "Cedros de Luxe No. 3",
+            "name": "Corona",
             "length": "5.5",
             "ring_gauge": 42,
             "shape": "Corona"
+          }
+        ]
+      },
+      {
+        "name": "Cedros de Luxe No. 3",
+        "wrapper": "Cuban",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Petit Corona",
+            "length": "5.25",
+            "ring_gauge": 42,
+            "shape": "Petit Corona"
           }
         ]
       }
@@ -1937,24 +2168,12 @@
     "country_of_origin": "Cuba",
     "lines": [
       {
-        "name": "Partagas Serie D",
+        "name": "Serie D No. 4",
         "wrapper": "Cuban",
         "strength": "Full",
         "vitolas": [
           {
-            "name": "No. 4",
-            "length": "5.0",
-            "ring_gauge": 50,
-            "shape": "Robusto"
-          },
-          {
-            "name": "No. 5",
-            "length": "4.0",
-            "ring_gauge": 52,
-            "shape": "Robusto"
-          },
-          {
-            "name": "No. 6",
+            "name": "Robusto",
             "length": "4.875",
             "ring_gauge": 50,
             "shape": "Robusto"
@@ -1962,57 +2181,132 @@
         ]
       },
       {
-        "name": "Partagas Classic",
+        "name": "Serie D No. 5",
         "wrapper": "Cuban",
         "strength": "Full",
         "vitolas": [
           {
-            "name": "Lusitanias",
+            "name": "Petit Robusto",
+            "length": "4.0",
+            "ring_gauge": 50,
+            "shape": "Petit Robusto"
+          }
+        ]
+      },
+      {
+        "name": "Serie D No. 6",
+        "wrapper": "Cuban",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Short Robusto",
+            "length": "4.625",
+            "ring_gauge": 52,
+            "shape": "Short Robusto"
+          }
+        ]
+      },
+      {
+        "name": "Lusitanias",
+        "wrapper": "Cuban",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Double Corona",
             "length": "7.625",
             "ring_gauge": 49,
             "shape": "Double Corona"
-          },
+          }
+        ]
+      },
+      {
+        "name": "8-9-8",
+        "wrapper": "Cuban",
+        "strength": "Full",
+        "vitolas": [
           {
-            "name": "8-9-8",
+            "name": "Lonsdale",
             "length": "6.625",
             "ring_gauge": 43,
             "shape": "Lonsdale"
-          },
+          }
+        ]
+      },
+      {
+        "name": "Shorts",
+        "wrapper": "Cuban",
+        "strength": "Full",
+        "vitolas": [
           {
-            "name": "Shorts",
+            "name": "Minuto",
             "length": "4.375",
             "ring_gauge": 42,
-            "shape": "Petit Corona"
-          },
+            "shape": "Minuto"
+          }
+        ]
+      },
+      {
+        "name": "Chicos",
+        "wrapper": "Cuban",
+        "strength": "Full",
+        "vitolas": [
           {
-            "name": "Chicos",
-            "length": "4.875",
+            "name": "Small Panatela",
+            "length": "4.375",
             "ring_gauge": 29,
-            "shape": "Cigarillo"
-          },
+            "shape": "Small Panatela"
+          }
+        ]
+      },
+      {
+        "name": "No. 1",
+        "wrapper": "Cuban",
+        "strength": "Full",
+        "vitolas": [
           {
-            "name": "No. 1",
-            "length": "6.625",
+            "name": "Lonsdale",
+            "length": "6.5",
             "ring_gauge": 42,
-            "shape": "Corona"
-          },
+            "shape": "Lonsdale"
+          }
+        ]
+      },
+      {
+        "name": "Presidentes",
+        "wrapper": "Cuban",
+        "strength": "Full",
+        "vitolas": [
           {
-            "name": "Presidentes",
-            "length": "6.625",
+            "name": "Gran Corona",
+            "length": "8.0",
             "ring_gauge": 47,
-            "shape": "Churchill"
-          },
+            "shape": "Gran Corona"
+          }
+        ]
+      },
+      {
+        "name": "Milles Fleurs",
+        "wrapper": "Cuban",
+        "strength": "Full",
+        "vitolas": [
           {
-            "name": "Aristocrats",
-            "length": "4.875",
-            "ring_gauge": 50,
-            "shape": "Robusto"
-          },
+            "name": "Petit Corona",
+            "length": "5.0",
+            "ring_gauge": 40,
+            "shape": "Petit Corona"
+          }
+        ]
+      },
+      {
+        "name": "Aristocrats",
+        "wrapper": "Cuban",
+        "strength": "Full",
+        "vitolas": [
           {
-            "name": "Milles Fleurs",
-            "length": "5.375",
-            "ring_gauge": 42,
-            "shape": "Corona"
+            "name": "Petit Corona",
+            "length": "5.0",
+            "ring_gauge": 40,
+            "shape": "Petit Corona"
           }
         ]
       }
