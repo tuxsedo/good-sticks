@@ -72,7 +72,7 @@ export interface HumidorCigar {
   id: string;
   brand: string;
   name: string;
-  vitola: Vitola;
+  vitola?: Vitola | string;
   quantity: number;
   addedAt: string;
   notes?: string;

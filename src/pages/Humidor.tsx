@@ -49,12 +49,12 @@ const Humidor = () => {
   };
 
   const addCigar = () => {
-    if (!name.trim() || !brand.trim() || !vitola) return;
+    if (!name.trim() || !brand.trim()) return;
     const item: HumidorCigar = {
       id: Date.now().toString(),
       brand: brand.trim(),
       name: name.trim(),
-      vitola: vitola as Vitola,
+      vitola: vitola || undefined,
       quantity,
       addedAt: new Date().toISOString(),
     };
@@ -121,7 +121,7 @@ const Humidor = () => {
               {/* Vitola — shows line-specific shapes after a selection, full list otherwise */}
               <Select value={vitola} onValueChange={(v) => setVitola(v as Vitola)}>
                 <SelectTrigger className="rounded-lg border-border bg-secondary/30 text-sm h-[42px]">
-                  <SelectValue placeholder="Vitola *" />
+                  <SelectValue placeholder="Vitola (optional)" />
                 </SelectTrigger>
                 <SelectContent>
                   {vitolaOptions.map((v) => (
@@ -155,7 +155,7 @@ const Humidor = () => {
               <Button
                 variant="ember"
                 size="sm"
-                disabled={!name.trim() || !brand.trim() || !vitola}
+                disabled={!name.trim() || !brand.trim()}
                 onClick={addCigar}
               >
                 Add to Humidor
