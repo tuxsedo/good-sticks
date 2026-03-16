@@ -55,7 +55,8 @@ export default function CigarAutocomplete({
 
   const handleSelect = useCallback(
     (entry: CigarEntry) => {
-      setQuery(entry.lineName);
+      // Show "Brand · Line" in the input after selection so user can see both
+      setQuery(`${entry.brand} · ${entry.displayLineName}`);
       setOpen(false);
       setResults([]);
       onSelect(entry);
@@ -145,12 +146,15 @@ export default function CigarAutocomplete({
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary/60" />
 
               <div className="min-w-0 flex-1">
+                {/* Brand on top, line name below — keeps them visually separate */}
+                <p className="truncate text-xs font-semibold uppercase tracking-wide text-primary/70">
+                  {entry.brand}
+                </p>
                 <p className="truncate text-sm font-medium text-foreground">
-                  {entry.lineName}
+                  {entry.displayLineName}
                 </p>
                 <p className="truncate text-xs text-muted-foreground">
-                  {entry.brand}
-                  {entry.wrapper ? ` · ${entry.wrapper}` : ""}
+                  {entry.wrapper ? entry.wrapper : ""}
                   {entry.country ? ` · ${entry.country}` : ""}
                 </p>
               </div>

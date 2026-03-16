@@ -27,6 +27,8 @@ export interface DbBrand {
 export interface CigarEntry {
   brand: string;
   lineName: string;
+  /** Line name with brand prefix stripped — e.g. "Classic" not "Montecristo Classic" */
+  displayLineName: string;
   wrapper: string;
   strength: string;
   country: string;
@@ -34,6 +36,22 @@ export interface CigarEntry {
   /** Vitola shape names available for this line, deduped */
   vitolaShapes: string[];
   _search: string;
+}
+
+/**
+ * Strips the brand name prefix from a line name when it exists.
+ * "Montecristo Classic" + "Montecristo" → "Classic"
+ * "Padron 1964 Anniversary" + "Padron" → "1964 Anniversary"
+ * Falls back to the original lineName if stripping produces empty string.
+ */
+function stripBrandPrefix(brand: string, lineName: string): string {
+  const prefix = brand.toLowerCase();
+  const lower = lineName.toLowerCase();
+  if (lower.startsWith(prefix)) {
+    const stripped = lineName.slice(brand.length).trim();
+    return stripped.length > 0 ? stripped : lineName;
+  }
+  return lineName;
 }
 
 const brands = cigarsData as DbBrand[];
@@ -44,6 +62,7 @@ export const allCigarEntries: CigarEntry[] = brands.flatMap((b) =>
     return {
       brand: b.brand,
       lineName: l.name,
+      displayLineName: stripBrandPrefix(b.brand, l.name),
       wrapper: l.wrapper,
       strength: l.strength,
       country: b.country_of_origin,
