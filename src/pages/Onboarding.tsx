@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import OnboardingStep from "@/components/OnboardingStep";
 import FavoriteCigarsStep from "@/components/FavoriteCigarsStep";
+import SaveProfilePrompt from "@/components/SaveProfilePrompt";
 import { Cigarette, ArrowRight, SkipForward } from "lucide-react";
 import type { PalateProfile, FlavorNote } from "@/lib/types";
 
@@ -160,6 +161,7 @@ const Onboarding = () => {
             Let's talk cigars
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
+          <SaveProfilePrompt />
         </div>
       </div>
     );
