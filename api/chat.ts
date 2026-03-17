@@ -62,7 +62,31 @@ FLAVOR → CIGAR LOGIC:
 - If they love chocolate/coffee notes → steer toward Maduro wrappers, Nicaraguan or Mexican filler.
 - If they love cedar/leather/nuts → Natural or Colorado wrappers, Dominican or Honduran blend.
 - If they love spice/pepper → Nicaraguan puro or heavy ligero content.
-- If they love cream/floral → Connecticut shade, Ecuadorian Habano, mild Dominican blends.`;
+- If they love cream/floral → Connecticut shade, Ecuadorian Habano, mild Dominican blends.
+
+COMMUNITY-VETTED REFERENCE LIBRARY (r/cigars wiki picks):
+These are battle-tested, well-loved cigars. Use them as your primary recommendation pool — cross-referenced against the user's strength, experience, and flavor profile. You can recommend outside this list, but when something here fits, prefer it over an untested pick.
+
+MILD: Arturo Fuente 8-5-8 Natural, AVO Classic, Oliva Connecticut, NUB Connecticut, My Father Connecticut, CAO Gold, Rocky Patel Connecticut, Ashton Classic Connecticut, Macanudo Cafe, Romeo y Julieta Reserve.
+
+MEDIUM: Arturo Fuente Hemingway Short Story, Flor de las Antillas by My Father, Drew Estate Undercrown, Padrón 2000/3000 series, Crowned Heads Four Kicks, Perdomo Champagne, Illusione Rothschild, Tatuaje Tattoo, Perla Del Mar, Romeo y Julieta 1875.
+
+FULL: La Flor Dominicana Double Ligero, Oliva Serie V, Tatuaje Black Label, Drew Estate Liga Privada No. 9, Drew Estate Herrera Esteli, Padrón 1964 Maduro, Crowned Heads Jericho Hill, Joya de Nicaragua Antaño Dark Corojo, CAO Brazilia, My Father Le Bijou 1922.
+
+BEGINNER-FRIENDLY: Drew Estate Undercrown Shade, Drew Estate Undercrown, My Father Flor De Las Antillas, Padrón 3000 Natural, Perdomo 10th Anniversary Champagne, Crowned Heads Mil Dias, Oliva Connecticut Reserve, Foundation Charter Oak, Illusione Epernay.
+
+BUDGET (~$5 or less): 5 Vegas Classic, Arturo Fuente 8-5-8, BrickHouse, CAO Brazilia, Don Pepin Garcia Black/Blue, Genesis the Project by Ramon Bueso, Joya de Nicaragua Antaño 1970, La Gloria Cubana Serie R, MUWAT Baitfish, NUB Cameroon, NUB Habano, Oliva Serie G, Oliva Serie G Maduro, Padrón 2000/3000, Perdomo 10th Anniversary, Punch Gran Puro, Punch Rare Corojo.
+
+SHORT SMOKES (under 45 min): Arturo Fuente Hemingway Short Story, Camacho Criollo Machitos, Drew Estate Liga Privada Papas Fritas, Drew Estate MUWAT Bait Fish, Tatuaje Reserva Petit Cazadores, Quesada 40th Anniversary Petit Belicoso.
+
+SPECIAL OCCASION: Arturo Fuente Opus X (note: benefits from aging), Drew Estate Liga Privada Único Feral Flying Pig, God of Fire Serie B, Padrón 1964 Anniversary Maduro, Arturo Fuente Añejo Shark No. 77, Padrón 1926 Serie Maduro, La Palina Goldie, Davidoff Anniversario.
+
+HOW TO USE THIS LIST:
+- Match strength tier to the user's profile first.
+- For beginners, lean on the beginner list — don't throw a full-strength Nicaraguan puro at someone new.
+- If budget or time is mentioned, draw from those tiers and call it out ("under $5, under 45 minutes").
+- Special occasion context (birthday, milestone, celebration) → use that tier and acknowledge the moment.
+- These picks are the community floor. Go deeper when you can — a lesser-known cigar that perfectly matches this person's profile beats a famous one that's a rough fit.`;
 
   if (palate) {
     prompt += `\n\nYOU KNOW THIS USER'S PALATE. Every recommendation must be specifically built around it — not just vaguely "inspired by" it.
