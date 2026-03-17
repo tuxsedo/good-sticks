@@ -13,6 +13,8 @@ export interface DbVitola {
 export interface DbLine {
   name: string;
   wrapper: string;
+  binder: string;
+  filler: string;
   strength: string;
   vitolas: DbVitola[];
 }
@@ -30,6 +32,8 @@ export interface CigarEntry {
   /** Line name with brand prefix stripped — e.g. "Classic" not "Montecristo Classic" */
   displayLineName: string;
   wrapper: string;
+  binder: string;
+  filler: string;
   strength: string;
   country: string;
   vitolas: DbVitola[];
@@ -64,6 +68,8 @@ export const allCigarEntries: CigarEntry[] = brands.flatMap((b) =>
       lineName: l.name,
       displayLineName: stripBrandPrefix(b.brand, l.name),
       wrapper: l.wrapper,
+      binder: l.binder,
+      filler: l.filler,
       strength: l.strength,
       country: b.country_of_origin,
       vitolas: l.vitolas,
