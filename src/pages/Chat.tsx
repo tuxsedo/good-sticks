@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import MessageBubble from "@/components/MessageBubble";
-import { Send } from "lucide-react";
-import goodsticksIcon from "@/assets/goodsticks-icon.png";
+import { Cigarette, Send } from "lucide-react";
 import type { ChatMessage, PalateProfile } from "@/lib/types";
 
 const GREETING = `Hey, I'm Ember, your cigar sidekick. I already know your palate, so we can skip the basics.\n\nWhat's on your mind? Looking for a recommendation, curious about a brand, or want to talk about something you smoked recently?`;
@@ -90,7 +89,7 @@ const Chat = () => {
       {/* Header */}
       <div className="flex items-center gap-3 px-4 py-4 border-b border-border/50">
         <div className="h-9 w-9 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0">
-          <img src={goodsticksIcon} alt="Ember" className="h-5 w-5" />
+          <Cigarette className="h-5 w-5 text-primary" />
         </div>
         <div className="min-w-0">
           <span className="font-display text-lg font-semibold text-foreground">Ember</span>
@@ -110,7 +109,7 @@ const Chat = () => {
         {isTyping && (
           <div className="flex gap-3">
             <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary/15 flex items-center justify-center">
-              <img src={goodsticksIcon} alt="Ember" className="h-4 w-4 animate-ember-pulse" />
+              <Cigarette className="h-4 w-4 text-primary animate-ember-pulse" />
             </div>
             <div className="bg-secondary rounded-2xl rounded-bl-sm px-4 py-3">
               <div className="flex gap-1.5">

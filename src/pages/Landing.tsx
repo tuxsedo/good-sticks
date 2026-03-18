@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import goodsticksIcon from "@/assets/goodsticks-icon.png";
+import { Cigarette } from "lucide-react";
 
 const Landing = () => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const Landing = () => {
     <div className="min-h-screen bg-ember-gradient flex flex-col">
       <nav className="flex items-center justify-between px-6 py-5">
         <div className="flex items-center gap-2">
-          <img src={goodsticksIcon} alt="GoodSticks" className="h-6 w-6" />
+          <Cigarette className="h-6 w-6 text-primary" />
           <span className="font-display text-xl font-semibold text-foreground">GoodSticks</span>
         </div>
       </nav>
@@ -17,7 +17,7 @@ const Landing = () => {
       <main className="flex-1 flex flex-col items-center justify-center px-6 text-center max-w-2xl mx-auto">
         <div className="animate-fade-in">
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-secondary/50 px-4 py-1.5 text-sm text-primary mb-8">
-            <img src={goodsticksIcon} alt="" className="h-3.5 w-3.5" />
+            <Cigarette className="h-3.5 w-3.5" />
             Your Perfect Cigar Guide
           </div>
 

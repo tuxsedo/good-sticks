@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Star, Package, MessageSquare } from "lucide-react";
-import goodsticksIcon from "@/assets/goodsticks-icon.png";
+import { Home, Star, Package, MessageSquare, Cigarette } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const AppSidebar = () => {
@@ -45,7 +44,7 @@ const AppSidebar = () => {
         <div className="px-4 py-5 border-b border-border/50">
           <div className="flex items-center gap-2.5">
             <div className="h-8 w-8 rounded-lg bg-primary/15 flex items-center justify-center">
-              <img src={goodsticksIcon} alt="GoodSticks" className="h-4 w-4" />
+              <Cigarette className="h-4 w-4 text-primary" />
             </div>
             <span className="font-display text-lg font-semibold text-foreground">GoodSticks</span>
           </div>
