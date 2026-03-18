@@ -144,7 +144,7 @@ const Onboarding = () => {
     return (
       <div className="min-h-screen bg-ember-gradient flex flex-col items-center justify-center px-6 text-center">
         <div className="animate-fade-in max-w-md">
-          <Cigarette className="h-12 w-12 text-primary mx-auto mb-6 animate-ember-pulse" />
+          <img src={goodsticksIcon} alt="GoodSticks" className="h-12 w-12 mx-auto mb-6 animate-ember-pulse" />
           <h1 className="font-display text-3xl sm:text-4xl font-bold mb-4">
             Your palate profile is set.
           </h1>
