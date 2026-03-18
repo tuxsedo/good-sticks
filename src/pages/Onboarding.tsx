@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import OnboardingStep from "@/components/OnboardingStep";
 import FavoriteCigarsStep from "@/components/FavoriteCigarsStep";
-import { Cigarette, ArrowRight, SkipForward } from "lucide-react";
+import { ArrowRight, SkipForward } from "lucide-react";
+import goodsticksIcon from "@/assets/goodsticks-icon.png";
 import type { PalateProfile, FlavorNote } from "@/lib/types";
 
 const FLAVOR_OPTIONS = [
