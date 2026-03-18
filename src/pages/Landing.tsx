@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Cigarette } from "lucide-react";
+import goodsticksIcon from "@/assets/goodsticks-icon.png";
 
 const Landing = () => {
   const navigate = useNavigate();
