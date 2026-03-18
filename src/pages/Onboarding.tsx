@@ -170,7 +170,7 @@ const Onboarding = () => {
     <div className="min-h-screen bg-ember-gradient flex flex-col">
       <div className="flex items-center justify-between px-6 py-5">
         <div className="flex items-center gap-2">
-          <Cigarette className="h-5 w-5 text-primary" />
+          <img src={goodsticksIcon} alt="GoodSticks" className="h-5 w-5" />
           <span className="font-display text-lg font-semibold text-foreground">GoodSticks</span>
         </div>
         <span className="text-sm text-muted-foreground">

@@ -16,7 +16,7 @@ const MessageBubble = ({ message, onSuggestionClick }: MessageBubbleProps) => {
       <div className={cn("flex gap-3", isUser ? "justify-end" : "justify-start")}>
         {!isUser && (
           <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary/15 flex items-center justify-center mt-1">
-            <Cigarette className="h-4 w-4 text-primary" />
+            <img src={goodsticksIcon} alt="Ember" className="h-4 w-4" />
           </div>
         )}
         <div
