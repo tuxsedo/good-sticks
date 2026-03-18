@@ -89,7 +89,7 @@ const AppSidebar = () => {
             "h-6 w-6 rounded-md flex items-center justify-center",
             isActive("/chat") ? "bg-primary/20" : "bg-muted/40"
           )}>
-            <Flame className="h-4 w-4" />
+            <MessageSquare className="h-4 w-4" />
           </div>,
           "Ember"
         )}
