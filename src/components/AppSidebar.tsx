@@ -65,7 +65,7 @@ const AppSidebar = () => {
             )}
           >
             <div className="h-5 w-5 rounded-md bg-primary/15 flex items-center justify-center">
-              <Flame className="h-3.5 w-3.5 text-primary" />
+              <MessageSquare className="h-3.5 w-3.5 text-primary" />
             </div>
             Ember Chat
           </button>
