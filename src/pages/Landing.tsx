@@ -9,7 +9,7 @@ const Landing = () => {
     <div className="min-h-screen bg-ember-gradient flex flex-col">
       <nav className="flex items-center justify-between px-6 py-5">
         <div className="flex items-center gap-2">
-          <Cigarette className="h-6 w-6 text-primary" />
+          <img src={goodsticksIcon} alt="GoodSticks" className="h-6 w-6" />
           <span className="font-display text-xl font-semibold text-foreground">GoodSticks</span>
         </div>
       </nav>
