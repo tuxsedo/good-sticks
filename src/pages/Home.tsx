@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import type { PalateProfile } from "@/lib/types";
 
 const RECOMMENDED_CIGARS = [
-  { name: "Padrón 1964 Anniversary", brand: "Padrón", strength: "Medium-Full", notes: "Chocolate, espresso, cedar" },
-  { name: "Oliva Serie V Melanio", brand: "Oliva", strength: "Full", notes: "Earth, dark chocolate, pepper" },
-  { name: "Arturo Fuente Hemingway", brand: "Arturo Fuente", strength: "Medium", notes: "Cedar, cream, natural sweetness" },
-  { name: "My Father Le Bijou 1922", brand: "My Father", strength: "Full", notes: "Dark chocolate, coffee, spice" },
-  { name: "Davidoff Grand Cru", brand: "Davidoff", strength: "Mild-Medium", notes: "Cream, floral, white pepper" },
-  { name: "Liga Privada No. 9", brand: "Drew Estate", strength: "Full", notes: "Leather, earth, dark cocoa" },
-];
+{ name: "Padrón 1964 Anniversary", brand: "Padrón", strength: "Medium-Full", notes: "Chocolate, espresso, cedar" },
+{ name: "Oliva Serie V Melanio", brand: "Oliva", strength: "Full", notes: "Earth, dark chocolate, pepper" },
+{ name: "Arturo Fuente Hemingway", brand: "Arturo Fuente", strength: "Medium", notes: "Cedar, cream, natural sweetness" },
+{ name: "My Father Le Bijou 1922", brand: "My Father", strength: "Full", notes: "Dark chocolate, coffee, spice" },
+{ name: "Davidoff Grand Cru", brand: "Davidoff", strength: "Mild-Medium", notes: "Cream, floral, white pepper" },
+{ name: "Liga Privada No. 9", brand: "Drew Estate", strength: "Full", notes: "Leather, earth, dark cocoa" }];
+
 
 const Home = () => {
   const [search, setSearch] = useState("");
@@ -26,14 +26,14 @@ const Home = () => {
     }
   })();
 
-  const filteredCigars = search.trim()
-    ? RECOMMENDED_CIGARS.filter(
-        (c) =>
-          c.name.toLowerCase().includes(search.toLowerCase()) ||
-          c.brand.toLowerCase().includes(search.toLowerCase()) ||
-          c.notes.toLowerCase().includes(search.toLowerCase())
-      )
-    : RECOMMENDED_CIGARS;
+  const filteredCigars = search.trim() ?
+  RECOMMENDED_CIGARS.filter(
+    (c) =>
+    c.name.toLowerCase().includes(search.toLowerCase()) ||
+    c.brand.toLowerCase().includes(search.toLowerCase()) ||
+    c.notes.toLowerCase().includes(search.toLowerCase())
+  ) :
+  RECOMMENDED_CIGARS;
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
@@ -43,9 +43,9 @@ const Home = () => {
           Welcome back
         </h1>
         <p className="text-sm text-muted-foreground">
-          {palate
-            ? `Based on your palate — ${palate.strength} body, ${palate.loveFlavors.slice(0, 3).join(", ")} lover`
-            : "Discover cigars tailored to your taste"}
+          {palate ?
+          `Based on your palate — ${palate.strength} body, ${palate.loveFlavors.slice(0, 3).join(", ")} lover` :
+          "Discover cigars tailored to your taste"}
         </p>
       </div>
 
@@ -58,8 +58,8 @@ const Home = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search cigars by name, brand, or flavor..."
-            className="w-full rounded-xl border border-border bg-secondary/30 pl-10 pr-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-          />
+            className="w-full rounded-xl border border-border bg-secondary/30 pl-10 pr-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50" />
+          
         </div>
       </div>
 
@@ -72,17 +72,17 @@ const Home = () => {
           </h2>
         </div>
 
-        {filteredCigars.length === 0 ? (
-          <p className="text-sm text-muted-foreground py-8 text-center">
+        {filteredCigars.length === 0 ?
+        <p className="text-sm text-muted-foreground py-8 text-center">
             No cigars found matching "{search}". Try asking Ember for help.
-          </p>
-        ) : (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredCigars.map((cigar) => (
-              <div
-                key={cigar.name}
-                className="rounded-xl border border-border/50 bg-card/50 p-4 hover:border-primary/30 transition-colors group"
-              >
+          </p> :
+
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredCigars.map((cigar) =>
+          <div
+            key={cigar.name}
+            className="rounded-xl border border-border/50 bg-card/50 p-4 hover:border-primary/30 transition-colors group">
+            
                 <div className="flex items-start justify-between mb-2">
                   <div>
                     <p className="text-sm font-semibold text-foreground">{cigar.name}</p>
@@ -99,15 +99,15 @@ const Home = () => {
                 </div>
                 <p className="text-xs text-muted-foreground">{cigar.notes}</p>
               </div>
-            ))}
+          )}
           </div>
-        )}
+        }
 
         {/* CTA to Ember */}
         <div className="mt-8 rounded-xl border border-primary/20 bg-primary/5 p-5 flex items-center justify-between">
           <div>
             <p className="text-sm font-semibold text-foreground">Need a personalized pick?</p>
-            <p className="text-xs text-muted-foreground mt-0.5">Ask Ember — your AI cigar sidekick</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Ask Ember. Your cigar sidekick</p>
           </div>
           <Button variant="ember" size="sm" onClick={() => navigate("/chat")}>
             Chat with Ember
@@ -115,8 +115,8 @@ const Home = () => {
           </Button>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default Home;
