@@ -98,7 +98,8 @@ const Chat = () => {
       </div>
 
       {/* Messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-6">
+        <div className="flex flex-col justify-end min-h-full space-y-4">
         {messages.map((msg) => (
           <MessageBubble
             key={msg.id}
@@ -120,6 +121,7 @@ const Chat = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
 
       {/* Input */}
