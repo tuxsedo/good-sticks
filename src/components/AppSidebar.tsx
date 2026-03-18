@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Star, Package, Flame, Cigarette } from "lucide-react";
+import { Home, Star, Package, MessageSquare, Cigarette } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const AppSidebar = () => {
@@ -65,7 +65,7 @@ const AppSidebar = () => {
             )}
           >
             <div className="h-5 w-5 rounded-md bg-primary/15 flex items-center justify-center">
-              <Flame className="h-3.5 w-3.5 text-primary" />
+              <MessageSquare className="h-3.5 w-3.5 text-primary" />
             </div>
             Ember Chat
           </button>
@@ -89,7 +89,7 @@ const AppSidebar = () => {
             "h-6 w-6 rounded-md flex items-center justify-center",
             isActive("/chat") ? "bg-primary/20" : "bg-muted/40"
           )}>
-            <Flame className="h-4 w-4" />
+            <MessageSquare className="h-4 w-4" />
           </div>,
           "Ember"
         )}
