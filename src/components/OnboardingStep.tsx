@@ -50,8 +50,8 @@ const OnboardingStep = ({
             className={cn(
               "relative flex flex-col items-start rounded-lg border px-4 py-3 text-left transition-all duration-200",
               isSelected(option.value)
-                ? "border-primary bg-primary/10 text-foreground"
-                : "border-border bg-secondary/30 text-foreground/80 hover:border-primary/40 hover:bg-secondary/60"
+                ? "border-primary bg-primary/15 text-foreground"
+                : "border-border/60 bg-secondary/60 text-foreground hover:border-primary/50 hover:bg-secondary/80"
             )}
           >
             <div className="flex w-full items-center justify-between">
