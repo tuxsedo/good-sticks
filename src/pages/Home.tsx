@@ -44,7 +44,7 @@ const Home = () => {
         </h1>
         <p className="text-sm text-muted-foreground">
           {palate ?
-          `Based on your palate — ${palate.strength} body, ${palate.loveFlavors.slice(0, 3).join(", ")} lover` :
+          `Based on your palate. ${palate.strength} body, ${palate.loveFlavors.slice(0, 3).join(", ")} lover` :
           "Discover cigars tailored to your taste"}
         </p>
       </div>
