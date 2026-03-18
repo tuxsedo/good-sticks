@@ -43,7 +43,7 @@ const MessageBubble = ({ message, onSuggestionClick }: MessageBubbleProps) => {
             <button
               key={i}
               onClick={() => onSuggestionClick?.(s)}
-              className="text-xs rounded-full border border-primary/30 bg-primary/5 px-3 py-1.5 text-primary hover:bg-primary/15 transition-colors"
+              className="text-xs rounded-full border border-primary/30 bg-primary/5 px-4 py-2.5 text-primary hover:bg-primary/15 transition-colors min-h-[44px] flex items-center"
             >
               {s}
             </button>
