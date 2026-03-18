@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Cigarette } from "lucide-react";
+import goodsticksIcon from "@/assets/goodsticks-icon.png";
 import type { ChatMessage } from "@/lib/types";
 import ReactMarkdown from "react-markdown";
 
