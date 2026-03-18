@@ -45,7 +45,7 @@ const AppSidebar = () => {
         <div className="px-4 py-5 border-b border-border/50">
           <div className="flex items-center gap-2.5">
             <div className="h-8 w-8 rounded-lg bg-primary/15 flex items-center justify-center">
-              <Cigarette className="h-4 w-4 text-primary" />
+              <img src={goodsticksIcon} alt="GoodSticks" className="h-4 w-4" />
             </div>
             <span className="font-display text-lg font-semibold text-foreground">GoodSticks</span>
           </div>

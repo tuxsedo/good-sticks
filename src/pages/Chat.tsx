@@ -110,7 +110,7 @@ const Chat = () => {
         {isTyping && (
           <div className="flex gap-3">
             <div className="flex-shrink-0 h-8 w-8 rounded-full bg-primary/15 flex items-center justify-center">
-              <Cigarette className="h-4 w-4 text-primary animate-ember-pulse" />
+              <img src={goodsticksIcon} alt="Ember" className="h-4 w-4 animate-ember-pulse" />
             </div>
             <div className="bg-secondary rounded-2xl rounded-bl-sm px-4 py-3">
               <div className="flex gap-1.5">
