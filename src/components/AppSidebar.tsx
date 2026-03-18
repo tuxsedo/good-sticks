@@ -12,7 +12,7 @@ const AppSidebar = () => {
     <button
       onClick={() => navigate(path)}
       className={cn(
-        "w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+        "w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors min-h-[44px]",
         isActive(path)
           ? "bg-primary/15 text-primary font-medium"
           : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
@@ -58,7 +58,7 @@ const AppSidebar = () => {
           <button
             onClick={() => navigate("/chat")}
             className={cn(
-              "w-full flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+              "w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-colors min-h-[44px]",
               isActive("/chat")
                 ? "bg-primary/15 text-primary font-medium"
                 : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
