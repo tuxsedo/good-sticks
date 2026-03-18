@@ -104,10 +104,12 @@ const Home = () => {
         }
 
         {/* CTA to Ember */}
-        <div className="mt-8 rounded-xl border border-primary/20 bg-primary/5 p-4 flex items-center gap-4">
-          <p className="text-sm font-semibold text-foreground whitespace-nowrap">Need a personalized pick?</p>
-          <p className="text-xs text-muted-foreground whitespace-nowrap">Ask Ember, your cigar sidekick</p>
-          <Button variant="ember" size="sm" className="ml-auto shrink-0" onClick={() => navigate("/chat")}>
+        <div className="mt-8 rounded-xl border border-primary/20 bg-primary/5 p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
+            <p className="text-sm font-semibold text-foreground">Need a personalized pick?</p>
+            <p className="text-xs text-muted-foreground">Ask Ember, your cigar sidekick</p>
+          </div>
+          <Button variant="ember" size="sm" className="sm:ml-auto shrink-0 w-full sm:w-auto" onClick={() => navigate("/chat")}>
             Chat with Ember
             <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
           </Button>
