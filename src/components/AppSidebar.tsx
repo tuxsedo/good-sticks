@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Star, Package, MessageSquare, Cigarette } from "lucide-react";
+import { Home, Star, Package, MessageSquare } from "lucide-react";
+import goodsticksIcon from "@/assets/goodsticks-icon.png";
 import { cn } from "@/lib/utils";
 
 const AppSidebar = () => {
