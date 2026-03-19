@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Plus, Package, Trash2, Star, MessageSquare } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,7 @@ import { VITOLA_OPTIONS } from "@/lib/types";
 import type { CigarEntry } from "@/lib/cigars";
 
 const Humidor = () => {
+  const navigate = useNavigate();
   const [cigars, setCigars] = useState<HumidorCigar[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [brand, setBrand] = useState("");
@@ -178,12 +180,22 @@ const Humidor = () => {
         )}
 
         {cigars.length === 0 && !showForm ? (
-          <div className="text-center py-16">
-            <Package className="h-10 w-10 text-muted-foreground/20 mx-auto mb-3" />
-            <p className="text-sm text-muted-foreground">Your humidor is empty.</p>
-            <p className="text-xs text-muted-foreground/60 mt-1">
-              Add cigars you own to keep track of your collection.
+          <div className="text-center py-20 px-4">
+            <Package className="h-12 w-12 text-primary/20 mx-auto mb-4" />
+            <p className="text-base font-medium text-foreground mb-1">Your humidor is empty.</p>
+            <p className="text-sm text-muted-foreground max-w-xs mx-auto mb-6">
+              Log what you're smoking, track your collection, and rate your smokes as you go.
             </p>
+            <div className="flex flex-col sm:flex-row gap-2 justify-center">
+              <Button variant="ember" size="sm" onClick={() => setShowForm(true)}>
+                <Plus className="h-4 w-4 mr-1" />
+                Add your first cigar
+              </Button>
+              <Button variant="ember-ghost" size="sm" onClick={() => navigate("/chat")}>
+                <MessageSquare className="h-4 w-4 mr-1" />
+                Ask Ember what to stock
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="overflow-x-auto">
