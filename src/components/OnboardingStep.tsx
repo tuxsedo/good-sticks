@@ -48,9 +48,9 @@ const OnboardingStep = ({
             key={option.value}
             onClick={() => onSelect(option.value)}
             className={cn(
-              "relative flex flex-col items-start rounded-lg border px-4 py-3 text-left transition-all duration-200",
+              "relative flex flex-col items-start rounded-lg border px-4 py-3 text-left transition-all duration-200 active:scale-[0.98]",
               isSelected(option.value)
-                ? "border-primary bg-primary/15 text-foreground"
+                ? "border-primary bg-primary/15 text-foreground scale-[1.01] shadow-[0_0_0_2px_hsl(var(--primary)/0.2)]"
                 : "border-border/60 bg-secondary/60 text-foreground hover:border-primary/50 hover:bg-secondary/80"
             )}
           >
