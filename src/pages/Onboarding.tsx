@@ -178,18 +178,22 @@ const Onboarding = () => {
       </div>
 
       <div className="px-6">
-        <div className="h-1 rounded-full bg-secondary">
-          <div
-            className="h-1 rounded-full bg-primary transition-all duration-500"
-            style={{ width: `${((currentStep + 1) / TOTAL_STEPS) * 100}%` }}
-          />
+        <div className="max-w-lg mx-auto">
+          <div className="h-1 rounded-full bg-secondary">
+            <div
+              className="h-1 rounded-full bg-primary transition-all duration-500"
+              style={{ width: `${((currentStep + 1) / TOTAL_STEPS) * 100}%` }}
+            />
+          </div>
         </div>
       </div>
 
       {currentStep === 0 && (
-        <p className="text-muted-foreground text-sm px-6 mt-6 italic">
-          Let's learn your palate. Takes about 90 seconds.
-        </p>
+        <div className="px-6">
+          <p className="max-w-lg mx-auto text-muted-foreground text-sm mt-6 italic">
+            Let's learn your palate. Takes about 90 seconds.
+          </p>
+        </div>
       )}
 
       <main className="flex-1 flex flex-col px-6 pt-8 pb-6 max-w-lg mx-auto w-full" key={currentStep}>
