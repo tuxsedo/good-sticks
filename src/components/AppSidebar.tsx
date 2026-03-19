@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Star, Package, MessageSquare, Cigarette } from "lucide-react";
+import { Home, Star, Package, MessageSquare, Cigarette, SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const AppSidebar = () => {
@@ -75,8 +75,14 @@ const AppSidebar = () => {
         </nav>
 
         {/* Footer */}
-        <div className="px-4 py-3 border-t border-border/50">
-          <p className="text-xs text-muted-foreground/50">Your best smoke sidekick</p>
+        <div className="px-4 py-3 border-t border-border/50 space-y-1">
+          <button
+            onClick={() => navigate("/onboarding?edit=true")}
+            className="w-full flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-muted-foreground/70 hover:text-foreground hover:bg-secondary/60 transition-colors"
+          >
+            <SlidersHorizontal className="h-3.5 w-3.5" />
+            Edit palate
+          </button>
         </div>
       </div>
 

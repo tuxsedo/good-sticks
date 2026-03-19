@@ -1,4 +1,12 @@
+export const config = { runtime: "edge" };
+
 const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
+
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type",
+};
 
 const STRENGTH_LABELS: Record<string, string> = {
   mild: "Mild",
@@ -109,30 +117,30 @@ HOW TO USE THIS PROFILE:
     prompt += `\n\nThis user hasn't set up a palate profile yet. Ask one targeted question to understand what they're looking for before recommending. Keep it to one question — don't pepper them.`;
   }
 
-  prompt += `\n\nAt the end of every response, on its own line, include exactly:
-|||SUGGESTIONS:["suggestion 1","suggestion 2","suggestion 3"]|||
-
-2–3 short follow-up prompts based on the conversation (e.g., "What pairs with this?", "Something milder", "Tell me more about this blend"). Max 6 words each.`;
+  prompt += `\n\nAt the end of every response, on its own line, include:
+1. |||SUGGESTIONS:["suggestion 1","suggestion 2","suggestion 3"]|||
+   2–3 short follow-up prompts based on the conversation. Max 6 words each.
+2. If (and ONLY if) your response includes a specific cigar recommendation, also include on its own line:
+   |||CIGAR:{"name":"Full Cigar Line Name","brand":"Brand Name"}|||
+   Use the full line name as it appears on the box (e.g. "Liga Privada No. 9", not "Liga Privada").`;
 
   return prompt;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default async function handler(req: any, res: any) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
+export default async function handler(req: Request): Promise<Response> {
   if (req.method === "OPTIONS") {
-    return res.status(204).end();
+    return new Response(null, { status: 204, headers: CORS_HEADERS });
   }
 
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return new Response(JSON.stringify({ error: "Method not allowed" }), {
+      status: 405,
+      headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+    });
   }
 
   try {
-    const { messages, palate } = req.body as {
+    const { messages, palate } = (await req.json()) as {
       messages: ChatMessage[];
       palate: PalateProfile | null;
     };
@@ -146,7 +154,7 @@ export default async function handler(req: any, res: any) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY ?? "",
+        "x-api-key": (globalThis as Record<string, unknown>).ANTHROPIC_API_KEY as string ?? "",
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
@@ -154,27 +162,108 @@ export default async function handler(req: any, res: any) {
         max_tokens: 1024,
         system: buildSystemPrompt(palate),
         messages: apiMessages,
+        stream: true,
       }),
-      signal: AbortSignal.timeout(15000),
     });
 
-    const result = await anthropicResponse.json() as {
-      content: Array<{ type: string; text: string }>;
-      error?: { message: string };
-    };
-
-    if (result.error) {
-      return res.status(500).json({ error: result.error.message });
+    if (!anthropicResponse.ok || !anthropicResponse.body) {
+      const errText = await anthropicResponse.text().catch(() => "Unknown error");
+      return new Response(JSON.stringify({ error: errText }), {
+        status: 500,
+        headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+      });
     }
 
-    const fullText = result.content?.[0]?.text ?? "";
-    const suggestionsMatch = fullText.match(/\|\|\|SUGGESTIONS:(\[.*?\])\|\|\|/s);
-    const suggestions: string[] = suggestionsMatch ? JSON.parse(suggestionsMatch[1]) : [];
-    const text = fullText.replace(/\n*\|\|\|SUGGESTIONS:.*?\|\|\|/s, "").trim();
+    // Stream Anthropic SSE → our SSE, buffering sentinel text
+    const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
+    const writer = writable.getWriter();
+    const encoder = new TextEncoder();
+    const decoder = new TextDecoder();
 
-    return res.status(200).json({ text, suggestions });
+    (async () => {
+      const reader = anthropicResponse.body!.getReader();
+      let lineBuffer = "";
+      let fullText = "";
+      let forwardedLength = 0;
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          lineBuffer += decoder.decode(value, { stream: true });
+          const lines = lineBuffer.split("\n");
+          lineBuffer = lines.pop() ?? "";
+
+          for (const line of lines) {
+            if (!line.startsWith("data: ")) continue;
+            const data = line.slice(6).trim();
+            if (data === "[DONE]") continue;
+
+            try {
+              const event = JSON.parse(data) as {
+                type: string;
+                delta?: { type: string; text: string };
+              };
+              if (event.type === "content_block_delta" && event.delta?.type === "text_delta") {
+                fullText += event.delta.text;
+
+                // Only forward text up to the first ||| sentinel marker
+                const sentinelIdx = fullText.indexOf("|||");
+                const safeEnd = sentinelIdx === -1 ? fullText.length : sentinelIdx;
+
+                if (safeEnd > forwardedLength) {
+                  const chunk = fullText.slice(forwardedLength, safeEnd);
+                  forwardedLength = safeEnd;
+                  await writer.write(
+                    encoder.encode(`data: ${JSON.stringify({ type: "delta", text: chunk })}\n\n`)
+                  );
+                }
+              }
+            } catch {
+              // Skip malformed SSE lines
+            }
+          }
+        }
+
+        // Parse sentinels from complete text
+        const suggestionsMatch = fullText.match(/\|\|\|SUGGESTIONS:(\[.*?\])\|\|\|/s);
+        const suggestions: string[] = suggestionsMatch
+          ? (JSON.parse(suggestionsMatch[1]) as string[])
+          : [];
+
+        const cigarMatch = fullText.match(/\|\|\|CIGAR:(\{.*?\})\|\|\|/s);
+        const cigar = cigarMatch
+          ? (JSON.parse(cigarMatch[1]) as { name: string; brand: string })
+          : null;
+
+        await writer.write(
+          encoder.encode(`data: ${JSON.stringify({ type: "done", suggestions, cigar })}\n\n`)
+        );
+      } catch (err) {
+        await writer.write(
+          encoder.encode(
+            `data: ${JSON.stringify({ type: "error", message: String(err) })}\n\n`
+          )
+        );
+      } finally {
+        await writer.close();
+      }
+    })();
+
+    return new Response(readable, {
+      headers: {
+        ...CORS_HEADERS,
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        "X-Accel-Buffering": "no",
+      },
+    });
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
-    return res.status(500).json({ error: message });
+    return new Response(JSON.stringify({ error: message }), {
+      status: 500,
+      headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
+    });
   }
 }

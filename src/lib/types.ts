@@ -14,11 +14,17 @@ export interface PalateProfile {
   favoriteCigars: string[];
 }
 
+export interface CigarRef {
+  name: string;
+  brand: string;
+}
+
 export interface ChatMessage {
   id: string;
   role: 'user' | 'assistant';
   content: string;
   suggestions?: string[];
+  cigar?: CigarRef | null;
 }
 
 export interface CigarItem {

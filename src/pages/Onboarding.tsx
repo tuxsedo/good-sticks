@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import OnboardingStep from "@/components/OnboardingStep";
 import FavoriteCigarsStep from "@/components/FavoriteCigarsStep";
@@ -75,16 +75,41 @@ const steps = [
 
 const Onboarding = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const isEditMode = searchParams.get("edit") === "true";
   const [currentStep, setCurrentStep] = useState(0);
   const [showCompletion, setShowCompletion] = useState(false);
 
-  const [answers, setAnswers] = useState({
-    experience: "" as string,
-    strength: "" as string,
-    loveFlavors: [] as string[],
-    dislikeFlavors: [] as string[],
-    drinkPairing: "" as string,
-    favoriteCigars: [] as string[],
+  // Pre-fill from localStorage when in edit mode
+  const [answers, setAnswers] = useState(() => {
+    if (isEditMode) {
+      try {
+        const stored = localStorage.getItem("gs_palate");
+        if (stored) {
+          const p = JSON.parse(stored) as Partial<{
+            experience: string; strength: string;
+            loveFlavors: string[]; dislikeFlavors: string[];
+            drinkPairing: string; favoriteCigars: string[];
+          }>;
+          return {
+            experience: p.experience ?? "",
+            strength: p.strength ?? "",
+            loveFlavors: p.loveFlavors ?? [],
+            dislikeFlavors: p.dislikeFlavors ?? [],
+            drinkPairing: p.drinkPairing ?? "",
+            favoriteCigars: p.favoriteCigars ?? [],
+          };
+        }
+      } catch { /* fall through to defaults */ }
+    }
+    return {
+      experience: "" as string,
+      strength: "" as string,
+      loveFlavors: [] as string[],
+      dislikeFlavors: [] as string[],
+      drinkPairing: "" as string,
+      favoriteCigars: [] as string[],
+    };
   });
 
   const isCigarStep = currentStep === 5;
@@ -134,8 +159,12 @@ const Onboarding = () => {
         favoriteCigars: answers.favoriteCigars,
       };
       localStorage.setItem("gs_palate", JSON.stringify(profile));
-      localStorage.setItem("gs_conversations", "0");
-      setShowCompletion(true);
+      if (isEditMode) {
+        navigate("/home");
+      } else {
+        localStorage.setItem("gs_conversations", "0");
+        setShowCompletion(true);
+      }
     }
   };
 

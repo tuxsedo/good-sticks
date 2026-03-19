@@ -2,20 +2,26 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import MessageBubble from "@/components/MessageBubble";
 import { Cigarette, Send } from "lucide-react";
-import type { ChatMessage, PalateProfile } from "@/lib/types";
+import type { ChatMessage, PalateProfile, CigarRef } from "@/lib/types";
 
 const GREETING = `Hey, I'm Ember, your cigar sidekick. I already know your palate, so we can skip the basics.\n\nWhat's on your mind? Looking for a recommendation, curious about a brand, or want to talk about something you smoked recently?`;
 
 const Chat = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { id: "1", role: "assistant", content: GREETING, suggestions: [
-      "Recommend something new",
-      "Best smoke for right now",
-      "How do I find my go-to cigar?",
-    ]},
+    {
+      id: "1",
+      role: "assistant",
+      content: GREETING,
+      suggestions: [
+        "Recommend something new",
+        "Best smoke for right now",
+        "How do I find my go-to cigar?",
+      ],
+    },
   ]);
   const [input, setInput] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);   // shows the dots indicator
+  const [isSending, setIsSending] = useState(false); // disables the input
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const palate: PalateProfile | null = (() => {
@@ -31,14 +37,31 @@ const Chat = () => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
+  const handleSaveToWishlist = (cigar: CigarRef) => {
+    try {
+      const stored = localStorage.getItem("gs_wishlist");
+      const wishlist = stored ? (JSON.parse(stored) as Array<{ id: string; brand: string; name: string; addedAt: string }>) : [];
+      const alreadySaved = wishlist.some(
+        (c) => c.name.toLowerCase() === cigar.name.toLowerCase()
+      );
+      if (!alreadySaved) {
+        wishlist.unshift({ id: Date.now().toString(), brand: cigar.brand, name: cigar.name, addedAt: new Date().toISOString() });
+        localStorage.setItem("gs_wishlist", JSON.stringify(wishlist));
+      }
+    } catch {
+      // localStorage unavailable — silently ignore
+    }
+  };
+
   const handleSend = async (text?: string) => {
     const content = (text || input).trim();
-    if (!content || isTyping) return;
+    if (!content || isSending) return;
 
     const userMsg: ChatMessage = { id: Date.now().toString(), role: "user", content };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setIsTyping(true);
+    setIsSending(true);
 
     const assistantId = (Date.now() + 1).toString();
 
@@ -49,31 +72,97 @@ const Chat = () => {
         body: JSON.stringify({ messages: [...messages, userMsg], palate }),
       });
 
-      const data = await response.json();
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({ error: "Request failed" })) as { error?: string };
+        throw new Error(err.error ?? "Request failed");
+      }
 
-      if (data.error) throw new Error(data.error);
+      if (!response.body) throw new Error("No stream body");
 
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: assistantId,
-          role: "assistant",
-          content: data.text,
-          suggestions: data.suggestions ?? [],
-        },
-      ]);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let lineBuffer = "";
+      let partialContent = "";
+      let messageAdded = false;
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        lineBuffer += decoder.decode(value, { stream: true });
+        const lines = lineBuffer.split("\n");
+        lineBuffer = lines.pop() ?? "";
+
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const data = line.slice(6).trim();
+
+          try {
+            const event = JSON.parse(data) as {
+              type: string;
+              text?: string;
+              suggestions?: string[];
+              cigar?: CigarRef | null;
+              message?: string;
+            };
+
+            if (event.type === "delta" && event.text) {
+              partialContent += event.text;
+
+              // First token: hide typing dots, show partial message
+              if (!messageAdded) {
+                setIsTyping(false);
+                setMessages((prev) => [
+                  ...prev,
+                  { id: assistantId, role: "assistant", content: partialContent },
+                ]);
+                messageAdded = true;
+              } else {
+                setMessages((prev) =>
+                  prev.map((m) =>
+                    m.id === assistantId ? { ...m, content: partialContent } : m
+                  )
+                );
+              }
+            } else if (event.type === "done") {
+              // Finalize: set suggestions + cigar from structured data
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === assistantId
+                    ? {
+                        ...m,
+                        content: partialContent,
+                        suggestions: event.suggestions ?? [],
+                        cigar: event.cigar ?? null,
+                      }
+                    : m
+                )
+              );
+            } else if (event.type === "error") {
+              throw new Error(event.message ?? "Stream error");
+            }
+          } catch (parseErr) {
+            // Skip malformed SSE lines (JSON.parse throws for non-JSON data lines)
+            if (parseErr instanceof SyntaxError) continue;
+            throw parseErr;
+          }
+        }
+      }
     } catch (err) {
       const message = err instanceof Error ? err.message : "Unknown error";
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: assistantId,
-          role: "assistant",
-          content: `Error: ${message}`,
-        },
-      ]);
+      setIsTyping(false);
+      setMessages((prev) => {
+        const hasAssistant = prev.some((m) => m.id === assistantId);
+        if (hasAssistant) {
+          return prev.map((m) =>
+            m.id === assistantId ? { ...m, content: `Something went wrong: ${message}` } : m
+          );
+        }
+        return [...prev, { id: assistantId, role: "assistant", content: `Something went wrong: ${message}` }];
+      });
     } finally {
       setIsTyping(false);
+      setIsSending(false);
     }
   };
 
@@ -104,6 +193,7 @@ const Chat = () => {
             key={msg.id}
             message={msg}
             onSuggestionClick={(s) => handleSend(s)}
+            onSaveToWishlist={handleSaveToWishlist}
           />
         ))}
         {isTyping && (
@@ -137,7 +227,7 @@ const Chat = () => {
             variant="ember"
             size="icon"
             className="h-11 w-11 rounded-xl flex-shrink-0"
-            disabled={!input.trim() || isTyping}
+            disabled={!input.trim() || isSending}
             onClick={() => handleSend()}
           >
             <Send className="h-4 w-4" />
