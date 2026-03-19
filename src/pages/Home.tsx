@@ -13,6 +13,18 @@ const RECOMMENDED_CIGARS = [
 { name: "Liga Privada No. 9", brand: "Drew Estate", strength: "Full", notes: "Leather, earth, dark cocoa" }];
 
 
+const FLAVOR_LABELS: Record<string, string> = {
+  cedar: "Cedar", leather: "Leather", coffee: "Coffee",
+  dark_chocolate: "Dark Chocolate", nuts: "Nuts / Almonds", spice: "Spice",
+  earth: "Earth", cream: "Cream", pepper: "Black Pepper",
+  fruit: "Dried Fruit", floral: "Floral", sweet: "Natural Sweetness",
+};
+
+const STRENGTH_LABELS: Record<string, string> = {
+  mild: "Mild", mild_medium: "Mild-Medium", medium: "Medium",
+  medium_full: "Medium-Full", full: "Full",
+};
+
 const Home = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
@@ -44,7 +56,7 @@ const Home = () => {
         </h1>
         <p className="text-sm text-muted-foreground">
           {palate ?
-          `Based on your palate. ${palate.strength} body, ${palate.loveFlavors.slice(0, 3).join(", ")} lover` :
+          `Based on your palate. ${STRENGTH_LABELS[palate.strength] ?? palate.strength} body, ${palate.loveFlavors.slice(0, 3).map(f => FLAVOR_LABELS[f] ?? f).join(", ")} lover` :
           "Discover cigars tailored to your taste"}
         </p>
       </div>
