@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Plus, X, Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Plus, X, Star, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { VITOLA_OPTIONS, type WishlistCigar, type Vitola } from "@/lib/types";
@@ -7,6 +8,7 @@ import CigarAutocomplete from "@/components/CigarAutocomplete";
 import type { CigarEntry } from "@/lib/cigars";
 
 const Wishlist = () => {
+  const navigate = useNavigate();
   const [cigars, setCigars] = useState<WishlistCigar[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [brand, setBrand] = useState("");
@@ -120,12 +122,22 @@ const Wishlist = () => {
         )}
 
         {cigars.length === 0 && !showForm ? (
-          <div className="text-center py-16">
-            <Star className="h-10 w-10 text-muted-foreground/20 mx-auto mb-3" />
-            <p className="text-sm text-muted-foreground">No cigars on your wishlist yet.</p>
-            <p className="text-xs text-muted-foreground/60 mt-1">
-              Add cigars you want to try, or ask Ember to suggest some.
+          <div className="text-center py-20 px-4">
+            <Star className="h-12 w-12 text-primary/20 mx-auto mb-4" />
+            <p className="text-base font-medium text-foreground mb-1">Nothing on your list yet.</p>
+            <p className="text-sm text-muted-foreground max-w-xs mx-auto mb-6">
+              Add cigars you want to try, or ask Ember to point you toward something worth chasing.
             </p>
+            <div className="flex flex-col sm:flex-row gap-2 justify-center">
+              <Button variant="ember" size="sm" onClick={() => setShowForm(true)}>
+                <Plus className="h-4 w-4 mr-1" />
+                Add a cigar
+              </Button>
+              <Button variant="ember-ghost" size="sm" onClick={() => navigate("/chat")}>
+                <MessageSquare className="h-4 w-4 mr-1" />
+                Ask Ember for suggestions
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="space-y-2">
