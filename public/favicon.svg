@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Dark humidor background -->
+  <rect width="32" height="32" rx="7" fill="#1c1208"/>
+  <!-- Cigar body — angled line in amber/tan -->
+  <line x1="6" y1="20" x2="22" y2="12" stroke="#c8803a" stroke-width="5" stroke-linecap="round"/>
+  <!-- Cigar band — slightly lighter stripe near the middle -->
+  <line x1="15.5" y1="16.8" x2="18.2" y2="15.4" stroke="#e8a050" stroke-width="5.2" stroke-linecap="butt"/>
+  <!-- Lit tip — glowing ember -->
+  <circle cx="24" cy="11" r="3.8" fill="#f97316" opacity="0.25"/>
+  <circle cx="24" cy="11" r="2.4" fill="#f97316" opacity="0.6"/>
+  <circle cx="24" cy="11" r="1.4" fill="#fbbf24"/>
+</svg>

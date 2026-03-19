@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import OnboardingStep from "@/components/OnboardingStep";
 import FavoriteCigarsStep from "@/components/FavoriteCigarsStep";
-import { Cigarette, ArrowRight, SkipForward } from "lucide-react";
+import { Cigarette, ArrowRight, SkipForward, X } from "lucide-react";
 import type { PalateProfile, FlavorNote } from "@/lib/types";
 
 const FLAVOR_OPTIONS = [
@@ -201,9 +201,21 @@ const Onboarding = () => {
           <Cigarette className="h-5 w-5 text-primary" />
           <span className="font-display text-lg font-semibold text-foreground">GoodSticks</span>
         </div>
-        <span className="text-sm text-muted-foreground">
-          {currentStep + 1} of {TOTAL_STEPS}
-        </span>
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-muted-foreground">
+            {currentStep + 1} of {TOTAL_STEPS}
+          </span>
+          {isEditMode && (
+            <button
+              onClick={() => navigate("/home")}
+              className="text-muted-foreground/60 hover:text-foreground transition-colors p-1 -mr-1"
+              title="Cancel"
+              aria-label="Cancel edit"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="px-6">
