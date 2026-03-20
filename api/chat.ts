@@ -154,7 +154,7 @@ export default async function handler(req: Request): Promise<Response> {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": (globalThis as Record<string, unknown>).ANTHROPIC_API_KEY as string ?? "",
+        "x-api-key": process.env.ANTHROPIC_API_KEY ?? "",
         "anthropic-version": "2023-06-01",
       },
       body: JSON.stringify({
