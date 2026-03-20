@@ -19,18 +19,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Load existing session on mount
+    const supabaseConfigured = !!(
+      import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY
+    );
+
+    if (!supabaseConfigured) {
+      setLoading(false);
+      return;
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setLoading(false);
-    });
+    }).catch(() => setLoading(false));
 
-    // Listen for auth changes (sign in, sign out, token refresh)
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         setSession(session);
         if (event === "SIGNED_IN" && session?.user) {
-          // Migrate localStorage data to Supabase on first sign-in
           await migrateFromLocalStorage(session.user.id);
         }
       }
