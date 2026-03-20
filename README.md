@@ -1,73 +1,76 @@
-# Welcome to your Lovable project
+# GoodSticks
 
-## Project info
+An AI cigar guide. Describe your moment — the drink, the mood, the time — and get one confident recommendation tailored to your palate.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+**Live:** [goodsticks.net](https://goodsticks.net)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## What it does
 
-**Use Lovable**
+- 6-question onboarding to build your palate profile (strength, flavor notes, drink pairing)
+- Palate stored in localStorage — no account required
+- Streaming AI recommendations via Claude (Haiku)
+- Humidor tracker and wishlist
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## Stack
 
-**Use your preferred IDE**
+| Layer | Tool |
+|---|---|
+| Framework | Vite + React + TypeScript |
+| Styling | Tailwind CSS + shadcn/ui |
+| AI | Anthropic Claude (`claude-haiku-4-5-20251001`) via Vercel Edge Function |
+| Hosting | Vercel (auto-deploys from `main`) |
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Local development
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+git clone https://github.com/tuxsedo/good-sticks
+cd good-sticks
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Requires an `ANTHROPIC_API_KEY` environment variable. For local dev, create a `.env` file:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project structure
 
-## What technologies are used for this project?
+```
+src/
+├── pages/
+│   ├── Landing.tsx       # Homepage
+│   ├── Onboarding.tsx    # 6-step palate flow
+│   ├── Chat.tsx          # AI recommendation chat
+│   ├── Home.tsx          # Post-onboarding home
+│   ├── Humidor.tsx       # Saved cigars
+│   └── Wishlist.tsx      # Want-to-try list
+├── index.css             # Design tokens, Tailwind layers
+└── App.tsx               # Routing
 
-This project is built with:
+api/
+└── chat.ts               # Vercel Edge Function — Claude API + palate injection
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+---
 
-## How can I deploy this project?
+## Deployment
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Vercel auto-deploys on push to `main`. Environment variables are set in the Vercel dashboard.
 
-## Can I connect a custom domain to my Lovable project?
+The `api/chat.ts` Edge Function requires `ANTHROPIC_API_KEY` to be set in Vercel project settings.
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Design
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Dark theme: near-black background (`hsl(220 20% 7%)`), amber/gold accents (`hsl(25 85% 55%)`), cream text. Playfair Display for headings. Mobile-first — the user is at their humidor with their phone.
