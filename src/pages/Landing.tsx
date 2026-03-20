@@ -27,8 +27,8 @@ const Landing = () => {
           </h1>
 
           <p className="text-lg sm:text-xl text-muted-foreground max-w-lg mx-auto mb-10 leading-relaxed font-light">
-            Talk cigars with GoodSticks — get recommendations tailored to your palate, 
-            build your humidor, and discover your next great smoke.
+            Talk cigars with GoodSticks. Get recommendations tailored to your palate, build your humidor, and discover your next great smoke.
+          
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
