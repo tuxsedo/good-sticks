@@ -43,12 +43,21 @@ interface PalateProfile {
   favoriteCigars: string[];
 }
 
+interface HumidorCigar {
+  id: string;
+  brand: string;
+  name: string;
+  vitola?: string;
+  quantity: number;
+  notes?: string;
+}
+
 interface ChatMessage {
   role: "user" | "assistant";
   content: string;
 }
 
-function buildSystemPrompt(palate: PalateProfile | null): string {
+function buildSystemPrompt(palate: PalateProfile | null, humidor: HumidorCigar[]): string {
   let prompt = `You are Ember, a cigar guide inside the GoodSticks app. You speak like a knowledgeable friend — direct, opinionated, casual but authoritative. Never stuffy.
 
 RESPONSE RULES:
@@ -117,12 +126,28 @@ HOW TO USE THIS PROFILE:
     prompt += `\n\nThis user hasn't set up a palate profile yet. Ask one targeted question to understand what they're looking for before recommending. Keep it to one question — don't pepper them.`;
   }
 
+  if (humidor.length > 0) {
+    const humidorList = humidor
+      .map((c) => `- ${c.brand} ${c.name}${c.vitola ? ` (${c.vitola})` : ""}${c.quantity > 1 ? `, qty ${c.quantity}` : ""}${c.notes ? ` — "${c.notes}"` : ""}`)
+      .join("\n");
+    prompt += `\n\nTHIS USER'S HUMIDOR (cigars they currently own):
+${humidorList}
+
+HUMIDOR RULES:
+- When the user describes a mood, setting, or occasion, check their humidor FIRST. If something there fits well, recommend it — they own it, they can smoke it tonight.
+- When recommending from the humidor, frame it naturally: "You've got X in your humidor — that's the move right now." Don't be robotic about it.
+- A humidor suggestion is only good if it genuinely fits the context. Don't force it just because it's there.
+- When recommending a cigar from the humidor, use the sentinel: |||CIGAR:{"name":"...","brand":"...","fromHumidor":true}|||
+- When recommending something NEW (not in their humidor), use: |||CIGAR:{"name":"...","brand":"...","fromHumidor":false}|||`;
+  }
+
   prompt += `\n\nAt the end of every response, on its own line, include:
 1. |||SUGGESTIONS:["suggestion 1","suggestion 2","suggestion 3"]|||
    2–3 short follow-up prompts based on the conversation. Max 6 words each.
 2. If (and ONLY if) your response includes a specific cigar recommendation, also include on its own line:
-   |||CIGAR:{"name":"Full Cigar Line Name","brand":"Brand Name"}|||
-   Use the full line name as it appears on the box (e.g. "Liga Privada No. 9", not "Liga Privada").`;
+   |||CIGAR:{"name":"Full Cigar Line Name","brand":"Brand Name","fromHumidor":true/false}|||
+   Use the full line name as it appears on the box (e.g. "Liga Privada No. 9", not "Liga Privada").
+   Set fromHumidor to true if recommending from the user's humidor, false if it's a new suggestion.`;
 
   return prompt;
 }
@@ -140,9 +165,10 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   try {
-    const { messages, palate } = (await req.json()) as {
+    const { messages, palate, humidor } = (await req.json()) as {
       messages: ChatMessage[];
       palate: PalateProfile | null;
+      humidor: HumidorCigar[];
     };
 
     let apiMessages = messages.map((m) => ({ role: m.role, content: m.content }));
@@ -160,7 +186,7 @@ export default async function handler(req: Request): Promise<Response> {
       body: JSON.stringify({
         model: "claude-haiku-4-5-20251001",
         max_tokens: 1024,
-        system: buildSystemPrompt(palate),
+        system: buildSystemPrompt(palate, humidor ?? []),
         messages: apiMessages,
         stream: true,
       }),

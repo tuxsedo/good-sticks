@@ -17,6 +17,7 @@ export interface PalateProfile {
 export interface CigarRef {
   name: string;
   brand: string;
+  fromHumidor?: boolean;
 }
 
 export interface ChatMessage {

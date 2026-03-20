@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import MessageBubble from "@/components/MessageBubble";
 import { Cigarette, Send } from "lucide-react";
-import type { ChatMessage, PalateProfile, CigarRef } from "@/lib/types";
+import type { ChatMessage, PalateProfile, CigarRef, HumidorCigar } from "@/lib/types";
 
 const GREETING = `Hey, I'm Ember, your cigar sidekick. I already know your palate, so we can skip the basics.\n\nWhat's on your mind? Looking for a recommendation, curious about a brand, or want to talk about something you smoked recently?`;
 
@@ -33,9 +33,20 @@ const Chat = () => {
     }
   })();
 
+  const humidor: HumidorCigar[] = (() => {
+    try {
+      const stored = localStorage.getItem("gs_humidor");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  })();
+
   useEffect(() => {
-    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
-  }, [messages]);
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [messages, isTyping]);
 
   const handleSaveToWishlist = (cigar: CigarRef) => {
     try {
@@ -69,7 +80,7 @@ const Chat = () => {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...messages, userMsg], palate }),
+        body: JSON.stringify({ messages: [...messages, userMsg], palate, humidor }),
       });
 
       if (!response.ok) {

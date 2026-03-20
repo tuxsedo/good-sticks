@@ -47,8 +47,8 @@ const MessageBubble = ({ message, onSuggestionClick, onSaveToWishlist }: Message
         </div>
       </div>
 
-      {/* Save to Wishlist chip — only shown when Ember included a cigar recommendation */}
-      {!isUser && message.cigar && (
+      {/* Save to Wishlist chip — only shown for new recommendations, not humidor suggestions */}
+      {!isUser && message.cigar && !message.cigar.fromHumidor && (
         <div className="ml-11">
           <button
             onClick={handleSave}
