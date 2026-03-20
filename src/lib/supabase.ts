@@ -4,7 +4,14 @@ import type { PalateProfile, HumidorCigar, WishlistCigar } from "./types";
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn("Supabase env vars not set — auth and sync disabled");
+}
+
+export const supabase = createClient(
+  supabaseUrl || "https://placeholder.supabase.co",
+  supabaseAnonKey || "placeholder"
+);
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
