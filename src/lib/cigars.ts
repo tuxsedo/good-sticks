@@ -83,7 +83,7 @@ export const allCigarEntries: CigarEntry[] = brands.flatMap((b) =>
  * Search cigar lines. Brand-prefix matches are ranked first.
  * Returns up to `limit` results.
  */
-export function searchCigars(query: string, limit = 8): CigarEntry[] {
+export function searchCigars(query: string, limit = 50): CigarEntry[] {
   const q = query.trim().toLowerCase();
   if (!q) return [];
 
@@ -97,7 +97,6 @@ export function searchCigars(query: string, limit = 8): CigarEntry[] {
     } else {
       rest.push(entry);
     }
-    if (first.length + rest.length >= limit * 3) break;
   }
 
   return [...first, ...rest].slice(0, limit);

@@ -5,6 +5,8 @@ import OnboardingStep from "@/components/OnboardingStep";
 import FavoriteCigarsStep from "@/components/FavoriteCigarsStep";
 import { Cigarette, ArrowRight, SkipForward, X } from "lucide-react";
 import type { PalateProfile, FlavorNote } from "@/lib/types";
+import { useAuth } from "@/contexts/AuthContext";
+import { upsertPalate } from "@/lib/supabase";
 
 const FLAVOR_OPTIONS = [
   { value: "cedar", label: "Cedar" },
@@ -77,6 +79,7 @@ const Onboarding = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const isEditMode = searchParams.get("edit") === "true";
+  const { user } = useAuth();
   const [currentStep, setCurrentStep] = useState(0);
   const [showCompletion, setShowCompletion] = useState(false);
 
@@ -159,6 +162,7 @@ const Onboarding = () => {
         favoriteCigars: answers.favoriteCigars,
       };
       localStorage.setItem("gs_palate", JSON.stringify(profile));
+      if (user) upsertPalate(profile);
       if (isEditMode) {
         navigate("/home");
       } else {

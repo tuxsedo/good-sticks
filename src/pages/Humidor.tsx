@@ -15,9 +15,17 @@ import CigarAutocomplete from "@/components/CigarAutocomplete";
 import type { HumidorCigar, CigarReview, Vitola } from "@/lib/types";
 import { VITOLA_OPTIONS } from "@/lib/types";
 import type { CigarEntry } from "@/lib/cigars";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  getHumidor,
+  addHumidorCigar as dbAddHumidorCigar,
+  updateHumidorCigar as dbUpdateHumidorCigar,
+  deleteHumidorCigar as dbDeleteHumidorCigar,
+} from "@/lib/supabase";
 
 const Humidor = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [cigars, setCigars] = useState<HumidorCigar[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [brand, setBrand] = useState("");
@@ -25,17 +33,20 @@ const Humidor = () => {
   const [vitola, setVitola] = useState<Vitola | "">("");
   const [quantity, setQuantity] = useState(1);
   const [reviewCigar, setReviewCigar] = useState<HumidorCigar | null>(null);
-  // Vitola options for the currently selected line (from DB), or fall back to full list
   const [vitolaOptions, setVitolaOptions] = useState<string[]>([...VITOLA_OPTIONS]);
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem("gs_humidor");
-      if (stored) setCigars(JSON.parse(stored));
-    } catch {}
-  }, []);
+    if (user) {
+      getHumidor().then(setCigars);
+    } else {
+      try {
+        const stored = localStorage.getItem("gs_humidor");
+        if (stored) setCigars(JSON.parse(stored));
+      } catch {}
+    }
+  }, [user]);
 
-  const save = (items: HumidorCigar[]) => {
+  const saveLocal = (items: HumidorCigar[]) => {
     setCigars(items);
     localStorage.setItem("gs_humidor", JSON.stringify(items));
   };
@@ -50,17 +61,23 @@ const Humidor = () => {
     setVitolaOptions(shapes);
   };
 
-  const addCigar = () => {
+  const addCigar = async () => {
     if (!name.trim() || !brand.trim()) return;
-    const item: HumidorCigar = {
-      id: Date.now().toString(),
+    const payload = {
       brand: brand.trim(),
       name: name.trim(),
       vitola: vitola || undefined,
       quantity,
-      addedAt: new Date().toISOString(),
+      notes: undefined,
+      reviews: [],
     };
-    save([item, ...cigars]);
+    if (user) {
+      const created = await dbAddHumidorCigar(payload);
+      if (created) setCigars((prev) => [created, ...prev]);
+    } else {
+      const item: HumidorCigar = { id: Date.now().toString(), ...payload, addedAt: new Date().toISOString() };
+      saveLocal([item, ...cigars]);
+    }
     setBrand("");
     setName("");
     setVitola("");
@@ -69,16 +86,29 @@ const Humidor = () => {
     setShowForm(false);
   };
 
-  const removeCigar = (id: string) => save(cigars.filter((c) => c.id !== id));
+  const removeCigar = async (id: string) => {
+    if (user) {
+      await dbDeleteHumidorCigar(id);
+      setCigars((prev) => prev.filter((c) => c.id !== id));
+    } else {
+      saveLocal(cigars.filter((c) => c.id !== id));
+    }
+  };
 
-  const saveReview = (review: CigarReview) => {
+  const saveReview = async (review: CigarReview) => {
     if (!reviewCigar) return;
     const updated = cigars.map((c) =>
       c.id === reviewCigar.id
         ? { ...c, reviews: [...(c.reviews || []), review] }
         : c
     );
-    save(updated);
+    if (user) {
+      const target = updated.find((c) => c.id === reviewCigar.id);
+      if (target) await dbUpdateHumidorCigar(reviewCigar.id, { reviews: target.reviews });
+      setCigars(updated);
+    } else {
+      saveLocal(updated);
+    }
     setReviewCigar(null);
   };
 

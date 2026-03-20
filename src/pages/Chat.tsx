@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import MessageBubble from "@/components/MessageBubble";
 import { Cigarette, Send } from "lucide-react";
 import type { ChatMessage, PalateProfile, CigarRef, HumidorCigar } from "@/lib/types";
+import { useAuth } from "@/contexts/AuthContext";
+import { getPalate, getHumidor, addWishlistCigar } from "@/lib/supabase";
 
 const GREETING = `Hey, I'm Ember, your cigar sidekick. I already know your palate, so we can skip the basics.\n\nWhat's on your mind? Looking for a recommendation, curious about a brand, or want to talk about something you smoked recently?`;
 
@@ -24,23 +26,30 @@ const Chat = () => {
   const [isSending, setIsSending] = useState(false); // disables the input
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const palate: PalateProfile | null = (() => {
+  const { user } = useAuth();
+  const [palate, setPalate] = useState<PalateProfile | null>(() => {
     try {
       const stored = localStorage.getItem("gs_palate");
       return stored ? JSON.parse(stored) : null;
     } catch {
       return null;
     }
-  })();
-
-  const humidor: HumidorCigar[] = (() => {
+  });
+  const [humidor, setHumidor] = useState<HumidorCigar[]>(() => {
     try {
       const stored = localStorage.getItem("gs_humidor");
       return stored ? JSON.parse(stored) : [];
     } catch {
       return [];
     }
-  })();
+  });
+
+  // When signed in, load palate + humidor from Supabase
+  useEffect(() => {
+    if (!user) return;
+    getPalate().then((p) => { if (p) setPalate(p); });
+    getHumidor().then(setHumidor);
+  }, [user]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -48,19 +57,19 @@ const Chat = () => {
     }
   }, [messages, isTyping]);
 
-  const handleSaveToWishlist = (cigar: CigarRef) => {
-    try {
-      const stored = localStorage.getItem("gs_wishlist");
-      const wishlist = stored ? (JSON.parse(stored) as Array<{ id: string; brand: string; name: string; addedAt: string }>) : [];
-      const alreadySaved = wishlist.some(
-        (c) => c.name.toLowerCase() === cigar.name.toLowerCase()
-      );
-      if (!alreadySaved) {
-        wishlist.unshift({ id: Date.now().toString(), brand: cigar.brand, name: cigar.name, addedAt: new Date().toISOString() });
-        localStorage.setItem("gs_wishlist", JSON.stringify(wishlist));
-      }
-    } catch {
-      // localStorage unavailable — silently ignore
+  const handleSaveToWishlist = async (cigar: CigarRef) => {
+    if (user) {
+      await addWishlistCigar({ brand: cigar.brand, name: cigar.name });
+    } else {
+      try {
+        const stored = localStorage.getItem("gs_wishlist");
+        const wishlist = stored ? (JSON.parse(stored) as Array<{ id: string; brand: string; name: string; addedAt: string }>) : [];
+        const alreadySaved = wishlist.some((c) => c.name.toLowerCase() === cigar.name.toLowerCase());
+        if (!alreadySaved) {
+          wishlist.unshift({ id: Date.now().toString(), brand: cigar.brand, name: cigar.name, addedAt: new Date().toISOString() });
+          localStorage.setItem("gs_wishlist", JSON.stringify(wishlist));
+        }
+      } catch {}
     }
   };
 

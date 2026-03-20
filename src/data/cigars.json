@@ -1448,6 +1448,33 @@
         ],
         "binder": "Nicaragua",
         "filler": "Nicaragua (Esteli)"
+      },
+      {
+        "name": "Drew Estate Undercrown 10",
+        "wrapper": "Mexican San Andrés Maduro",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ],
+        "binder": "Nicaragua",
+        "filler": "Nicaragua (Esteli)"
       }
     ]
   },
@@ -3136,6 +3163,39 @@
             "length": "6.0",
             "ring_gauge": 60,
             "shape": "Gordo"
+          }
+        ],
+        "binder": "Nicaragua",
+        "filler": "Nicaragua (Jalapa)"
+      },
+      {
+        "name": "My Father The Judge",
+        "wrapper": "Connecticut Broadleaf Maduro",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Petit Robusto",
+            "length": "4.0",
+            "ring_gauge": 54,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 54,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 54,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 54,
+            "shape": "Churchill"
           }
         ],
         "binder": "Nicaragua",

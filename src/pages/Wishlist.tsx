@@ -6,9 +6,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { VITOLA_OPTIONS, type WishlistCigar, type Vitola } from "@/lib/types";
 import CigarAutocomplete from "@/components/CigarAutocomplete";
 import type { CigarEntry } from "@/lib/cigars";
+import { useAuth } from "@/contexts/AuthContext";
+import { getWishlist, addWishlistCigar as dbAddWishlistCigar, deleteWishlistCigar as dbDeleteWishlistCigar } from "@/lib/supabase";
 
 const Wishlist = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [cigars, setCigars] = useState<WishlistCigar[]>([]);
   const [showForm, setShowForm] = useState(false);
   const [brand, setBrand] = useState("");
@@ -32,27 +35,31 @@ const Wishlist = () => {
   };
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem("gs_wishlist");
-      if (stored) setCigars(JSON.parse(stored));
-    } catch {}
-  }, []);
+    if (user) {
+      getWishlist().then(setCigars);
+    } else {
+      try {
+        const stored = localStorage.getItem("gs_wishlist");
+        if (stored) setCigars(JSON.parse(stored));
+      } catch {}
+    }
+  }, [user]);
 
-  const save = (items: WishlistCigar[]) => {
+  const saveLocal = (items: WishlistCigar[]) => {
     setCigars(items);
     localStorage.setItem("gs_wishlist", JSON.stringify(items));
   };
 
-  const addCigar = () => {
+  const addCigar = async () => {
     if (!name.trim()) return;
-    const item: WishlistCigar = {
-      id: Date.now().toString(),
-      brand: brand.trim(),
-      name: name.trim(),
-      vitola: vitola || undefined,
-      addedAt: new Date().toISOString(),
-    };
-    save([item, ...cigars]);
+    const payload = { brand: brand.trim(), name: name.trim(), vitola: vitola || undefined, notes: undefined };
+    if (user) {
+      const created = await dbAddWishlistCigar(payload);
+      if (created) setCigars((prev) => [created, ...prev]);
+    } else {
+      const item: WishlistCigar = { id: Date.now().toString(), ...payload, addedAt: new Date().toISOString() };
+      saveLocal([item, ...cigars]);
+    }
     setBrand("");
     setName("");
     setVitola("");
@@ -60,8 +67,13 @@ const Wishlist = () => {
     setShowForm(false);
   };
 
-  const removeCigar = (id: string) => {
-    save(cigars.filter((c) => c.id !== id));
+  const removeCigar = async (id: string) => {
+    if (user) {
+      await dbDeleteWishlistCigar(id);
+      setCigars((prev) => prev.filter((c) => c.id !== id));
+    } else {
+      saveLocal(cigars.filter((c) => c.id !== id));
+    }
   };
 
   return (
