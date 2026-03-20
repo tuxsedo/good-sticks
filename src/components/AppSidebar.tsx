@@ -128,22 +128,35 @@ const AppSidebar = () => {
             Edit palate
           </button>
 
-          {/* Profile / Auth button */}
+            {/* Profile / Auth button */}
           <button
             onClick={openSheet}
-            className="w-full flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-muted-foreground/70 hover:text-foreground hover:bg-secondary/60 transition-colors"
+            className={cn(
+              "w-full flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors",
+              user
+                ? "hover:bg-secondary/60"
+                : "border border-primary/40 bg-primary/5 hover:bg-primary/10"
+            )}
           >
             {user ? (
               <>
-                <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary flex-shrink-0">
+                <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-bold text-primary flex-shrink-0">
                   {userInitials}
                 </div>
-                <span className="truncate">{user.email}</span>
+                <div className="min-w-0 text-left">
+                  <p className="text-xs font-medium text-foreground truncate">{user.email}</p>
+                  <p className="text-[10px] text-muted-foreground">Account</p>
+                </div>
               </>
             ) : (
               <>
-                <UserCircle className="h-3.5 w-3.5 flex-shrink-0" />
-                Sign in to save data
+                <div className="h-8 w-8 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0">
+                  <UserCircle className="h-4 w-4 text-primary" />
+                </div>
+                <div className="text-left">
+                  <p className="text-xs font-medium text-foreground">Sign in</p>
+                  <p className="text-[10px] text-muted-foreground">Save your data</p>
+                </div>
               </>
             )}
           </button>
@@ -169,16 +182,20 @@ const AppSidebar = () => {
         {/* Profile tab */}
         <button
           onClick={openSheet}
-          className="flex flex-col items-center gap-1 px-4 py-2 text-xs transition-colors min-w-0 text-muted-foreground"
+          className="flex flex-col items-center gap-1 px-4 py-2 text-xs transition-colors min-w-0"
         >
           {user ? (
-            <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">
+            <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">
               {userInitials}
             </div>
           ) : (
-            <UserCircle className="h-5 w-5" />
+            <div className="h-6 w-6 rounded-full border border-primary/50 bg-primary/10 flex items-center justify-center">
+              <UserCircle className="h-4 w-4 text-primary" />
+            </div>
           )}
-          <span className="truncate">{user ? "Profile" : "Sign in"}</span>
+          <span className={cn("truncate", user ? "text-muted-foreground" : "text-primary font-medium")}>
+            {user ? "Profile" : "Sign in"}
+          </span>
         </button>
       </nav>
 
