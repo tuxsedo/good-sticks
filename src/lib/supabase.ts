@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import type { PalateProfile, HumidorCigar, WishlistCigar } from "./types";
+import type { PalateProfile, HumidorCigar, WishlistCigar, SmokeLogEntry } from "./types";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
@@ -183,6 +183,50 @@ export const migrateFromLocalStorage = async (userId: string): Promise<void> => 
   }
 };
 
+// ── Smoke Log ─────────────────────────────────────────────────────────────────
+
+export const getSmokeLog = async (): Promise<SmokeLogEntry[]> => {
+  const { data } = await supabase
+    .from("smoke_log")
+    .select("*")
+    .order("smoked_at", { ascending: false })
+    .limit(10);
+  if (!data) return [];
+  return data.map(rowToSmokeLogEntry);
+};
+
+export const addSmokeLog = async (
+  entry: Omit<SmokeLogEntry, "id" | "smokedAt">
+): Promise<SmokeLogEntry | null> => {
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+  const { data, error } = await supabase
+    .from("smoke_log")
+    .insert({
+      user_id: user.id,
+      brand: entry.brand,
+      name: entry.name,
+      vitola: entry.vitola ?? null,
+      rating: entry.rating,
+      note: entry.note ?? null,
+      draw: entry.draw ?? null,
+      burn: entry.burn ?? null,
+      construction: entry.construction ?? null,
+    })
+    .select()
+    .single();
+  if (error) {
+    console.error("addSmokeLog error:", error.message);
+    return null;
+  }
+  if (!data) return null;
+  return rowToSmokeLogEntry(data);
+};
+
+export const deleteSmokeLog = async (id: string): Promise<void> => {
+  await supabase.from("smoke_log").delete().eq("id", id);
+};
+
 // ── Row mappers ───────────────────────────────────────────────────────────────
 
 function rowToHumidorCigar(row: Record<string, unknown>): HumidorCigar {
@@ -206,5 +250,20 @@ function rowToWishlistCigar(row: Record<string, unknown>): WishlistCigar {
     vitola: (row.vitola as string) ?? undefined,
     notes: (row.notes as string) ?? undefined,
     addedAt: row.added_at as string,
+  };
+}
+
+function rowToSmokeLogEntry(row: Record<string, unknown>): SmokeLogEntry {
+  return {
+    id: row.id as string,
+    brand: row.brand as string,
+    name: row.name as string,
+    vitola: (row.vitola as string) ?? undefined,
+    rating: row.rating as number,
+    note: (row.note as string) ?? undefined,
+    smokedAt: row.smoked_at as string,
+    draw: (row.draw as number) ?? undefined,
+    burn: (row.burn as number) ?? undefined,
+    construction: (row.construction as number) ?? undefined,
   };
 }

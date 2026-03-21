@@ -2,9 +2,9 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import MessageBubble from "@/components/MessageBubble";
 import { Cigarette, Send } from "lucide-react";
-import type { ChatMessage, PalateProfile, CigarRef, HumidorCigar } from "@/lib/types";
+import type { ChatMessage, PalateProfile, CigarRef, HumidorCigar, SmokeLogEntry } from "@/lib/types";
 import { useAuth } from "@/contexts/AuthContext";
-import { getPalate, getHumidor, addWishlistCigar } from "@/lib/supabase";
+import { getPalate, getHumidor, getSmokeLog, addWishlistCigar } from "@/lib/supabase";
 
 const GREETING = `Hey, I'm Ember, your cigar sidekick. I already know your palate, so we can skip the basics.\n\nWhat's on your mind? Looking for a recommendation, curious about a brand, or want to talk about something you smoked recently?`;
 
@@ -43,12 +43,21 @@ const Chat = () => {
       return [];
     }
   });
+  const [smokeLog, setSmokeLog] = useState<SmokeLogEntry[]>(() => {
+    try {
+      const stored = localStorage.getItem("gs_smoke_log");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
 
-  // When signed in, load palate + humidor from Supabase
+  // When signed in, load palate + humidor + smoke log from Supabase (fresh on every mount)
   useEffect(() => {
     if (!user) return;
     getPalate().then((p) => { if (p) setPalate(p); });
     getHumidor().then(setHumidor);
+    getSmokeLog().then(setSmokeLog);
   }, [user]);
 
   useEffect(() => {
@@ -89,7 +98,7 @@ const Chat = () => {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...messages, userMsg], palate, humidor }),
+        body: JSON.stringify({ messages: [...messages, userMsg], palate, humidor, smokeLog }),
       });
 
       if (!response.ok) {

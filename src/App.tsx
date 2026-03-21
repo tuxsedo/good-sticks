@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Wishlist from "./pages/Wishlist";
 import Humidor from "./pages/Humidor";
 import Chat from "./pages/Chat";
+import SmokeLog from "./pages/SmokeLog";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/wishlist" element={<Wishlist />} />
             <Route path="/humidor" element={<Humidor />} />
             <Route path="/chat" element={<Chat />} />
+            <Route path="/log" element={<SmokeLog />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

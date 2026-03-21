@@ -52,12 +52,21 @@ interface HumidorCigar {
   notes?: string;
 }
 
+interface SmokeLogEntry {
+  id: string;
+  brand: string;
+  name: string;
+  rating: number; // 1-5
+  note?: string;
+  smokedAt: string;
+}
+
 interface ChatMessage {
   role: "user" | "assistant";
   content: string;
 }
 
-function buildSystemPrompt(palate: PalateProfile | null, humidor: HumidorCigar[]): string {
+function buildSystemPrompt(palate: PalateProfile | null, humidor: HumidorCigar[], smokeLog: SmokeLogEntry[] = []): string {
   let prompt = `You are Ember, a cigar guide inside the GoodSticks app. You speak like a knowledgeable friend — direct, opinionated, casual but authoritative. Never stuffy.
 
 RESPONSE RULES:
@@ -141,6 +150,21 @@ HUMIDOR RULES:
 - When recommending something NEW (not in their humidor), use: |||CIGAR:{"name":"...","brand":"...","fromHumidor":false}|||`;
   }
 
+  if (smokeLog.length > 0) {
+    const historyList = smokeLog
+      .map((e) => `- ${e.brand} ${e.name} — ${e.rating}/5${e.note ? ` — "${e.note}"` : ""}`)
+      .join("\n");
+    prompt += `\n\nSMOKE HISTORY (what this user has actually smoked and rated — most recent first):
+${historyList}
+
+PATTERN SYNTHESIS RULES:
+- If 3+ smokes logged, identify the dominant strength tier and wrapper style from the history
+- Reference specific past smokes by name when recommending something similar or different (e.g. "like your ${smokeLog[0].brand} ${smokeLog[0].name}")
+- If a recommended cigar is similar to a highly-rated smoke (4-5/5), say so explicitly
+- If similar to a low-rated smoke, acknowledge it and explain what's different
+- Never recommend a cigar they already logged (unless they ask directly)`;
+  }
+
   prompt += `\n\nAt the end of every response, on its own line, include:
 1. |||SUGGESTIONS:["suggestion 1","suggestion 2","suggestion 3"]|||
    2–3 short follow-up prompts based on the conversation. Max 6 words each.
@@ -165,10 +189,11 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   try {
-    const { messages, palate, humidor } = (await req.json()) as {
+    const { messages, palate, humidor, smokeLog = [] } = (await req.json()) as {
       messages: ChatMessage[];
       palate: PalateProfile | null;
       humidor: HumidorCigar[];
+      smokeLog?: SmokeLogEntry[];
     };
 
     let apiMessages = messages.map((m) => ({ role: m.role, content: m.content }));
@@ -186,7 +211,7 @@ export default async function handler(req: Request): Promise<Response> {
       body: JSON.stringify({
         model: "claude-haiku-4-5-20251001",
         max_tokens: 1024,
-        system: buildSystemPrompt(palate, humidor ?? []),
+        system: buildSystemPrompt(palate, humidor ?? [], smokeLog),
         messages: apiMessages,
         stream: true,
       }),

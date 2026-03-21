@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Star, Package, MessageSquare, Cigarette, SlidersHorizontal, UserCircle, LogOut, Loader2 } from "lucide-react";
+import { Home, Star, Package, MessageSquare, Cigarette, SlidersHorizontal, UserCircle, LogOut, Loader2, Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { sendMagicLink, signOut } from "@/lib/supabase";
@@ -116,6 +116,7 @@ const AppSidebar = () => {
 
           {navItem("/wishlist", <Star className="h-4 w-4" />, "Wishlist")}
           {navItem("/humidor", <Package className="h-4 w-4" />, "My Humidor")}
+          {navItem("/log", <Flame className="h-4 w-4" />, "Smoke Log")}
         </nav>
 
         {/* Footer */}
@@ -178,6 +179,7 @@ const AppSidebar = () => {
         )}
         {bottomNavItem("/wishlist", <Star className="h-5 w-5" />, "Wishlist")}
         {bottomNavItem("/humidor", <Package className="h-5 w-5" />, "Humidor")}
+        {bottomNavItem("/log", <Flame className="h-5 w-5" />, "Log")}
 
         {/* Profile tab */}
         <button

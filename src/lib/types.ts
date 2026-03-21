@@ -94,3 +94,18 @@ export interface WishlistCigar {
   addedAt: string;
   notes?: string;
 }
+
+// Unified 1-5 rating scale (matches CigarReview — Vivino model).
+// Sub-ratings (draw, burn, construction) are optional.
+export interface SmokeLogEntry {
+  id: string;
+  brand: string;
+  name: string;
+  vitola?: string;
+  rating: number;          // 1-5
+  note?: string;
+  smokedAt: string;        // ISO timestamp
+  draw?: number;           // 1-5, optional
+  burn?: number;           // 1-5, optional
+  construction?: number;   // 1-5, optional
+}
