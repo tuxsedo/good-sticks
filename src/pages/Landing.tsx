@@ -1,9 +1,20 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Cigarette } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Landing = () => {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading && user) {
+      navigate("/chat", { replace: true });
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) return null;
 
   return (
     <div className="min-h-screen landing-bg flex flex-col">
