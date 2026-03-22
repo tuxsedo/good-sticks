@@ -56,8 +56,26 @@ const Chat = () => {
   useEffect(() => {
     if (!user) return;
     getPalate().then((p) => { if (p) setPalate(p); });
-    getHumidor().then(setHumidor);
-    getSmokeLog().then(setSmokeLog);
+    getHumidor().then((h) => {
+      setHumidor(h);
+      // Merge humidor reviews into smoke log so Ember sees all rated smokes
+      const humidorEntries: SmokeLogEntry[] = h.flatMap((cigar) =>
+        (cigar.reviews ?? []).map((review) => ({
+          id: `humidor-${review.id}`,
+          brand: cigar.brand,
+          name: cigar.name,
+          rating: review.rating,
+          note: review.notes,
+          smokedAt: review.reviewedAt,
+        }))
+      );
+      getSmokeLog().then((log) => {
+        const merged = [...log, ...humidorEntries].sort(
+          (a, b) => new Date(b.smokedAt).getTime() - new Date(a.smokedAt).getTime()
+        );
+        setSmokeLog(merged);
+      });
+    });
   }, [user]);
 
   useEffect(() => {

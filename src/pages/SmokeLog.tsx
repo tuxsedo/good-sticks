@@ -1,24 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, Flame, Trash2, MessageSquare, Star } from "lucide-react";
+import { Plus, Flame, Trash2, MessageSquare, Star, Package } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import CigarAutocomplete from "@/components/CigarAutocomplete";
-import type { SmokeLogEntry } from "@/lib/types";
+import type { SmokeLogEntry, HumidorCigar } from "@/lib/types";
 import type { CigarEntry } from "@/lib/cigars";
 import { useAuth } from "@/contexts/AuthContext";
-import { getSmokeLog, addSmokeLog as dbAddSmokeLog, deleteSmokeLog as dbDeleteSmokeLog } from "@/lib/supabase";
+import { getSmokeLog, addSmokeLog as dbAddSmokeLog, deleteSmokeLog as dbDeleteSmokeLog, getHumidor } from "@/lib/supabase";
 
-// computeInsight: scans cigar name only (not notes — avoids false positives
-// like "great with espresso" triggering on note keywords)
+// computeInsight: scans cigar name only (not notes — avoids false positives)
 function computeInsight(log: SmokeLogEntry[]): string {
   if (log.length < 3) return "";
-
-  const maduros = log.filter((e) =>
-    e.name.toLowerCase().includes("maduro")
-  );
+  const maduros = log.filter((e) => e.name.toLowerCase().includes("maduro"));
   const topRated = log.filter((e) => e.rating >= 4);
-
   if (maduros.length >= Math.ceil(log.length * 0.5)) {
     return `${maduros.length} of your last ${log.length} smokes have been maduros. That's your tell.`;
   }
@@ -29,13 +24,26 @@ function computeInsight(log: SmokeLogEntry[]): string {
   return `You've logged ${log.length} smokes. Keep going — patterns are starting to emerge.`;
 }
 
-const StarBar = ({
-  value,
-  onChange,
-}: {
-  value: number;
-  onChange: (v: number) => void;
-}) => (
+/** Convert humidor reviews into SmokeLogEntry shape for merged display */
+function humidorReviewsToEntries(humidor: HumidorCigar[]): (SmokeLogEntry & { _fromHumidor: true })[] {
+  return humidor.flatMap((cigar) =>
+    (cigar.reviews ?? []).map((review) => ({
+      id: `humidor-${review.id}`,
+      brand: cigar.brand,
+      name: cigar.name,
+      vitola: cigar.vitola as string | undefined,
+      rating: review.rating,
+      note: review.notes,
+      smokedAt: review.reviewedAt,
+      draw: review.draw,
+      burn: review.burn,
+      construction: review.construction,
+      _fromHumidor: true as const,
+    }))
+  );
+}
+
+const StarBar = ({ value, onChange }: { value: number; onChange: (v: number) => void }) => (
   <div className="flex gap-1">
     {[1, 2, 3, 4, 5].map((star) => (
       <button
@@ -46,9 +54,7 @@ const StarBar = ({
       >
         <Star
           className={`h-6 w-6 transition-colors ${
-            star <= value
-              ? "fill-primary text-primary"
-              : "fill-none text-muted-foreground/30"
+            star <= value ? "fill-primary text-primary" : "fill-none text-muted-foreground/30"
           }`}
         />
       </button>
@@ -59,7 +65,12 @@ const StarBar = ({
 const SmokeLog = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [entries, setEntries] = useState<SmokeLogEntry[]>([]);
+
+  // Smoke-log entries (from smoke_log table or localStorage)
+  const [logEntries, setLogEntries] = useState<SmokeLogEntry[]>([]);
+  // Humidor reviews flattened as smoke log entries
+  const [humidorEntries, setHumidorEntries] = useState<(SmokeLogEntry & { _fromHumidor: true })[]>([]);
+
   const [showForm, setShowForm] = useState(false);
 
   // Form state
@@ -69,19 +80,32 @@ const SmokeLog = () => {
   const [note, setNote] = useState("");
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
+  // All entries merged + sorted newest first
+  const allEntries = [...logEntries, ...humidorEntries].sort(
+    (a, b) => new Date(b.smokedAt).getTime() - new Date(a.smokedAt).getTime()
+  );
+
+  const loadAll = useCallback(async () => {
     if (user) {
-      getSmokeLog().then(setEntries);
+      const [log, humidor] = await Promise.all([getSmokeLog(), getHumidor()]);
+      setLogEntries(log);
+      setHumidorEntries(humidorReviewsToEntries(humidor));
     } else {
       try {
-        const stored = localStorage.getItem("gs_smoke_log");
-        if (stored) setEntries(JSON.parse(stored));
+        const logRaw = localStorage.getItem("gs_smoke_log");
+        if (logRaw) setLogEntries(JSON.parse(logRaw));
+        const humidorRaw = localStorage.getItem("gs_humidor");
+        if (humidorRaw) setHumidorEntries(humidorReviewsToEntries(JSON.parse(humidorRaw)));
       } catch {}
     }
   }, [user]);
 
-  const saveLocal = (items: SmokeLogEntry[]) => {
-    setEntries(items);
+  useEffect(() => {
+    loadAll();
+  }, [loadAll]);
+
+  const saveLocalLog = (items: SmokeLogEntry[]) => {
+    setLogEntries(items);
     localStorage.setItem("gs_smoke_log", JSON.stringify(items));
   };
 
@@ -102,39 +126,56 @@ const SmokeLog = () => {
     if (!brand.trim() || !name.trim() || rating === 0) return;
     setSaving(true);
 
-    const payload = {
+    // Build a temp entry for immediate optimistic display
+    const tempEntry: SmokeLogEntry = {
+      id: `local-${Date.now()}`,
       brand: brand.trim(),
       name: name.trim(),
       rating,
       note: note.trim() || undefined,
+      smokedAt: new Date().toISOString(),
     };
 
-    if (user) {
-      const created = await dbAddSmokeLog(payload);
-      if (created) setEntries((prev) => [created, ...prev]);
-    } else {
-      const item: SmokeLogEntry = {
-        id: Date.now().toString(),
-        ...payload,
-        smokedAt: new Date().toISOString(),
-      };
-      saveLocal([item, ...entries]);
+    // --- Optimistic update: show immediately regardless of Supabase state ---
+    setLogEntries((prev) => [tempEntry, ...prev]);
+    // For unauthenticated users, also persist to localStorage right away
+    if (!user) {
+      const next = [tempEntry, ...logEntries];
+      localStorage.setItem("gs_smoke_log", JSON.stringify(next));
     }
 
     setSaving(false);
     resetForm();
+
+    // --- Background Supabase sync for authenticated users ---
+    if (user) {
+      const created = await dbAddSmokeLog({
+        brand: tempEntry.brand,
+        name: tempEntry.name,
+        rating: tempEntry.rating,
+        note: tempEntry.note,
+      });
+      if (created) {
+        // Swap temp entry for the real DB record (gets a proper UUID)
+        setLogEntries((prev) => prev.map((e) => (e.id === tempEntry.id ? created : e)));
+      }
+      // If Supabase failed (table missing, RLS error, etc.), the entry remains
+      // visible via optimistic state — user isn't blocked.
+    }
   };
 
   const removeEntry = async (id: string) => {
     if (user) {
       await dbDeleteSmokeLog(id);
-      setEntries((prev) => prev.filter((e) => e.id !== id));
-    } else {
-      saveLocal(entries.filter((e) => e.id !== id));
     }
+    setLogEntries((prev) => {
+      const next = prev.filter((e) => e.id !== id);
+      if (!user) localStorage.setItem("gs_smoke_log", JSON.stringify(next));
+      return next;
+    });
   };
 
-  const insight = computeInsight(entries);
+  const insight = computeInsight(allEntries);
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
@@ -162,11 +203,11 @@ const SmokeLog = () => {
             <Flame className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
             <span>{insight}</span>
           </div>
-        ) : entries.length < 3 ? (
+        ) : allEntries.length < 3 ? (
           <div className="rounded-xl border border-border/40 bg-secondary/20 px-4 py-3 text-sm text-muted-foreground flex items-start gap-2">
             <Flame className="h-4 w-4 text-primary/40 mt-0.5 flex-shrink-0" />
             <span>
-              Log {3 - entries.length} more smoke{3 - entries.length !== 1 ? "s" : ""} and Ember will start to see your pattern.
+              Log {Math.max(0, 3 - allEntries.length)} more smoke{3 - allEntries.length !== 1 ? "s" : ""} and Ember will start to see your pattern.
             </span>
           </div>
         ) : null}
@@ -218,7 +259,7 @@ const SmokeLog = () => {
         )}
 
         {/* Empty state */}
-        {entries.length === 0 && !showForm ? (
+        {allEntries.length === 0 && !showForm ? (
           <div className="text-center py-20 px-4">
             <Flame className="h-12 w-12 text-primary/20 mx-auto mb-4" />
             <p className="text-base font-medium text-foreground mb-1">
@@ -238,7 +279,7 @@ const SmokeLog = () => {
               </Button>
             </div>
           </div>
-        ) : entries.length > 0 ? (
+        ) : allEntries.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -252,36 +293,54 @@ const SmokeLog = () => {
                 </tr>
               </thead>
               <tbody>
-                {entries.map((entry) => (
-                  <tr
-                    key={entry.id}
-                    className="border-b border-border/30 group hover:bg-secondary/20 transition-colors"
-                  >
-                    <td className="py-3 text-sm text-foreground/80">{entry.brand}</td>
-                    <td className="py-3 text-sm font-medium text-foreground">{entry.name}</td>
-                    <td className="py-3 text-sm">
-                      <span className="flex items-center gap-1 text-primary">
-                        <Star className="h-3.5 w-3.5 fill-primary" />
-                        {entry.rating}/5
-                      </span>
-                    </td>
-                    <td className="py-3 text-sm text-muted-foreground max-w-[200px] truncate">
-                      {entry.note ?? <span className="text-muted-foreground/30">—</span>}
-                    </td>
-                    <td className="py-3 text-sm text-muted-foreground whitespace-nowrap">
-                      {format(new Date(entry.smokedAt), "MMM d, yyyy")}
-                    </td>
-                    <td className="py-3">
-                      <button
-                        onClick={() => removeEntry(entry.id)}
-                        className="text-muted-foreground/30 hover:text-foreground transition-colors p-1 opacity-0 group-hover:opacity-100"
-                        title="Delete"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {allEntries.map((entry) => {
+                  const fromHumidor = "_fromHumidor" in entry && entry._fromHumidor;
+                  return (
+                    <tr
+                      key={entry.id}
+                      className="border-b border-border/30 group hover:bg-secondary/20 transition-colors"
+                    >
+                      <td className="py-3 text-sm text-foreground/80">{entry.brand}</td>
+                      <td className="py-3 text-sm font-medium text-foreground">
+                        <span className="flex items-center gap-1.5">
+                          {entry.name}
+                          {fromHumidor && (
+                            <span
+                              title="Rated in My Humidor"
+                              className="inline-flex items-center gap-0.5 rounded px-1 py-0.5 text-[10px] font-medium bg-secondary/60 text-muted-foreground"
+                            >
+                              <Package className="h-2.5 w-2.5" />
+                              humidor
+                            </span>
+                          )}
+                        </span>
+                      </td>
+                      <td className="py-3 text-sm">
+                        <span className="flex items-center gap-1 text-primary">
+                          <Star className="h-3.5 w-3.5 fill-primary" />
+                          {entry.rating}/5
+                        </span>
+                      </td>
+                      <td className="py-3 text-sm text-muted-foreground max-w-[200px] truncate">
+                        {entry.note ?? <span className="text-muted-foreground/30">—</span>}
+                      </td>
+                      <td className="py-3 text-sm text-muted-foreground whitespace-nowrap">
+                        {format(new Date(entry.smokedAt), "MMM d, yyyy")}
+                      </td>
+                      <td className="py-3">
+                        {!fromHumidor && (
+                          <button
+                            onClick={() => removeEntry(entry.id)}
+                            className="text-muted-foreground/30 hover:text-foreground transition-colors p-1 opacity-0 group-hover:opacity-100"
+                            title="Delete"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
