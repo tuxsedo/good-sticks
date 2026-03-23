@@ -59,29 +59,6 @@ const Landing = () => {
         </div>
       </main>
 
-      {/* How It Works */}
-      <div className="px-6 pb-12 max-w-3xl mx-auto w-full">
-        <h3 className="font-display text-lg font-semibold text-foreground text-center mb-6">How It Works</h3>
-        <div className="grid gap-3 sm:grid-cols-3">
-          {[
-            { step: "1", title: "Build Your Palate", desc: "Tell us your strength preference and favorite flavors during onboarding." },
-            { step: "2", title: "Ask Ember", desc: "Chat with your AI cigar sidekick for personalized recommendations anytime." },
-            { step: "3", title: "Track & Collect", desc: "Log your smokes, rate cigars, build your humidor, and grow your wishlist." },
-          ].map((item) => (
-            <div
-              key={item.step}
-              className="rounded-xl border border-border/50 bg-card/50 p-4 flex flex-col gap-2"
-            >
-              <span className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-primary/15 text-primary text-xs font-bold shrink-0">
-                {item.step}
-              </span>
-              <p className="text-sm font-semibold text-foreground">{item.title}</p>
-              <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
       <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
     </div>);
 
