@@ -7,7 +7,7 @@ import CigarAutocomplete from "@/components/CigarAutocomplete";
 import type { SmokeLogEntry, HumidorCigar } from "@/lib/types";
 import type { CigarEntry } from "@/lib/cigars";
 import { useAuth } from "@/contexts/AuthContext";
-import { getSmokeLog, addSmokeLog as dbAddSmokeLog, updateSmokeLog as dbUpdateSmokeLog, deleteSmokeLog as dbDeleteSmokeLog, getHumidor } from "@/lib/supabase";
+import { getSmokeLog, addSmokeLog as dbAddSmokeLog, updateSmokeLog as dbUpdateSmokeLog, deleteSmokeLog as dbDeleteSmokeLog, getHumidor, updateHumidorCigar } from "@/lib/supabase";
 
 // computeInsight: scans cigar name only (not notes — avoids false positives)
 function computeInsight(log: SmokeLogEntry[]): string {
@@ -25,7 +25,7 @@ function computeInsight(log: SmokeLogEntry[]): string {
 }
 
 /** Convert humidor reviews into SmokeLogEntry shape for merged display */
-function humidorReviewsToEntries(humidor: HumidorCigar[]): (SmokeLogEntry & { _fromHumidor: true })[] {
+function humidorReviewsToEntries(humidor: HumidorCigar[]): (SmokeLogEntry & { _fromHumidor: true; _humidorCigarId: string })[] {
   return humidor.flatMap((cigar) =>
     (cigar.reviews ?? []).map((review) => ({
       id: `humidor-${review.id}`,
@@ -39,6 +39,7 @@ function humidorReviewsToEntries(humidor: HumidorCigar[]): (SmokeLogEntry & { _f
       burn: review.burn,
       construction: review.construction,
       _fromHumidor: true as const,
+      _humidorCigarId: cigar.id,
     }))
   );
 }
@@ -69,7 +70,9 @@ const SmokeLog = () => {
   // Smoke-log entries (from smoke_log table or localStorage)
   const [logEntries, setLogEntries] = useState<SmokeLogEntry[]>([]);
   // Humidor reviews flattened as smoke log entries
-  const [humidorEntries, setHumidorEntries] = useState<(SmokeLogEntry & { _fromHumidor: true })[]>([]);
+  const [humidorEntries, setHumidorEntries] = useState<(SmokeLogEntry & { _fromHumidor: true; _humidorCigarId: string })[]>([]);
+  // Raw humidor data for updating reviews
+  const [humidorRaw, setHumidorRaw] = useState<HumidorCigar[]>([]);
 
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -90,13 +93,18 @@ const SmokeLog = () => {
     if (user) {
       const [log, humidor] = await Promise.all([getSmokeLog(), getHumidor()]);
       setLogEntries(log);
+      setHumidorRaw(humidor);
       setHumidorEntries(humidorReviewsToEntries(humidor));
     } else {
       try {
         const logRaw = localStorage.getItem("gs_smoke_log");
         if (logRaw) setLogEntries(JSON.parse(logRaw));
-        const humidorRaw = localStorage.getItem("gs_humidor");
-        if (humidorRaw) setHumidorEntries(humidorReviewsToEntries(JSON.parse(humidorRaw)));
+        const storedHumidor = localStorage.getItem("gs_humidor");
+        if (storedHumidor) {
+          const parsed: HumidorCigar[] = JSON.parse(storedHumidor);
+          setHumidorRaw(parsed);
+          setHumidorEntries(humidorReviewsToEntries(parsed));
+        }
       } catch {
         setLogEntries([]);
         setHumidorEntries([]);
@@ -141,25 +149,54 @@ const SmokeLog = () => {
     setSaving(true);
 
     if (editingId) {
-      // ── Update existing entry ──
       const updates = { rating, note: note.trim() || undefined };
 
-      // Optimistic update
-      setLogEntries((prev) =>
-        prev.map((e) => (e.id === editingId ? { ...e, ...updates } : e))
-      );
-      if (!user) {
-        const next = logEntries.map((e) =>
-          e.id === editingId ? { ...e, ...updates } : e
+      if (editingId.startsWith("humidor-")) {
+        // ── Update humidor review ──
+        const reviewId = editingId.slice("humidor-".length);
+
+        // Optimistic update on humidor entries
+        setHumidorEntries((prev) =>
+          prev.map((e) => (e.id === editingId ? { ...e, ...updates } : e))
         );
-        localStorage.setItem("gs_smoke_log", JSON.stringify(next));
-      }
 
-      setSaving(false);
-      resetForm();
+        setSaving(false);
+        resetForm();
 
-      if (user) {
-        await dbUpdateSmokeLog(editingId, updates);
+        // Find the humidor cigar and update its reviews array
+        const cigar = humidorRaw.find((c) => c.reviews?.some((r) => r.id === reviewId));
+        if (cigar) {
+          const updatedReviews = (cigar.reviews ?? []).map((r) =>
+            r.id === reviewId ? { ...r, rating, notes: note.trim() || undefined } : r
+          );
+          if (user) {
+            await updateHumidorCigar(cigar.id, { reviews: updatedReviews });
+          } else {
+            const updatedHumidor = humidorRaw.map((c) =>
+              c.id === cigar.id ? { ...c, reviews: updatedReviews } : c
+            );
+            localStorage.setItem("gs_humidor", JSON.stringify(updatedHumidor));
+            setHumidorRaw(updatedHumidor);
+          }
+        }
+      } else {
+        // ── Update direct smoke log entry ──
+        setLogEntries((prev) =>
+          prev.map((e) => (e.id === editingId ? { ...e, ...updates } : e))
+        );
+        if (!user) {
+          const next = logEntries.map((e) =>
+            e.id === editingId ? { ...e, ...updates } : e
+          );
+          localStorage.setItem("gs_smoke_log", JSON.stringify(next));
+        }
+
+        setSaving(false);
+        resetForm();
+
+        if (user) {
+          await dbUpdateSmokeLog(editingId, updates);
+        }
       }
     } else {
       // ── Create new entry ──
@@ -368,15 +405,15 @@ const SmokeLog = () => {
                         {format(new Date(entry.smokedAt), "MMM d, yyyy")}
                       </td>
                       <td className="py-3">
-                        {!fromHumidor && (
-                          <span className="flex items-center gap-0.5">
-                            <button
-                              onClick={() => startEdit(entry)}
-                              className="text-muted-foreground/50 hover:text-primary transition-colors p-1"
-                              title="Edit"
-                            >
-                              <Pencil className="h-3.5 w-3.5" />
-                            </button>
+                        <span className="flex items-center gap-0.5">
+                          <button
+                            onClick={() => startEdit(entry)}
+                            className="text-muted-foreground/50 hover:text-primary transition-colors p-1"
+                            title="Edit"
+                          >
+                            <Pencil className="h-3.5 w-3.5" />
+                          </button>
+                          {!fromHumidor && (
                             <button
                               onClick={() => removeEntry(entry.id)}
                               className="text-muted-foreground/50 hover:text-foreground transition-colors p-1"
@@ -384,8 +421,8 @@ const SmokeLog = () => {
                             >
                               <Trash2 className="h-4 w-4" />
                             </button>
-                          </span>
-                        )}
+                          )}
+                        </span>
                       </td>
                     </tr>
                   );
