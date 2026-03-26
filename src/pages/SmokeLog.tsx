@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, Flame, Trash2, MessageSquare, Star, Package } from "lucide-react";
+import { Plus, Flame, Trash2, MessageSquare, Star, Package, Pencil } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import CigarAutocomplete from "@/components/CigarAutocomplete";
 import type { SmokeLogEntry, HumidorCigar } from "@/lib/types";
 import type { CigarEntry } from "@/lib/cigars";
 import { useAuth } from "@/contexts/AuthContext";
-import { getSmokeLog, addSmokeLog as dbAddSmokeLog, deleteSmokeLog as dbDeleteSmokeLog, getHumidor } from "@/lib/supabase";
+import { getSmokeLog, addSmokeLog as dbAddSmokeLog, updateSmokeLog as dbUpdateSmokeLog, deleteSmokeLog as dbDeleteSmokeLog, getHumidor } from "@/lib/supabase";
 
 // computeInsight: scans cigar name only (not notes — avoids false positives)
 function computeInsight(log: SmokeLogEntry[]): string {
@@ -72,6 +72,7 @@ const SmokeLog = () => {
   const [humidorEntries, setHumidorEntries] = useState<(SmokeLogEntry & { _fromHumidor: true })[]>([]);
 
   const [showForm, setShowForm] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   // Form state
   const [brand, setBrand] = useState("");
@@ -119,48 +120,75 @@ const SmokeLog = () => {
     setName("");
     setRating(0);
     setNote("");
+    setEditingId(null);
     setShowForm(false);
   };
 
-  const addEntry = async () => {
+  const startEdit = (entry: SmokeLogEntry) => {
+    setBrand(entry.brand);
+    setName(entry.name);
+    setRating(entry.rating);
+    setNote(entry.note ?? "");
+    setEditingId(entry.id);
+    setShowForm(true);
+  };
+
+  const saveEntry = async () => {
     if (!brand.trim() || !name.trim() || rating === 0) return;
     setSaving(true);
 
-    // Build a temp entry for immediate optimistic display
-    const tempEntry: SmokeLogEntry = {
-      id: `local-${Date.now()}`,
-      brand: brand.trim(),
-      name: name.trim(),
-      rating,
-      note: note.trim() || undefined,
-      smokedAt: new Date().toISOString(),
-    };
+    if (editingId) {
+      // ── Update existing entry ──
+      const updates = { rating, note: note.trim() || undefined };
 
-    // --- Optimistic update: show immediately regardless of Supabase state ---
-    setLogEntries((prev) => [tempEntry, ...prev]);
-    // For unauthenticated users, also persist to localStorage right away
-    if (!user) {
-      const next = [tempEntry, ...logEntries];
-      localStorage.setItem("gs_smoke_log", JSON.stringify(next));
-    }
-
-    setSaving(false);
-    resetForm();
-
-    // --- Background Supabase sync for authenticated users ---
-    if (user) {
-      const created = await dbAddSmokeLog({
-        brand: tempEntry.brand,
-        name: tempEntry.name,
-        rating: tempEntry.rating,
-        note: tempEntry.note,
-      });
-      if (created) {
-        // Swap temp entry for the real DB record (gets a proper UUID)
-        setLogEntries((prev) => prev.map((e) => (e.id === tempEntry.id ? created : e)));
+      // Optimistic update
+      setLogEntries((prev) =>
+        prev.map((e) => (e.id === editingId ? { ...e, ...updates } : e))
+      );
+      if (!user) {
+        const next = logEntries.map((e) =>
+          e.id === editingId ? { ...e, ...updates } : e
+        );
+        localStorage.setItem("gs_smoke_log", JSON.stringify(next));
       }
-      // If Supabase failed (table missing, RLS error, etc.), the entry remains
-      // visible via optimistic state — user isn't blocked.
+
+      setSaving(false);
+      resetForm();
+
+      if (user) {
+        await dbUpdateSmokeLog(editingId, updates);
+      }
+    } else {
+      // ── Create new entry ──
+      const tempEntry: SmokeLogEntry = {
+        id: `local-${Date.now()}`,
+        brand: brand.trim(),
+        name: name.trim(),
+        rating,
+        note: note.trim() || undefined,
+        smokedAt: new Date().toISOString(),
+      };
+
+      setLogEntries((prev) => [tempEntry, ...prev]);
+      if (!user) {
+        const next = [tempEntry, ...logEntries];
+        localStorage.setItem("gs_smoke_log", JSON.stringify(next));
+      }
+
+      setSaving(false);
+      resetForm();
+
+      if (user) {
+        const created = await dbAddSmokeLog({
+          brand: tempEntry.brand,
+          name: tempEntry.name,
+          rating: tempEntry.rating,
+          note: tempEntry.note,
+        });
+        if (created) {
+          setLogEntries((prev) => prev.map((e) => (e.id === tempEntry.id ? created : e)));
+        }
+      }
     }
   };
 
@@ -190,7 +218,7 @@ const SmokeLog = () => {
             What you've smoked and how it landed
           </p>
         </div>
-        <Button variant="ember" size="sm" onClick={() => setShowForm(!showForm)}>
+        <Button variant="ember" size="sm" onClick={() => { resetForm(); setShowForm(!showForm); }}>
           <Plus className="h-4 w-4 mr-1" />
           Log a Smoke
         </Button>
@@ -215,18 +243,27 @@ const SmokeLog = () => {
         {/* Add form */}
         {showForm && (
           <div className="rounded-xl border border-primary/30 bg-card/50 p-4 space-y-3 animate-fade-in">
-            <CigarAutocomplete
-              onSelect={handleCigarSelect}
-              initialValue={name}
-              placeholder="Search brand or line…"
-            />
-
-            {brand && name && (
-              <p className="text-xs text-muted-foreground px-1">
+            {editingId ? (
+              <p className="text-sm text-foreground px-1">
                 <span className="text-primary font-medium">{brand}</span>
                 {" · "}
                 {name}
               </p>
+            ) : (
+              <>
+                <CigarAutocomplete
+                  onSelect={handleCigarSelect}
+                  initialValue={name}
+                  placeholder="Search brand or line…"
+                />
+                {brand && name && (
+                  <p className="text-xs text-muted-foreground px-1">
+                    <span className="text-primary font-medium">{brand}</span>
+                    {" · "}
+                    {name}
+                  </p>
+                )}
+              </>
             )}
 
             <div className="space-y-1">
@@ -247,9 +284,9 @@ const SmokeLog = () => {
                 variant="ember"
                 size="sm"
                 disabled={!brand.trim() || !name.trim() || rating === 0 || saving}
-                onClick={addEntry}
+                onClick={saveEntry}
               >
-                Save Smoke
+                {editingId ? "Update Smoke" : "Save Smoke"}
               </Button>
               <Button variant="ember-ghost" size="sm" onClick={resetForm}>
                 Cancel
@@ -329,13 +366,22 @@ const SmokeLog = () => {
                       </td>
                       <td className="py-3">
                         {!fromHumidor && (
-                          <button
-                            onClick={() => removeEntry(entry.id)}
-                            className="text-muted-foreground/30 hover:text-foreground transition-colors p-1 opacity-0 group-hover:opacity-100"
-                            title="Delete"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </button>
+                          <span className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button
+                              onClick={() => startEdit(entry)}
+                              className="text-muted-foreground/30 hover:text-primary transition-colors p-1"
+                              title="Edit"
+                            >
+                              <Pencil className="h-3.5 w-3.5" />
+                            </button>
+                            <button
+                              onClick={() => removeEntry(entry.id)}
+                              className="text-muted-foreground/30 hover:text-foreground transition-colors p-1"
+                              title="Delete"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </span>
                         )}
                       </td>
                     </tr>

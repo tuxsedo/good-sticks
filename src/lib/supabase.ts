@@ -223,6 +223,30 @@ export const addSmokeLog = async (
   return rowToSmokeLogEntry(data);
 };
 
+export const updateSmokeLog = async (
+  id: string,
+  updates: Partial<Omit<SmokeLogEntry, "id" | "smokedAt">>
+): Promise<SmokeLogEntry | null> => {
+  const row: Record<string, unknown> = {};
+  if (updates.rating !== undefined) row.rating = updates.rating;
+  if (updates.note !== undefined) row.note = updates.note || null;
+  if (updates.draw !== undefined) row.draw = updates.draw ?? null;
+  if (updates.burn !== undefined) row.burn = updates.burn ?? null;
+  if (updates.construction !== undefined) row.construction = updates.construction ?? null;
+  const { data, error } = await supabase
+    .from("smoke_log")
+    .update(row)
+    .eq("id", id)
+    .select()
+    .single();
+  if (error) {
+    console.error("updateSmokeLog error:", error.message);
+    return null;
+  }
+  if (!data) return null;
+  return rowToSmokeLogEntry(data);
+};
+
 export const deleteSmokeLog = async (id: string): Promise<void> => {
   await supabase.from("smoke_log").delete().eq("id", id);
 };
