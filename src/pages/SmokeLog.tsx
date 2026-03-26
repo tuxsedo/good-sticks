@@ -50,7 +50,7 @@ const StarBar = ({ value, onChange }: { value: number; onChange: (v: number) => 
         key={star}
         type="button"
         onClick={() => onChange(star)}
-        className="p-0.5 transition-transform hover:scale-110"
+        className="h-11 w-11 rounded-full flex items-center justify-center transition-transform hover:scale-110 hover:bg-primary/10"
       >
         <Star
           className={`h-6 w-6 transition-colors ${
@@ -97,7 +97,10 @@ const SmokeLog = () => {
         if (logRaw) setLogEntries(JSON.parse(logRaw));
         const humidorRaw = localStorage.getItem("gs_humidor");
         if (humidorRaw) setHumidorEntries(humidorReviewsToEntries(JSON.parse(humidorRaw)));
-      } catch {}
+      } catch {
+        setLogEntries([]);
+        setHumidorEntries([]);
+      }
     }
   }, [user]);
 

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, Flame, ArrowRight, Star } from "lucide-react";
+import { Search, Flame, ArrowRight, Star, Package, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { useIsMobile } from "@/hooks/use-mobile";
 import type { PalateProfile } from "@/lib/types";
 
 const CIGARS = [
@@ -86,7 +88,10 @@ function scoreCigar(cigar: (typeof CIGARS)[number], palate: PalateProfile): numb
 
 const Home = () => {
   const [search, setSearch] = useState("");
+  const [showAllMobile, setShowAllMobile] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const isMobile = useIsMobile();
 
   const palate: PalateProfile | null = (() => {
     try {
@@ -113,17 +118,41 @@ const Home = () => {
       )
     : rankedCigars;
 
+  const shouldCollapseMobileList = isMobile && !search.trim();
+  const visibleCigars =
+    shouldCollapseMobileList && !showAllMobile ? filteredCigars.slice(0, 3) : filteredCigars;
+
+  const headerTitle = user
+    ? "Welcome back"
+    : palate
+      ? "Your palate picks"
+      : "Explore cigars";
+
+  const headerSubtitle = user
+    ? `Based on your palate — ${STRENGTH_LABELS[palate?.strength ?? ""] ?? palate?.strength ?? "your preferred"} body${
+        palate?.loveFlavors.length
+          ? `, ${palate.loveFlavors
+              .slice(0, 3)
+              .map((f) => FLAVOR_LABELS[f] ?? f)
+              .join(", ")} lover`
+          : ""
+      }`
+    : palate
+      ? `Based on your saved local palate — ${STRENGTH_LABELS[palate.strength] ?? palate.strength} body, ${palate.loveFlavors
+          .slice(0, 3)
+          .map((f) => FLAVOR_LABELS[f] ?? f)
+          .join(", ")}`
+      : "Browse by strength, flavor, or ask Ember for a recommendation.";
+
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       {/* Header */}
       <div className="px-6 py-6 border-b border-border/50">
         <h1 className="font-display text-2xl font-semibold text-foreground mb-1">
-          Welcome back
+          {headerTitle}
         </h1>
         <p className="text-sm text-muted-foreground">
-          {palate
-            ? `Based on your palate — ${STRENGTH_LABELS[palate.strength] ?? palate.strength} body, ${palate.loveFlavors.slice(0, 3).map((f) => FLAVOR_LABELS[f] ?? f).join(", ")} lover`
-            : "Discover cigars tailored to your taste"}
+          {headerSubtitle}
         </p>
       </div>
 
@@ -143,20 +172,68 @@ const Home = () => {
 
       {/* Recommendations */}
       <div className="flex-1 overflow-y-auto px-6 pb-6">
+        <div className="grid gap-3 md:hidden mb-4">
+          <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold text-foreground">Need a fast pick?</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Ask Ember first. It is the shortest path to a cigar that fits tonight.
+                </p>
+              </div>
+              <Flame className="h-4 w-4 text-primary flex-shrink-0 mt-1" />
+            </div>
+            <Button
+              variant="ember"
+              size="sm"
+              className="w-full mt-4"
+              onClick={() => navigate("/chat")}
+            >
+              Continue with Ember
+              <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={() => navigate("/humidor")}
+              className="rounded-xl border border-border/50 bg-card/40 px-4 py-3 text-left min-h-[72px] transition-colors hover:border-primary/30 hover:bg-card/70"
+            >
+              <Package className="h-4 w-4 text-primary mb-2" />
+              <p className="text-sm font-medium text-foreground">My Humidor</p>
+              <p className="text-[11px] text-muted-foreground mt-1">Track what you have</p>
+            </button>
+            <button
+              onClick={() => navigate("/wishlist")}
+              className="rounded-xl border border-border/50 bg-card/40 px-4 py-3 text-left min-h-[72px] transition-colors hover:border-primary/30 hover:bg-card/70"
+            >
+              <Bookmark className="h-4 w-4 text-primary mb-2" />
+              <p className="text-sm font-medium text-foreground">Wishlist</p>
+              <p className="text-[11px] text-muted-foreground mt-1">Save cigars to try</p>
+            </button>
+          </div>
+        </div>
+
         <div className="flex items-center gap-2 mb-4">
           <Flame className="h-4 w-4 text-primary" />
           <h2 className="font-display text-lg font-semibold text-foreground">
-            {search.trim() ? "Search Results" : palate ? "Matched to Your Palate" : "Recommended for You"}
+            {search.trim()
+              ? "Search Results"
+              : shouldCollapseMobileList
+                ? "Top matches for right now"
+                : palate
+                  ? "Matched to Your Palate"
+                  : "Recommended for You"}
           </h2>
         </div>
 
-        {filteredCigars.length === 0 ? (
+        {visibleCigars.length === 0 ? (
           <p className="text-sm text-muted-foreground py-8 text-center">
             No cigars found matching &ldquo;{search}&rdquo;. Try asking Ember for help.
           </p>
         ) : (
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {filteredCigars.map((cigar) => (
+            {visibleCigars.map((cigar) => (
               <div
                 key={cigar.name}
                 className="rounded-xl border border-border/50 bg-card/50 p-4 hover:border-primary/30 transition-colors group"
@@ -166,7 +243,10 @@ const Home = () => {
                     <p className="text-sm font-semibold text-foreground">{cigar.name}</p>
                     <p className="text-xs text-muted-foreground">{cigar.brand}</p>
                   </div>
-                  <button className="text-muted-foreground/30 hover:text-primary transition-colors">
+                  <button
+                    aria-label={`Save ${cigar.name}`}
+                    className="h-11 w-11 -mr-2 -mt-2 rounded-full flex items-center justify-center text-muted-foreground/30 hover:text-primary hover:bg-primary/10 transition-colors"
+                  >
                     <Star className="h-4 w-4" />
                   </button>
                 </div>
@@ -181,8 +261,19 @@ const Home = () => {
           </div>
         )}
 
+        {shouldCollapseMobileList && filteredCigars.length > 3 && !search.trim() && (
+          <Button
+            variant="ember-ghost"
+            size="sm"
+            className="w-full mt-4 md:hidden"
+            onClick={() => setShowAllMobile((current) => !current)}
+          >
+            {showAllMobile ? "Show fewer cigars" : `See all ${filteredCigars.length} cigars`}
+          </Button>
+        )}
+
         {/* CTA to Ember */}
-        <div className="mt-8 rounded-xl border border-primary/20 bg-primary/5 p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+        <div className="mt-8 rounded-xl border border-primary/20 bg-primary/5 p-4 hidden md:flex flex-col sm:flex-row sm:items-center gap-3">
           <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
             <p className="text-sm font-semibold text-foreground">Need a personalized pick?</p>
             <p className="text-xs text-muted-foreground">Ask Ember, your cigar sidekick</p>
@@ -192,6 +283,7 @@ const Home = () => {
             <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
           </Button>
         </div>
+
       </div>
     </div>
   );

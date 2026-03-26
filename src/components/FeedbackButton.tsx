@@ -53,7 +53,7 @@ const FeedbackButton = () => {
 
       {/* Feedback panel */}
       {(status === "open" || status === "sending" || status === "sent" || status === "error") && (
-        <div className="fixed bottom-20 right-4 md:bottom-6 z-50 w-72 rounded-xl border border-border/60 bg-card shadow-lg animate-fade-in">
+        <div className="hidden md:block fixed bottom-20 right-4 md:bottom-6 z-50 w-72 rounded-xl border border-border/60 bg-card shadow-lg animate-fade-in">
           <div className="flex items-center justify-between px-4 py-3 border-b border-border/40">
             <span className="text-sm font-medium text-foreground">Send feedback</span>
             <button onClick={close} className="text-muted-foreground/50 hover:text-foreground transition-colors">
@@ -111,8 +111,8 @@ const FeedbackButton = () => {
         onClick={status === "idle" ? open : close}
         title="Send feedback"
         className={cn(
-          "fixed bottom-20 right-4 md:bottom-6 z-50",
-          "h-10 w-10 rounded-full border border-border/60 bg-card shadow-md",
+          "hidden md:flex fixed bottom-20 right-4 md:bottom-6 z-50",
+          "h-11 w-11 rounded-full border border-border/60 bg-card shadow-md",
           "flex items-center justify-center",
           "text-muted-foreground hover:text-primary hover:border-primary/40 transition-all",
           // Hide when panel is open

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Star, X } from "lucide-react";
+import { Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import {
@@ -38,7 +38,7 @@ const StarRating = ({
         key={star}
         type="button"
         onClick={() => onChange(star)}
-        className="transition-colors"
+        className="h-11 w-11 rounded-full flex items-center justify-center transition-colors hover:bg-primary/10"
       >
         <Star
           className={`h-6 w-6 ${

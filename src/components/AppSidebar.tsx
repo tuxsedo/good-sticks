@@ -123,7 +123,7 @@ const AppSidebar = () => {
         <div className="px-4 py-3 border-t border-border/50 space-y-1">
           <button
             onClick={() => navigate("/onboarding?edit=true")}
-            className="w-full flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-muted-foreground/70 hover:text-foreground hover:bg-secondary/60 transition-colors"
+            className="w-full min-h-[44px] flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-muted-foreground/70 hover:text-foreground hover:bg-secondary/60 transition-colors"
           >
             <SlidersHorizontal className="h-3.5 w-3.5" />
             Edit palate
@@ -165,7 +165,7 @@ const AppSidebar = () => {
       </div>
 
       {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border/50 flex items-center justify-around safe-area-bottom">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border/50 grid grid-cols-4 safe-area-bottom">
         {bottomNavItem("/home", <Home className="h-5 w-5" />, "Home")}
         {bottomNavItem(
           "/chat",
@@ -177,8 +177,6 @@ const AppSidebar = () => {
           </div>,
           "Ember"
         )}
-        {bottomNavItem("/wishlist", <Star className="h-5 w-5" />, "Wishlist")}
-        {bottomNavItem("/humidor", <Package className="h-5 w-5" />, "Humidor")}
         {bottomNavItem("/log", <Flame className="h-5 w-5" />, "Log")}
 
         {/* Profile tab */}
@@ -218,6 +216,28 @@ const AppSidebar = () => {
                   <p className="text-xs text-muted-foreground">Humidor, wishlist &amp; palate synced</p>
                 </div>
               </div>
+              <div className="grid grid-cols-2 gap-2 mb-6 md:hidden">
+                <button
+                  onClick={() => {
+                    setSheetOpen(false);
+                    navigate("/wishlist");
+                  }}
+                  className="rounded-xl border border-border/50 bg-secondary/20 px-3 py-3 text-left min-h-[52px]"
+                >
+                  <p className="text-xs font-medium text-foreground">Wishlist</p>
+                  <p className="text-[10px] text-muted-foreground mt-1">Saved wants</p>
+                </button>
+                <button
+                  onClick={() => {
+                    setSheetOpen(false);
+                    navigate("/humidor");
+                  }}
+                  className="rounded-xl border border-border/50 bg-secondary/20 px-3 py-3 text-left min-h-[52px]"
+                >
+                  <p className="text-xs font-medium text-foreground">Humidor</p>
+                  <p className="text-[10px] text-muted-foreground mt-1">Current stock</p>
+                </button>
+              </div>
               <button
                 onClick={handleSignOut}
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-1"
@@ -244,6 +264,28 @@ const AppSidebar = () => {
                 </div>
               ) : (
                 <div className="space-y-3">
+                  <div className="grid grid-cols-2 gap-2 pb-1 md:hidden">
+                    <button
+                      onClick={() => {
+                        setSheetOpen(false);
+                        navigate("/wishlist");
+                      }}
+                      className="rounded-xl border border-border/50 bg-secondary/20 px-3 py-3 text-left min-h-[52px]"
+                    >
+                      <p className="text-xs font-medium text-foreground">Wishlist</p>
+                      <p className="text-[10px] text-muted-foreground mt-1">Cigars to try</p>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSheetOpen(false);
+                        navigate("/humidor");
+                      }}
+                      className="rounded-xl border border-border/50 bg-secondary/20 px-3 py-3 text-left min-h-[52px]"
+                    >
+                      <p className="text-xs font-medium text-foreground">Humidor</p>
+                      <p className="text-[10px] text-muted-foreground mt-1">What you own</p>
+                    </button>
+                  </div>
                   <input
                     type="email"
                     value={email}
