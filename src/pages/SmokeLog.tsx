@@ -338,7 +338,7 @@ const SmokeLog = () => {
                   return (
                     <tr
                       key={entry.id}
-                      className="border-b border-border/30 group hover:bg-secondary/20 transition-colors"
+                      className="border-b border-border/30 hover:bg-secondary/20 transition-colors"
                     >
                       <td className="py-3 text-sm text-foreground/80">{entry.brand}</td>
                       <td className="py-3 text-sm font-medium text-foreground">
@@ -369,17 +369,17 @@ const SmokeLog = () => {
                       </td>
                       <td className="py-3">
                         {!fromHumidor && (
-                          <span className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <span className="flex items-center gap-0.5">
                             <button
                               onClick={() => startEdit(entry)}
-                              className="text-muted-foreground/30 hover:text-primary transition-colors p-1"
+                              className="text-muted-foreground/50 hover:text-primary transition-colors p-1"
                               title="Edit"
                             >
                               <Pencil className="h-3.5 w-3.5" />
                             </button>
                             <button
                               onClick={() => removeEntry(entry.id)}
-                              className="text-muted-foreground/30 hover:text-foreground transition-colors p-1"
+                              className="text-muted-foreground/50 hover:text-foreground transition-colors p-1"
                               title="Delete"
                             >
                               <Trash2 className="h-4 w-4" />
