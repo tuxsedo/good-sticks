@@ -9,18 +9,27 @@ import { getPalate, getHumidor, getSmokeLog, addWishlistCigar } from "@/lib/supa
 const GREETING = `Hey, I'm Ember, your cigar sidekick. I already know your palate, so we can skip the basics.\n\nWhat's on your mind? Looking for a recommendation, curious about a brand, or want to talk about something you smoked recently?`;
 
 const Chat = () => {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: "1",
-      role: "assistant",
-      content: GREETING,
-      suggestions: [
-        "Recommend something new",
-        "Best smoke for right now",
-        "How do I find my go-to cigar?",
-      ],
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => {
+    try {
+      const stored = sessionStorage.getItem("gs_chat_messages");
+      if (stored) {
+        const parsed = JSON.parse(stored) as ChatMessage[];
+        if (parsed.length > 0) return parsed;
+      }
+    } catch {}
+    return [
+      {
+        id: "1",
+        role: "assistant",
+        content: GREETING,
+        suggestions: [
+          "Recommend something new",
+          "Best smoke for right now",
+          "How do I find my go-to cigar?",
+        ],
+      },
+    ];
+  });
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);   // shows the dots indicator
   const [isSending, setIsSending] = useState(false); // disables the input
@@ -77,6 +86,13 @@ const Chat = () => {
       });
     });
   }, [user]);
+
+  // Persist chat messages to sessionStorage so they survive tab navigation
+  useEffect(() => {
+    try {
+      sessionStorage.setItem("gs_chat_messages", JSON.stringify(messages));
+    } catch {}
+  }, [messages]);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -221,7 +237,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col min-w-0">
+    <div className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 py-4 border-b border-border/50">
         <div className="h-9 w-9 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0">
