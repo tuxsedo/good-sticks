@@ -123,6 +123,9 @@ const Chat = () => {
     const userMsg: ChatMessage = { id: Date.now().toString(), role: "user", content };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
+    // Reset textarea height
+    const textarea = document.querySelector("textarea");
+    if (textarea) textarea.style.height = "auto";
     setIsTyping(true);
     setIsSending(true);
 
@@ -236,6 +239,12 @@ const Chat = () => {
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(e.target.value);
+    e.target.style.height = "auto";
+    e.target.style.height = `${Math.min(e.target.scrollHeight, 160)}px`;
+  };
+
   return (
     <div className="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden">
       {/* Header */}
@@ -280,11 +289,11 @@ const Chat = () => {
         <div className="flex items-end gap-2 max-w-2xl mx-auto">
           <textarea
             value={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder="Ask about cigars..."
             rows={1}
-            className="flex-1 resize-none rounded-xl border border-border bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
+            className="flex-1 resize-none overflow-hidden rounded-xl border border-border bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
           />
           <Button
             variant="ember"
