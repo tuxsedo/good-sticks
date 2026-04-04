@@ -218,7 +218,7 @@ export default async function handler(req: Request): Promise<Response> {
         },
         contents: googleMessages,
         generationConfig: {
-          maxOutputTokens: 1024,
+          maxOutputTokens: 8192,
         },
       }),
     });
