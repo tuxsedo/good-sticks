@@ -1,6 +1,6 @@
 export const config = { runtime: "edge" };
 
-const ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages";
+const GOOGLE_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:streamGenerateContent?alt=sse";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -196,43 +196,49 @@ export default async function handler(req: Request): Promise<Response> {
       smokeLog?: SmokeLogEntry[];
     };
 
-    let apiMessages = messages.map((m) => ({ role: m.role, content: m.content }));
-    while (apiMessages.length > 0 && apiMessages[0].role === "assistant") {
-      apiMessages = apiMessages.slice(1);
+    // Convert messages to Google AI format, skip leading assistant messages
+    let chatMessages = messages.filter((_, i) => !(i === 0 && messages[0].role === "assistant"));
+    // Ensure conversation starts with user turn
+    while (chatMessages.length > 0 && chatMessages[0].role === "assistant") {
+      chatMessages = chatMessages.slice(1);
     }
 
-    const anthropicResponse = await fetch(ANTHROPIC_API_URL, {
+    const googleMessages = chatMessages.map((m) => ({
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: m.content }],
+    }));
+
+    const apiKey = process.env.GOOGLE_AI_API_KEY ?? "";
+    const googleResponse = await fetch(`${GOOGLE_API_URL}&key=${apiKey}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": process.env.ANTHROPIC_API_KEY ?? "",
-        "anthropic-version": "2023-06-01",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "claude-haiku-4-5-20251001",
-        max_tokens: 1024,
-        system: buildSystemPrompt(palate, humidor ?? [], smokeLog),
-        messages: apiMessages,
-        stream: true,
+        system_instruction: {
+          parts: [{ text: buildSystemPrompt(palate, humidor ?? [], smokeLog) }],
+        },
+        contents: googleMessages,
+        generationConfig: {
+          maxOutputTokens: 1024,
+        },
       }),
     });
 
-    if (!anthropicResponse.ok || !anthropicResponse.body) {
-      const errText = await anthropicResponse.text().catch(() => "Unknown error");
+    if (!googleResponse.ok || !googleResponse.body) {
+      const errText = await googleResponse.text().catch(() => "Unknown error");
       return new Response(JSON.stringify({ error: errText }), {
         status: 500,
         headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
       });
     }
 
-    // Stream Anthropic SSE → our SSE, buffering sentinel text
+    // Stream Google SSE → our SSE, buffering sentinel text
     const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
     const writer = writable.getWriter();
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
 
     (async () => {
-      const reader = anthropicResponse.body!.getReader();
+      const reader = googleResponse.body!.getReader();
       let lineBuffer = "";
       let fullText = "";
       let forwardedLength = 0;
@@ -253,11 +259,15 @@ export default async function handler(req: Request): Promise<Response> {
 
             try {
               const event = JSON.parse(data) as {
-                type: string;
-                delta?: { type: string; text: string };
+                candidates?: Array<{
+                  content?: { parts?: Array<{ text?: string }> };
+                  finishReason?: string;
+                }>;
               };
-              if (event.type === "content_block_delta" && event.delta?.type === "text_delta") {
-                fullText += event.delta.text;
+
+              const text = event.candidates?.[0]?.content?.parts?.[0]?.text;
+              if (text) {
+                fullText += text;
 
                 // Only forward text up to the first ||| sentinel marker
                 const sentinelIdx = fullText.indexOf("|||");
