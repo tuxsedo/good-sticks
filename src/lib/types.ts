@@ -96,7 +96,7 @@ export interface WishlistCigar {
 }
 
 // Unified 1-5 rating scale (matches CigarReview — Vivino model).
-// Sub-ratings (draw, burn, construction) are optional.
+// Sub-ratings (draw, burn, construction, flavors) are optional.
 export interface SmokeLogEntry {
   id: string;
   brand: string;
@@ -108,4 +108,11 @@ export interface SmokeLogEntry {
   draw?: number;           // 1-5, optional
   burn?: number;           // 1-5, optional
   construction?: number;   // 1-5, optional
+  flavors?: {
+    strength: number;      // 0-5
+    body: number;          // 0-5
+    sweetness: number;     // 0-5
+    spice: number;         // 0-5
+    earthiness: number;    // 0-5
+  };
 }

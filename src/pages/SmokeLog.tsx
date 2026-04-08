@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Plus, Flame, Trash2, MessageSquare, Star, Package, Pencil } from "lucide-react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
 import CigarAutocomplete from "@/components/CigarAutocomplete";
 import type { SmokeLogEntry, HumidorCigar } from "@/lib/types";
 import type { CigarEntry } from "@/lib/cigars";
@@ -44,6 +45,26 @@ function humidorReviewsToEntries(humidor: HumidorCigar[]): (SmokeLogEntry & { _f
   );
 }
 
+const SMOKE_LABELS = [
+  { key: "draw" as const, label: "Draw" },
+  { key: "burn" as const, label: "Burn" },
+  { key: "construction" as const, label: "Construction" },
+];
+
+const FLAVOR_LABELS = [
+  { key: "strength" as const, label: "Strength" },
+  { key: "body" as const, label: "Body" },
+  { key: "sweetness" as const, label: "Sweetness" },
+  { key: "spice" as const, label: "Spice" },
+  { key: "earthiness" as const, label: "Earthiness" },
+];
+
+type Flavors = NonNullable<SmokeLogEntry["flavors"]>;
+
+const emptyFlavors = (): Flavors => ({
+  strength: 0, body: 0, sweetness: 0, spice: 0, earthiness: 0,
+});
+
 const StarBar = ({ value, onChange }: { value: number; onChange: (v: number) => void }) => (
   <div className="flex gap-1">
     {[1, 2, 3, 4, 5].map((star) => (
@@ -81,6 +102,10 @@ const SmokeLog = () => {
   const [brand, setBrand] = useState("");
   const [name, setName] = useState("");
   const [rating, setRating] = useState(0);
+  const [draw, setDraw] = useState(0);
+  const [burn, setBurn] = useState(0);
+  const [construction, setConstruction] = useState(0);
+  const [flavors, setFlavors] = useState<Flavors>(emptyFlavors());
   const [note, setNote] = useState("");
   const [saving, setSaving] = useState(false);
 
@@ -130,6 +155,10 @@ const SmokeLog = () => {
     setBrand("");
     setName("");
     setRating(0);
+    setDraw(0);
+    setBurn(0);
+    setConstruction(0);
+    setFlavors(emptyFlavors());
     setNote("");
     setEditingId(null);
     setShowForm(false);
@@ -139,6 +168,10 @@ const SmokeLog = () => {
     setBrand(entry.brand);
     setName(entry.name);
     setRating(entry.rating);
+    setDraw(entry.draw ?? 0);
+    setBurn(entry.burn ?? 0);
+    setConstruction(entry.construction ?? 0);
+    setFlavors(entry.flavors ?? emptyFlavors());
     setNote(entry.note ?? "");
     setEditingId(entry.id);
     setShowForm(true);
@@ -149,7 +182,15 @@ const SmokeLog = () => {
     setSaving(true);
 
     if (editingId) {
-      const updates = { rating, note: note.trim() || undefined };
+      const hasFlavors = Object.values(flavors).some((v) => v > 0);
+      const updates = {
+        rating,
+        draw: draw || undefined,
+        burn: burn || undefined,
+        construction: construction || undefined,
+        flavors: hasFlavors ? flavors : undefined,
+        note: note.trim() || undefined,
+      };
 
       if (editingId.startsWith("humidor-")) {
         // ── Update humidor review ──
@@ -200,11 +241,16 @@ const SmokeLog = () => {
       }
     } else {
       // ── Create new entry ──
+      const hasFlavors = Object.values(flavors).some((v) => v > 0);
       const tempEntry: SmokeLogEntry = {
         id: `local-${Date.now()}`,
         brand: brand.trim(),
         name: name.trim(),
         rating,
+        draw: draw || undefined,
+        burn: burn || undefined,
+        construction: construction || undefined,
+        flavors: hasFlavors ? flavors : undefined,
         note: note.trim() || undefined,
         smokedAt: new Date().toISOString(),
       };
@@ -307,8 +353,58 @@ const SmokeLog = () => {
             )}
 
             <div className="space-y-1">
-              <p className="text-xs text-muted-foreground">Rating</p>
+              <p className="text-xs text-muted-foreground">Overall Rating *</p>
               <StarBar value={rating} onChange={setRating} />
+            </div>
+
+            {/* Smoke Quality */}
+            <div className="space-y-2">
+              <p className="text-xs text-muted-foreground">Smoke Quality</p>
+              <div className="space-y-2.5">
+                {SMOKE_LABELS.map(({ key, label }) => {
+                  const val = key === "draw" ? draw : key === "burn" ? burn : construction;
+                  const setter = key === "draw" ? setDraw : key === "burn" ? setBurn : setConstruction;
+                  return (
+                    <div key={key} className="flex items-center gap-3">
+                      <span className="text-xs text-muted-foreground w-24 shrink-0">{label}</span>
+                      <Slider
+                        min={0}
+                        max={5}
+                        step={1}
+                        value={[val]}
+                        onValueChange={([v]) => setter(v)}
+                        className="flex-1"
+                      />
+                      <span className="text-xs text-muted-foreground w-4 text-right">
+                        {val > 0 ? val : "—"}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Flavor Profile */}
+            <div className="space-y-2">
+              <p className="text-xs text-muted-foreground">Flavor Profile <span className="text-muted-foreground/50">(0 = skip)</span></p>
+              <div className="space-y-2.5">
+                {FLAVOR_LABELS.map(({ key, label }) => (
+                  <div key={key} className="flex items-center gap-3">
+                    <span className="text-xs text-muted-foreground w-24 shrink-0">{label}</span>
+                    <Slider
+                      min={0}
+                      max={5}
+                      step={1}
+                      value={[flavors[key]]}
+                      onValueChange={([v]) => setFlavors((prev) => ({ ...prev, [key]: v }))}
+                      className="flex-1"
+                    />
+                    <span className="text-xs text-muted-foreground w-4 text-right">
+                      {flavors[key] > 0 ? flavors[key] : "—"}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <textarea
@@ -393,10 +489,21 @@ const SmokeLog = () => {
                         </span>
                       </td>
                       <td className="py-3 text-sm">
-                        <span className="flex items-center gap-1 text-primary">
-                          <Star className="h-3.5 w-3.5 fill-primary" />
-                          {entry.rating}/5
-                        </span>
+                        <div className="flex flex-col gap-0.5">
+                          <span className="flex items-center gap-1 text-primary">
+                            <Star className="h-3.5 w-3.5 fill-primary" />
+                            {entry.rating}/5
+                          </span>
+                          {(entry.draw || entry.burn || entry.construction) && (
+                            <span className="text-[10px] text-muted-foreground/60 leading-tight">
+                              {[
+                                entry.draw ? `D:${entry.draw}` : null,
+                                entry.burn ? `B:${entry.burn}` : null,
+                                entry.construction ? `C:${entry.construction}` : null,
+                              ].filter(Boolean).join(" · ")}
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className="py-3 text-sm text-muted-foreground max-w-[200px] truncate">
                         {entry.note ?? <span className="text-muted-foreground/30">—</span>}

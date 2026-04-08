@@ -212,6 +212,7 @@ export const addSmokeLog = async (
       draw: entry.draw ?? null,
       burn: entry.burn ?? null,
       construction: entry.construction ?? null,
+      flavors: entry.flavors ?? null,
     })
     .select()
     .single();
@@ -233,6 +234,7 @@ export const updateSmokeLog = async (
   if (updates.draw !== undefined) row.draw = updates.draw ?? null;
   if (updates.burn !== undefined) row.burn = updates.burn ?? null;
   if (updates.construction !== undefined) row.construction = updates.construction ?? null;
+  if (updates.flavors !== undefined) row.flavors = updates.flavors ?? null;
   const { data, error } = await supabase
     .from("smoke_log")
     .update(row)
@@ -289,5 +291,6 @@ function rowToSmokeLogEntry(row: Record<string, unknown>): SmokeLogEntry {
     draw: (row.draw as number) ?? undefined,
     burn: (row.burn as number) ?? undefined,
     construction: (row.construction as number) ?? undefined,
+    flavors: (row.flavors as SmokeLogEntry["flavors"]) ?? undefined,
   };
 }
