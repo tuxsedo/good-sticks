@@ -1,6 +1,6 @@
 export const config = { runtime: "edge" };
 
-const GOOGLE_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:streamGenerateContent?alt=sse";
+const GOOGLE_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?alt=sse";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
