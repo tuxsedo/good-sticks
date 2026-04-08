@@ -3287,6 +3287,66 @@
         ],
         "binder": "Cuban Vuelta Abajo",
         "filler": "Cuban Vuelta Abajo"
+      },
+      {
+        "name": "La Gloria Cubana Serie D",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "No. 3",
+            "length": "4.625",
+            "ring_gauge": 54,
+            "shape": "Robusto Extra"
+          },
+          {
+            "name": "No. 4",
+            "length": "5.5",
+            "ring_gauge": 54,
+            "shape": "Toro"
+          },
+          {
+            "name": "No. 5",
+            "length": "4.375",
+            "ring_gauge": 43,
+            "shape": "Petit Corona"
+          }
+        ]
+      },
+      {
+        "name": "La Gloria Cubana Medaille d'Or No. 1",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Medaille d'Or No. 1",
+            "length": "7.125",
+            "ring_gauge": 36,
+            "shape": "Lancero"
+          },
+          {
+            "name": "Medaille d'Or No. 2",
+            "length": "6.75",
+            "ring_gauge": 43,
+            "shape": "Lonsdale"
+          },
+          {
+            "name": "Medaille d'Or No. 3",
+            "length": "6.875",
+            "ring_gauge": 28,
+            "shape": "Panatela"
+          },
+          {
+            "name": "Medaille d'Or No. 4",
+            "length": "6.0",
+            "ring_gauge": 32,
+            "shape": "Panatela"
+          }
+        ]
       }
     ]
   },
@@ -4211,6 +4271,87 @@
         ],
         "binder": "Honduras",
         "filler": "Honduras/Nicaragua"
+      },
+      {
+        "name": "Alec Bradley Project 40",
+        "wrapper": "Nicaraguan Habano",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
+      },
+      {
+        "name": "Alec Bradley Texas Lancero",
+        "wrapper": "Honduran Habano",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Lancero",
+            "length": "7.0",
+            "ring_gauge": 40,
+            "shape": "Lancero"
+          }
+        ]
+      },
+      {
+        "name": "Alec Bradley Prensado Lost Art",
+        "wrapper": "Honduran Corojo",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
       }
     ]
   },
@@ -4421,6 +4562,60 @@
         ],
         "binder": "Nicaragua",
         "filler": "Nicaragua"
+      },
+      {
+        "name": "Tatuaje Monster Series",
+        "wrapper": "Connecticut Broadleaf Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "The Frank",
+            "length": "5.5",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "The Mummy",
+            "length": "5.5",
+            "ring_gauge": 38,
+            "shape": "Corona"
+          },
+          {
+            "name": "The Drac",
+            "length": "6.25",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          }
+        ]
+      },
+      {
+        "name": "Tatuaje Cojonu 2003",
+        "wrapper": "Habano",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
       }
     ]
   },
@@ -4895,6 +5090,144 @@
         ],
         "binder": "Honduras",
         "filler": "Honduras/Nicaragua"
+      },
+      {
+        "name": "AJ Fernandez Enclave",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      },
+      {
+        "name": "AJ Fernandez Last Call",
+        "wrapper": "Nicaraguan Habano",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Pequenas",
+            "length": "4.0",
+            "ring_gauge": 40,
+            "shape": "Petit Corona"
+          },
+          {
+            "name": "Chiquitas",
+            "length": "4.0",
+            "ring_gauge": 48,
+            "shape": "Petit Robusto"
+          },
+          {
+            "name": "Geniales",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Flaquitas",
+            "length": "6.5",
+            "ring_gauge": 42,
+            "shape": "Lonsdale"
+          }
+        ]
+      },
+      {
+        "name": "AJ Fernandez San Lotano",
+        "wrapper": "Connecticut / Habano / Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua / Honduras",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          }
+        ]
+      },
+      {
+        "name": "AJ Fernandez Dias de Gloria",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Short Churchill",
+            "length": "4.75",
+            "ring_gauge": 48,
+            "shape": "Petit Corona"
+          },
+          {
+            "name": "Toro Gordo",
+            "length": "6.0",
+            "ring_gauge": 56,
+            "shape": "Gordo"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 52,
+            "shape": "Torpedo"
+          },
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          }
+        ]
       }
     ]
   },
@@ -5057,6 +5390,195 @@
         ],
         "binder": "Nicaragua",
         "filler": "Nicaragua"
+      },
+      {
+        "name": "Foundation El Güegüense (The Wise Man)",
+        "wrapper": "Nicaraguan Corojo",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Corona Gorda",
+            "length": "5.625",
+            "ring_gauge": 46,
+            "shape": "Corona Gorda"
+          },
+          {
+            "name": "Robusto",
+            "length": "5.5",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro Huaco",
+            "length": "6.0",
+            "ring_gauge": 56,
+            "shape": "Gordo"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Lancero",
+            "length": "7.5",
+            "ring_gauge": 38,
+            "shape": "Lancero"
+          }
+        ]
+      },
+      {
+        "name": "Foundation Charter Oak",
+        "wrapper": "Connecticut Shade",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Petit Corona",
+            "length": "4.0",
+            "ring_gauge": 42,
+            "shape": "Petit Corona"
+          },
+          {
+            "name": "Corona",
+            "length": "5.5",
+            "ring_gauge": 44,
+            "shape": "Corona"
+          },
+          {
+            "name": "Rothschild",
+            "length": "4.5",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Lonsdale",
+            "length": "6.5",
+            "ring_gauge": 44,
+            "shape": "Lonsdale"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Grande",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      },
+      {
+        "name": "Foundation Charter Oak Maduro",
+        "wrapper": "Connecticut Broadleaf Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Petit Corona",
+            "length": "4.0",
+            "ring_gauge": 42,
+            "shape": "Petit Corona"
+          },
+          {
+            "name": "Rothschild",
+            "length": "4.5",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Grande",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      },
+      {
+        "name": "Foundation Charter Oak Habano",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Petit Corona",
+            "length": "4.0",
+            "ring_gauge": 42,
+            "shape": "Petit Corona"
+          },
+          {
+            "name": "Rothschild",
+            "length": "4.5",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Grande",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      },
+      {
+        "name": "Foundation Tabernacle Havana Seed CT No. 142",
+        "wrapper": "Connecticut Broadleaf Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua (Havana Seed)",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Corona",
+            "length": "5.5",
+            "ring_gauge": 46,
+            "shape": "Corona Gorda"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Lancero",
+            "length": "7.0",
+            "ring_gauge": 40,
+            "shape": "Lancero"
+          },
+          {
+            "name": "Double Corona",
+            "length": "7.5",
+            "ring_gauge": 54,
+            "shape": "Double Corona"
+          }
+        ]
       }
     ]
   },
@@ -5780,6 +6302,72 @@
         ],
         "binder": "Nicaragua",
         "filler": "Nicaragua"
+      },
+      {
+        "name": "Plasencia Cosecha 146",
+        "wrapper": "Nicaraguan",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "La Vega",
+            "length": "5.25",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "San Luis",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Toro"
+          },
+          {
+            "name": "San Agustin",
+            "length": "7.0",
+            "ring_gauge": 50,
+            "shape": "Churchill"
+          },
+          {
+            "name": "La Musica",
+            "length": "6.5",
+            "ring_gauge": 46,
+            "shape": "Lonsdale"
+          }
+        ]
+      },
+      {
+        "name": "Plasencia Reserva Original",
+        "wrapper": "Honduran Corojo",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Lancero",
+            "length": "7.5",
+            "ring_gauge": 38,
+            "shape": "Lancero"
+          }
+        ]
       }
     ]
   },
@@ -6215,6 +6803,66 @@
         ],
         "binder": "Nicaragua",
         "filler": "Nicaragua/Honduras"
+      },
+      {
+        "name": "Southern Draw Kudzu",
+        "wrapper": "Connecticut Shade",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      },
+      {
+        "name": "Southern Draw 300 Hands",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Petit Lancero",
+            "length": "6.0",
+            "ring_gauge": 38,
+            "shape": "Lancero"
+          },
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
       }
     ]
   },
@@ -6302,6 +6950,66 @@
         ],
         "binder": "Nicaragua",
         "filler": "Nicaragua"
+      },
+      {
+        "name": "Warped Guardian of the Farm",
+        "wrapper": "Nicaraguan Corojo",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Apollo",
+            "length": "6.0",
+            "ring_gauge": 48,
+            "shape": "Corona Gorda"
+          },
+          {
+            "name": "JJ",
+            "length": "5.25",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Night Watch",
+            "length": "6.25",
+            "ring_gauge": 48,
+            "shape": "Toro"
+          },
+          {
+            "name": "Cerberus",
+            "length": "6.0",
+            "ring_gauge": 44,
+            "shape": "Corona"
+          }
+        ]
+      },
+      {
+        "name": "Warped Serie Gran Reserva",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "1988",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          }
+        ]
       }
     ]
   },
@@ -6410,6 +7118,117 @@
         ],
         "binder": "Dominican Republic",
         "filler": "Dominican Republic/Nicaragua"
+      },
+      {
+        "name": "Dunbarton Mi Querida",
+        "wrapper": "Connecticut Broadleaf Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua / Dominican Republic",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Pequeño",
+            "length": "4.0",
+            "ring_gauge": 42,
+            "shape": "Petit Corona"
+          },
+          {
+            "name": "Ancho Corto",
+            "length": "4.0",
+            "ring_gauge": 50,
+            "shape": "Petit Robusto"
+          },
+          {
+            "name": "Gordita",
+            "length": "4.5",
+            "ring_gauge": 48,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Fino Largo",
+            "length": "6.0",
+            "ring_gauge": 38,
+            "shape": "Lancero"
+          },
+          {
+            "name": "Triqui Traca",
+            "length": "5.5",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Largo",
+            "length": "6.0",
+            "ring_gauge": 50,
+            "shape": "Toro"
+          }
+        ]
+      },
+      {
+        "name": "Dunbarton StillWell Star",
+        "wrapper": "Connecticut Broadleaf Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua / Pipe Tobacco Blend",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Aromatic No. 1",
+            "length": "5.5",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "English No. 27",
+            "length": "5.5",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Navy No. 1056",
+            "length": "5.5",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Virginia No. 4095",
+            "length": "5.5",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          }
+        ]
+      },
+      {
+        "name": "Dunbarton Todos Las Dias",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua / Dominican Republic",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Gordito",
+            "length": "4.5",
+            "ring_gauge": 48,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 50,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
       }
     ]
   },
@@ -6509,6 +7328,162 @@
         ],
         "binder": "Nicaragua",
         "filler": "Nicaragua"
+      },
+      {
+        "name": "RoMa Craft CroMagnon",
+        "wrapper": "Connecticut Broadleaf Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua / Pennsylvania",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Anthropology",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Knuckle Dragger",
+            "length": "4.0",
+            "ring_gauge": 52,
+            "shape": "Petit Robusto"
+          },
+          {
+            "name": "Aquitaine EMH",
+            "length": "5.75",
+            "ring_gauge": 56,
+            "shape": "Gordo"
+          },
+          {
+            "name": "Cranium",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Mandible",
+            "length": "6.5",
+            "ring_gauge": 44,
+            "shape": "Lonsdale"
+          },
+          {
+            "name": "Slobberknocker",
+            "length": "6.25",
+            "ring_gauge": 52,
+            "shape": "Torpedo"
+          }
+        ]
+      },
+      {
+        "name": "RoMa Craft Intemperance EC XVIII",
+        "wrapper": "Ecuadorian Connecticut",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Charity",
+            "length": "4.0",
+            "ring_gauge": 42,
+            "shape": "Petit Corona"
+          },
+          {
+            "name": "Temperance",
+            "length": "5.5",
+            "ring_gauge": 44,
+            "shape": "Corona"
+          },
+          {
+            "name": "Industry",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Humility",
+            "length": "6.5",
+            "ring_gauge": 44,
+            "shape": "Lonsdale"
+          },
+          {
+            "name": "Virtue",
+            "length": "6.0",
+            "ring_gauge": 54,
+            "shape": "Toro"
+          }
+        ]
+      },
+      {
+        "name": "RoMa Craft Intemperance BA XXI",
+        "wrapper": "Connecticut Broadleaf Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua / Pennsylvania",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Revenge",
+            "length": "4.0",
+            "ring_gauge": 42,
+            "shape": "Petit Corona"
+          },
+          {
+            "name": "Vanity",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Intrigue",
+            "length": "5.5",
+            "ring_gauge": 44,
+            "shape": "Corona"
+          },
+          {
+            "name": "Ambition",
+            "length": "6.5",
+            "ring_gauge": 44,
+            "shape": "Lonsdale"
+          },
+          {
+            "name": "Breach of the Peace",
+            "length": "6.0",
+            "ring_gauge": 54,
+            "shape": "Toro"
+          }
+        ]
+      },
+      {
+        "name": "RoMa Craft Neanderthal",
+        "wrapper": "Connecticut Broadleaf Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua / Pennsylvania",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "HN",
+            "length": "4.0",
+            "ring_gauge": 52,
+            "shape": "Petit Robusto"
+          },
+          {
+            "name": "GD",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "SGP",
+            "length": "6.0",
+            "ring_gauge": 54,
+            "shape": "Toro"
+          },
+          {
+            "name": "LH",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
       }
     ]
   },
@@ -6698,6 +7673,78 @@
         ],
         "binder": "Connecticut Broadleaf",
         "filler": "Dominican Republic/Mexico"
+      },
+      {
+        "name": "Macanudo Gold Label",
+        "wrapper": "Connecticut Shade",
+        "binder": "Dominican Republic",
+        "filler": "Dominican Republic / Honduras",
+        "strength": "Mild",
+        "vitolas": [
+          {
+            "name": "Court",
+            "length": "4.5",
+            "ring_gauge": 36,
+            "shape": "Petit Corona"
+          },
+          {
+            "name": "Tudor",
+            "length": "6.0",
+            "ring_gauge": 45,
+            "shape": "Corona"
+          },
+          {
+            "name": "Lord Nelson",
+            "length": "6.5",
+            "ring_gauge": 50,
+            "shape": "Toro"
+          },
+          {
+            "name": "Shakespeare",
+            "length": "6.5",
+            "ring_gauge": 45,
+            "shape": "Lonsdale"
+          },
+          {
+            "name": "Somerset",
+            "length": "7.0",
+            "ring_gauge": 34,
+            "shape": "Panatela"
+          }
+        ]
+      },
+      {
+        "name": "Macanudo Vintage",
+        "wrapper": "Connecticut Shade",
+        "binder": "Dominican Republic",
+        "filler": "Dominican Republic",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          }
+        ]
       }
     ]
   },
@@ -6959,6 +8006,105 @@
         ],
         "binder": "Honduras",
         "filler": "Honduras"
+      },
+      {
+        "name": "Punch Signature",
+        "wrapper": "Ecuadorian Sumatra",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua / Dominican Republic",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.25",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 54,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          }
+        ]
+      },
+      {
+        "name": "Punch Rare Corojo",
+        "wrapper": "Honduran Corojo",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua / Dominican Republic",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Puro Fino",
+            "length": "5.25",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Pugilist",
+            "length": "6.25",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Champion",
+            "length": "7.0",
+            "ring_gauge": 54,
+            "shape": "Churchill"
+          },
+          {
+            "name": "El Doble",
+            "length": "6.25",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      },
+      {
+        "name": "Punch Diablo",
+        "wrapper": "Sumatra Oscuro",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Scamp",
+            "length": "4.75",
+            "ring_gauge": 50,
+            "shape": "Petit Robusto"
+          },
+          {
+            "name": "Brute",
+            "length": "6.0",
+            "ring_gauge": 54,
+            "shape": "Toro"
+          },
+          {
+            "name": "Diabolus",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          },
+          {
+            "name": "El Diablo",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          }
+        ]
       }
     ]
   },
@@ -7571,6 +8717,87 @@
         ],
         "binder": "Dominican Republic",
         "filler": "Dominican Republic"
+      },
+      {
+        "name": "La Flor Dominicana La Nox",
+        "wrapper": "Mexican San Andres Maduro",
+        "binder": "Dominican Republic",
+        "filler": "Dominican Republic",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 56,
+            "shape": "Torpedo"
+          }
+        ]
+      },
+      {
+        "name": "La Flor Dominicana Andalusian Bull",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Dominican Republic",
+        "filler": "Dominican Republic",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Andalusian Bull",
+            "length": "6.0",
+            "ring_gauge": 56,
+            "shape": "Figurado"
+          }
+        ]
+      },
+      {
+        "name": "La Flor Dominicana Air Bender",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Dominican Republic",
+        "filler": "Dominican Republic",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Matatan",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Valiente",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Maestro",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          }
+        ]
       }
     ]
   },
@@ -7724,6 +8951,72 @@
         ],
         "binder": "Ecuador",
         "filler": "Nicaragua"
+      },
+      {
+        "name": "Espinosa Knuckle Sandwich",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      },
+      {
+        "name": "Espinosa Habano",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "No. 4",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "No. 5",
+            "length": "5.5",
+            "ring_gauge": 52,
+            "shape": "Robusto Extra"
+          },
+          {
+            "name": "No. 7",
+            "length": "7.0",
+            "ring_gauge": 50,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 52,
+            "shape": "Torpedo"
+          }
+        ]
       }
     ]
   },
@@ -12023,6 +13316,66 @@
         ],
         "binder": "Nicaragua",
         "filler": "Nicaragua"
+      },
+      {
+        "name": "La Palina Blue Label",
+        "wrapper": "Ecuadorian Connecticut",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          },
+          {
+            "name": "Lancero",
+            "length": "7.0",
+            "ring_gauge": 38,
+            "shape": "Lancero"
+          }
+        ]
+      },
+      {
+        "name": "La Palina Black Label",
+        "wrapper": "Connecticut Broadleaf Maduro",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
       }
     ]
   },
@@ -14496,6 +15849,1317 @@
             "length": "7.0",
             "ring_gauge": 48,
             "shape": "Churchill"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "HVC Cigars",
+    "country_of_origin": "Nicaragua",
+    "lines": [
+      {
+        "name": "HVC First Selection",
+        "wrapper": "Ecuadorian Connecticut",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Petit Corona",
+            "length": "4.0",
+            "ring_gauge": 44,
+            "shape": "Petit Corona"
+          },
+          {
+            "name": "Corona",
+            "length": "5.5",
+            "ring_gauge": 44,
+            "shape": "Corona"
+          },
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
+      },
+      {
+        "name": "HVC Black Friday",
+        "wrapper": "Ecuadorian Habano Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Lancero",
+            "length": "7.0",
+            "ring_gauge": 38,
+            "shape": "Lancero"
+          },
+          {
+            "name": "Short Robusto",
+            "length": "4.0",
+            "ring_gauge": 48,
+            "shape": "Petit Robusto"
+          }
+        ]
+      },
+      {
+        "name": "HVC Pan Caliente",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 50,
+            "shape": "Toro"
+          },
+          {
+            "name": "Lancero",
+            "length": "7.0",
+            "ring_gauge": 38,
+            "shape": "Lancero"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "Leaf by Oscar",
+    "country_of_origin": "Honduras",
+    "lines": [
+      {
+        "name": "Leaf by Oscar Connecticut",
+        "wrapper": "Connecticut (real tobacco leaf wrap)",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          },
+          {
+            "name": "Lancero",
+            "length": "7.0",
+            "ring_gauge": 38,
+            "shape": "Lancero"
+          }
+        ]
+      },
+      {
+        "name": "Leaf by Oscar Maduro",
+        "wrapper": "Connecticut Broadleaf Maduro (real tobacco leaf wrap)",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      },
+      {
+        "name": "Leaf by Oscar Corojo",
+        "wrapper": "Honduran Corojo (real tobacco leaf wrap)",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          },
+          {
+            "name": "Lancero",
+            "length": "7.0",
+            "ring_gauge": 38,
+            "shape": "Lancero"
+          }
+        ]
+      },
+      {
+        "name": "Leaf by Oscar Sumatra",
+        "wrapper": "Ecuadorian Sumatra (real tobacco leaf wrap)",
+        "binder": "Honduras",
+        "filler": "Honduras / Nicaragua",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "Sancho Panza",
+    "country_of_origin": "Cuba",
+    "lines": [
+      {
+        "name": "Sancho Panza Belicosos",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Belicosos",
+            "length": "5.5",
+            "ring_gauge": 52,
+            "shape": "Torpedo"
+          }
+        ]
+      },
+      {
+        "name": "Sancho Panza Non Plus",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Non Plus",
+            "length": "4.625",
+            "ring_gauge": 42,
+            "shape": "Petit Corona"
+          }
+        ]
+      },
+      {
+        "name": "Sancho Panza Molinos",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Molinos",
+            "length": "6.5",
+            "ring_gauge": 42,
+            "shape": "Lonsdale"
+          }
+        ]
+      },
+      {
+        "name": "Sancho Panza Sanchos",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Sanchos",
+            "length": "9.25",
+            "ring_gauge": 47,
+            "shape": "Double Corona"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "Jose L. Piedra",
+    "country_of_origin": "Cuba",
+    "lines": [
+      {
+        "name": "Jose L. Piedra Petit Cazadores",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba (Vuelta Arriba)",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Petit Cazadores",
+            "length": "5.0",
+            "ring_gauge": 40,
+            "shape": "Corona"
+          }
+        ]
+      },
+      {
+        "name": "Jose L. Piedra Cazadores",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba (Vuelta Arriba)",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Cazadores",
+            "length": "6.25",
+            "ring_gauge": 43,
+            "shape": "Lonsdale"
+          }
+        ]
+      },
+      {
+        "name": "Jose L. Piedra Conservas",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba (Vuelta Arriba)",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Conservas",
+            "length": "5.5",
+            "ring_gauge": 40,
+            "shape": "Corona"
+          }
+        ]
+      },
+      {
+        "name": "Jose L. Piedra Cremas",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba (Vuelta Arriba)",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Cremas",
+            "length": "5.0",
+            "ring_gauge": 40,
+            "shape": "Corona"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "Quai d'Orsay",
+    "country_of_origin": "Cuba",
+    "lines": [
+      {
+        "name": "Quai d'Orsay No. 50",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "No. 50",
+            "length": "4.375",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          }
+        ]
+      },
+      {
+        "name": "Quai d'Orsay No. 54",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "No. 54",
+            "length": "5.5",
+            "ring_gauge": 54,
+            "shape": "Toro"
+          }
+        ]
+      },
+      {
+        "name": "Quai d'Orsay Coronas Claro",
+        "wrapper": "Cuban (Claro)",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Mild",
+        "vitolas": [
+          {
+            "name": "Coronas Claro",
+            "length": "5.625",
+            "ring_gauge": 42,
+            "shape": "Corona"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "Juan Lopez",
+    "country_of_origin": "Cuba",
+    "lines": [
+      {
+        "name": "Juan Lopez Seleccion No. 1",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Seleccion No. 1",
+            "length": "6.625",
+            "ring_gauge": 46,
+            "shape": "Lonsdale"
+          }
+        ]
+      },
+      {
+        "name": "Juan Lopez Seleccion No. 2",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Seleccion No. 2",
+            "length": "4.875",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          }
+        ]
+      },
+      {
+        "name": "Juan Lopez Petit Coronas",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Petit Coronas",
+            "length": "5.125",
+            "ring_gauge": 42,
+            "shape": "Petit Corona"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "La Aroma de Cuba",
+    "country_of_origin": "Nicaragua",
+    "lines": [
+      {
+        "name": "La Aroma de Cuba Mi Amor",
+        "wrapper": "Mexican San Andres Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Belicoso",
+            "length": "5.75",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          },
+          {
+            "name": "Magnifico",
+            "length": "6.0",
+            "ring_gauge": 58,
+            "shape": "Gordo"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
+      },
+      {
+        "name": "La Aroma de Cuba Edicion Especial",
+        "wrapper": "Mexican San Andres",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "No. 1",
+            "length": "5.5",
+            "ring_gauge": 44,
+            "shape": "Corona"
+          },
+          {
+            "name": "No. 2",
+            "length": "6.0",
+            "ring_gauge": 48,
+            "shape": "Toro"
+          },
+          {
+            "name": "No. 5",
+            "length": "5.75",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          },
+          {
+            "name": "No. 47",
+            "length": "7.0",
+            "ring_gauge": 47,
+            "shape": "Churchill"
+          }
+        ]
+      },
+      {
+        "name": "La Aroma de Cuba Connecticut",
+        "wrapper": "Ecuadorian Connecticut",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "Highclere Castle",
+    "country_of_origin": "Nicaragua",
+    "lines": [
+      {
+        "name": "Highclere Castle Connecticut",
+        "wrapper": "Ecuadorian Connecticut",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Petit Corona",
+            "length": "4.0",
+            "ring_gauge": 40,
+            "shape": "Petit Corona"
+          },
+          {
+            "name": "Corona",
+            "length": "5.5",
+            "ring_gauge": 44,
+            "shape": "Corona"
+          },
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
+      },
+      {
+        "name": "Highclere Castle Maduro",
+        "wrapper": "Connecticut Broadleaf Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "Henry Clay",
+    "country_of_origin": "Dominican Republic",
+    "lines": [
+      {
+        "name": "Henry Clay War Hawk",
+        "wrapper": "Connecticut Broadleaf Maduro",
+        "binder": "Dominican Republic",
+        "filler": "Dominican Republic / Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Corona",
+            "length": "5.5",
+            "ring_gauge": 44,
+            "shape": "Corona"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
+      },
+      {
+        "name": "Henry Clay Stalk Cut",
+        "wrapper": "Connecticut Broadleaf",
+        "binder": "Dominican Republic",
+        "filler": "Dominican Republic / Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Gran Corona",
+            "length": "6.25",
+            "ring_gauge": 46,
+            "shape": "Corona Gorda"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "Baccarat",
+    "country_of_origin": "Honduras",
+    "lines": [
+      {
+        "name": "Baccarat The Game",
+        "wrapper": "Honduran",
+        "binder": "Honduras",
+        "filler": "Honduras",
+        "strength": "Mild",
+        "vitolas": [
+          {
+            "name": "Rothschild",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Luchador",
+            "length": "6.0",
+            "ring_gauge": 43,
+            "shape": "Corona"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "King",
+            "length": "8.5",
+            "ring_gauge": 52,
+            "shape": "Double Corona"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      },
+      {
+        "name": "Baccarat Havana Selection",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Honduras",
+        "filler": "Honduras",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Rothschild",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 50,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 50,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "5 Vegas",
+    "country_of_origin": "Nicaragua",
+    "lines": [
+      {
+        "name": "5 Vegas Gold",
+        "wrapper": "Ecuadorian Connecticut",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          }
+        ]
+      },
+      {
+        "name": "5 Vegas Triple-A",
+        "wrapper": "Nicaraguan",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      },
+      {
+        "name": "5 Vegas Series A",
+        "wrapper": "Nicaraguan Habano",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Anomaly",
+            "length": "5.5",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Authority",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Archetype",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Apostle",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "Quorum",
+    "country_of_origin": "Nicaragua",
+    "lines": [
+      {
+        "name": "Quorum Classic",
+        "wrapper": "Ecuadorian",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua / Dominican Republic / Honduras",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Corona",
+            "length": "5.5",
+            "ring_gauge": 42,
+            "shape": "Corona"
+          },
+          {
+            "name": "Robusto",
+            "length": "4.75",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Double Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Tres Petit Corona",
+            "length": "4.5",
+            "ring_gauge": 38,
+            "shape": "Petit Corona"
+          }
+        ]
+      },
+      {
+        "name": "Quorum Maduro",
+        "wrapper": "Brazilian Maduro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua / Dominican Republic / Honduras",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Corona",
+            "length": "5.5",
+            "ring_gauge": 42,
+            "shape": "Corona"
+          },
+          {
+            "name": "Robusto",
+            "length": "4.75",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Double Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
+      },
+      {
+        "name": "Quorum Shade",
+        "wrapper": "Connecticut Shade",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua / Dominican Republic / Honduras",
+        "strength": "Mild",
+        "vitolas": [
+          {
+            "name": "Corona",
+            "length": "5.5",
+            "ring_gauge": 42,
+            "shape": "Corona"
+          },
+          {
+            "name": "Robusto",
+            "length": "4.75",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Double Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "Ashton Symmetry",
+    "country_of_origin": "Dominican Republic",
+    "lines": [
+      {
+        "name": "Ashton Symmetry",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Dominican Republic",
+        "filler": "Dominican Republic / Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Prestige",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Belicoso",
+            "length": "5.5",
+            "ring_gauge": 49,
+            "shape": "Torpedo"
+          },
+          {
+            "name": "Sublime",
+            "length": "6.25",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Prism",
+            "length": "6.0",
+            "ring_gauge": 54,
+            "shape": "Toro"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "Ashton Cabinet Selection",
+    "country_of_origin": "Dominican Republic",
+    "lines": [
+      {
+        "name": "Ashton Cabinet Selection",
+        "wrapper": "Connecticut Shade",
+        "binder": "Dominican Republic",
+        "filler": "Dominican Republic",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "No. 1",
+            "length": "9.0",
+            "ring_gauge": 52,
+            "shape": "Gran Corona"
+          },
+          {
+            "name": "No. 2",
+            "length": "7.0",
+            "ring_gauge": 46,
+            "shape": "Churchill"
+          },
+          {
+            "name": "No. 3",
+            "length": "6.0",
+            "ring_gauge": 46,
+            "shape": "Lonsdale"
+          },
+          {
+            "name": "No. 6",
+            "length": "5.5",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "No. 7",
+            "length": "6.25",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "No. 8",
+            "length": "7.0",
+            "ring_gauge": 49,
+            "shape": "Churchill"
+          },
+          {
+            "name": "No. 10",
+            "length": "7.625",
+            "ring_gauge": 52,
+            "shape": "Double Corona"
+          },
+          {
+            "name": "Tres Petite",
+            "length": "4.375",
+            "ring_gauge": 42,
+            "shape": "Petit Corona"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "La Flor de Cano",
+    "country_of_origin": "Cuba",
+    "lines": [
+      {
+        "name": "La Flor de Cano Selectos",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Selectos",
+            "length": "5.0",
+            "ring_gauge": 40,
+            "shape": "Petit Corona"
+          }
+        ]
+      },
+      {
+        "name": "La Flor de Cano Petit Corona",
+        "wrapper": "Cuban",
+        "binder": "Cuba",
+        "filler": "Cuba",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Petit Corona",
+            "length": "5.125",
+            "ring_gauge": 42,
+            "shape": "Petit Corona"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "PDR Cigars",
+    "country_of_origin": "Dominican Republic",
+    "lines": [
+      {
+        "name": "PDR 1878",
+        "wrapper": "Ecuadorian Connecticut",
+        "binder": "Dominican Republic",
+        "filler": "Dominican Republic",
+        "strength": "Mild-Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          }
+        ]
+      },
+      {
+        "name": "PDR El Criollito",
+        "wrapper": "Dominican Criollo",
+        "binder": "Dominican Republic",
+        "filler": "Dominican Republic",
+        "strength": "Medium",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          }
+        ]
+      },
+      {
+        "name": "PDR A. Flores 1975",
+        "wrapper": "Ecuadorian Habano",
+        "binder": "Dominican Republic",
+        "filler": "Dominican Republic / Nicaragua",
+        "strength": "Medium-Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "brand": "Ave Maria",
+    "country_of_origin": "Nicaragua",
+    "lines": [
+      {
+        "name": "Ave Maria Immaculata",
+        "wrapper": "Ecuadorian Connecticut",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Mild",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 50,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Gordo",
+            "length": "6.0",
+            "ring_gauge": 60,
+            "shape": "Gordo"
+          }
+        ]
+      },
+      {
+        "name": "Ave Maria Reconquista",
+        "wrapper": "Ecuadorian Habano Oscuro",
+        "binder": "Nicaragua",
+        "filler": "Nicaragua",
+        "strength": "Full",
+        "vitolas": [
+          {
+            "name": "Robusto",
+            "length": "5.0",
+            "ring_gauge": 52,
+            "shape": "Robusto"
+          },
+          {
+            "name": "Toro",
+            "length": "6.0",
+            "ring_gauge": 52,
+            "shape": "Toro"
+          },
+          {
+            "name": "Churchill",
+            "length": "7.0",
+            "ring_gauge": 48,
+            "shape": "Churchill"
+          },
+          {
+            "name": "Torpedo",
+            "length": "6.25",
+            "ring_gauge": 54,
+            "shape": "Torpedo"
           }
         ]
       }
