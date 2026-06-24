@@ -61,11 +61,10 @@ These steps need a GUI + your Apple accounts and can't be automated from the CLI
 
 ## Known follow-ups (not launch blockers)
 
-- **Magic-link auth deep linking.** `sendMagicLink` redirects to
-  `window.location.origin`, which is `capacitor://localhost` natively — the email link
-  won't reopen the app. To support native login later, register a Universal Link /
-  custom URL scheme and handle it with `@capacitor/app`'s `appUrlOpen`. Until then,
-  the app works fully without an account (palate stored locally).
+- **Magic-link auth setup.** The iOS shell registers `goodsticks://auth` and handles it
+  with `@capacitor/app`'s `appUrlOpen`. Supabase must allowlist that redirect URL, and
+  the build must include `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`; otherwise
+  the app keeps account sync disabled and local-only data still works.
 - **Native polish.** Consider wiring `@capacitor/haptics` into key interactions and
   honoring `env(safe-area-inset-*)` in the bottom nav for edge-to-edge devices.
 
