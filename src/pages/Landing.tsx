@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Cigarette } from "lucide-react";
+import { Cigarette, LogIn } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const Landing = () => {
@@ -23,6 +23,15 @@ const Landing = () => {
           <Cigarette className="h-6 w-6 text-primary" />
           <span className="font-display text-xl font-semibold text-foreground">GoodSticks</span>
         </div>
+        <Button
+          type="button"
+          variant="ember-ghost"
+          className="min-h-[44px] px-3"
+          onClick={() => navigate("/login")}
+        >
+          <LogIn className="h-4 w-4" />
+          Sign in
+        </Button>
       </nav>
 
       <main className="flex-1 flex flex-col items-center justify-center px-6 text-center max-w-2xl mx-auto">
@@ -39,7 +48,6 @@ const Landing = () => {
 
           <p className="text-lg sm:text-xl text-muted-foreground max-w-lg mx-auto mb-10 leading-relaxed font-light">
             Talk cigars with GoodSticks. Get recommendations tailored to your palate, build your humidor, and discover your next great smoke.
-          
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -47,9 +55,18 @@ const Landing = () => {
               variant="ember"
               size="lg"
               className="text-base px-8 py-6"
-              onClick={() => navigate("/onboarding")}>
-              
+              onClick={() => navigate("/onboarding")}
+            >
               Build your palate profile
+            </Button>
+            <Button
+              variant="ember-outline"
+              size="lg"
+              className="text-base px-8 py-6"
+              onClick={() => navigate("/login")}
+            >
+              <LogIn className="h-4 w-4" />
+              Sign in
             </Button>
           </div>
 
@@ -60,8 +77,8 @@ const Landing = () => {
       </main>
 
       <div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-    </div>);
-
+    </div>
+  );
 };
 
 export default Landing;
