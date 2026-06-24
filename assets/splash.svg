@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2732 2732">
+  <!-- Dark background matching the app theme -->
+  <rect width="2732" height="2732" fill="#10131a"/>
+  <!-- Centered cigar mark (logo scaled and translated to the middle) -->
+  <g transform="translate(1110 1110) scale(0.5)">
+    <line x1="232" y1="624" x2="712" y2="384" stroke="#c8803a" stroke-width="150" stroke-linecap="round"/>
+    <line x1="500" y1="528" x2="584" y2="486" stroke="#e8a050" stroke-width="156" stroke-linecap="butt"/>
+    <circle cx="772" cy="352" r="132" fill="#f97316" opacity="0.25"/>
+    <circle cx="772" cy="352" r="80" fill="#f97316" opacity="0.6"/>
+    <circle cx="772" cy="352" r="46" fill="#fbbf24"/>
+  </g>
+</svg>

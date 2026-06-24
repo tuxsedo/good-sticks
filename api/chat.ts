@@ -225,7 +225,8 @@ export default async function handler(req: Request): Promise<Response> {
 
     if (!googleResponse.ok || !googleResponse.body) {
       const errText = await googleResponse.text().catch(() => "Unknown error");
-      return new Response(JSON.stringify({ error: errText }), {
+      console.error("Google AI error:", googleResponse.status, errText);
+      return new Response(JSON.stringify({ error: "AI service unavailable" }), {
         status: 500,
         headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
       });
