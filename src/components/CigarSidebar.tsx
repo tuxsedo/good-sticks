@@ -18,7 +18,9 @@ const CigarSidebar = () => {
       const h = localStorage.getItem("gs_humidor");
       if (w) setWishlist(JSON.parse(w));
       if (h) setHumidor(JSON.parse(h));
-    } catch {}
+    } catch {
+      // Ignore malformed local collection data and start with empty lists.
+    }
   }, []);
 
   const save = (key: string, items: CigarItem[]) => {

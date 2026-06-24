@@ -1,15 +1,9 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Home, Star, Package, MessageSquare, Cigarette, SlidersHorizontal, UserCircle, LogOut, Loader2, Flame } from "lucide-react";
+import { Home, Star, Package, MessageSquare, Cigarette, SlidersHorizontal, UserCircle, Flame } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
-import { sendMagicLink, signOut } from "@/lib/supabase";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import AuthSheet from "@/components/AuthSheet";
 
 const AppSidebar = () => {
   const location = useLocation();
@@ -17,35 +11,10 @@ const AppSidebar = () => {
   const { user } = useAuth();
 
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [email, setEmail] = useState("");
-  const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState("");
 
   const isActive = (path: string) => location.pathname === path;
 
-  const handleSendLink = async () => {
-    if (!email.trim()) return;
-    setSending(true);
-    setError("");
-    const { error: err } = await sendMagicLink(email.trim());
-    setSending(false);
-    if (err) {
-      setError(err.message || "Something went wrong. Try again.");
-    } else {
-      setSent(true);
-    }
-  };
-
-  const handleSignOut = async () => {
-    await signOut();
-    setSheetOpen(false);
-  };
-
   const openSheet = () => {
-    setEmail("");
-    setSent(false);
-    setError("");
     setSheetOpen(true);
   };
 
@@ -199,119 +168,7 @@ const AppSidebar = () => {
         </button>
       </nav>
 
-      {/* Auth / Profile sheet */}
-      <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
-        <SheetContent side="bottom" className="rounded-t-2xl pb-8">
-          {user ? (
-            <>
-              <SheetHeader className="mb-6">
-                <SheetTitle className="text-left">Your account</SheetTitle>
-              </SheetHeader>
-              <div className="flex items-center gap-3 mb-6 px-1">
-                <div className="h-10 w-10 rounded-full bg-primary/15 flex items-center justify-center text-sm font-bold text-primary flex-shrink-0">
-                  {userInitials}
-                </div>
-                <div className="min-w-0">
-                  <p className="text-sm font-medium text-foreground truncate">{user.email}</p>
-                  <p className="text-xs text-muted-foreground">Humidor, wishlist &amp; palate synced</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-2 mb-6 md:hidden">
-                <button
-                  onClick={() => {
-                    setSheetOpen(false);
-                    navigate("/wishlist");
-                  }}
-                  className="rounded-xl border border-border/50 bg-secondary/20 px-3 py-3 text-left min-h-[52px]"
-                >
-                  <p className="text-xs font-medium text-foreground">Wishlist</p>
-                  <p className="text-[10px] text-muted-foreground mt-1">Saved wants</p>
-                </button>
-                <button
-                  onClick={() => {
-                    setSheetOpen(false);
-                    navigate("/humidor");
-                  }}
-                  className="rounded-xl border border-border/50 bg-secondary/20 px-3 py-3 text-left min-h-[52px]"
-                >
-                  <p className="text-xs font-medium text-foreground">Humidor</p>
-                  <p className="text-[10px] text-muted-foreground mt-1">Current stock</p>
-                </button>
-              </div>
-              <button
-                onClick={handleSignOut}
-                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors px-1"
-              >
-                <LogOut className="h-4 w-4" />
-                Sign out
-              </button>
-            </>
-          ) : (
-            <>
-              <SheetHeader className="mb-2">
-                <SheetTitle className="text-left">Save your data</SheetTitle>
-              </SheetHeader>
-              <p className="text-sm text-muted-foreground mb-5">
-                Sign in to sync your humidor, wishlist, and palate across devices. We'll send a magic link — no password needed.
-              </p>
-
-              {sent ? (
-                <div className="rounded-xl border border-primary/30 bg-primary/5 px-4 py-4 text-sm text-foreground">
-                  <p className="font-medium mb-1">Check your email</p>
-                  <p className="text-muted-foreground">
-                    We sent a sign-in link to <span className="text-foreground">{email}</span>. Tap the link to sign in.
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <div className="grid grid-cols-2 gap-2 pb-1 md:hidden">
-                    <button
-                      onClick={() => {
-                        setSheetOpen(false);
-                        navigate("/wishlist");
-                      }}
-                      className="rounded-xl border border-border/50 bg-secondary/20 px-3 py-3 text-left min-h-[52px]"
-                    >
-                      <p className="text-xs font-medium text-foreground">Wishlist</p>
-                      <p className="text-[10px] text-muted-foreground mt-1">Cigars to try</p>
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSheetOpen(false);
-                        navigate("/humidor");
-                      }}
-                      className="rounded-xl border border-border/50 bg-secondary/20 px-3 py-3 text-left min-h-[52px]"
-                    >
-                      <p className="text-xs font-medium text-foreground">Humidor</p>
-                      <p className="text-[10px] text-muted-foreground mt-1">What you own</p>
-                    </button>
-                  </div>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && handleSendLink()}
-                    placeholder="your@email.com"
-                    className="w-full rounded-xl border border-border bg-secondary/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
-                    autoFocus
-                  />
-                  {error && (
-                    <p className="text-xs text-destructive px-1">{error}</p>
-                  )}
-                  <button
-                    onClick={handleSendLink}
-                    disabled={!email.trim() || sending}
-                    className="w-full rounded-xl bg-primary text-primary-foreground py-3 text-sm font-medium disabled:opacity-50 hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
-                  >
-                    {sending && <Loader2 className="h-4 w-4 animate-spin" />}
-                    {sending ? "Sending…" : "Send magic link"}
-                  </button>
-                </div>
-              )}
-            </>
-          )}
-        </SheetContent>
-      </Sheet>
+      <AuthSheet open={sheetOpen} onOpenChange={setSheetOpen} />
     </>
   );
 };

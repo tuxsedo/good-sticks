@@ -42,7 +42,9 @@ const Humidor = () => {
       try {
         const stored = localStorage.getItem("gs_humidor");
         if (stored) setCigars(JSON.parse(stored));
-      } catch {}
+      } catch {
+        // Ignore malformed local humidor data and show an empty humidor.
+      }
     }
   }, [user]);
 

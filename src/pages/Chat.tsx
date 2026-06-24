@@ -5,6 +5,7 @@ import { Cigarette, Send } from "lucide-react";
 import type { ChatMessage, PalateProfile, CigarRef, HumidorCigar, SmokeLogEntry } from "@/lib/types";
 import { useAuth } from "@/contexts/AuthContext";
 import { getPalate, getHumidor, getSmokeLog, addWishlistCigar } from "@/lib/supabase";
+import { apiUrl } from "@/lib/config";
 
 const GREETING = `Hey, I'm Ember, your cigar sidekick. I already know your palate, so we can skip the basics.\n\nWhat's on your mind? Looking for a recommendation, curious about a brand, or want to talk about something you smoked recently?`;
 
@@ -16,7 +17,9 @@ const Chat = () => {
         const parsed = JSON.parse(stored) as ChatMessage[];
         if (parsed.length > 0) return parsed;
       }
-    } catch {}
+    } catch {
+      // Ignore malformed session chat history and fall back to the greeting.
+    }
     return [
       {
         id: "1",
@@ -91,7 +94,9 @@ const Chat = () => {
   useEffect(() => {
     try {
       sessionStorage.setItem("gs_chat_messages", JSON.stringify(messages));
-    } catch {}
+    } catch {
+      // Session storage can be unavailable in private or constrained browsers.
+    }
   }, [messages]);
 
   useEffect(() => {
@@ -112,7 +117,9 @@ const Chat = () => {
           wishlist.unshift({ id: Date.now().toString(), brand: cigar.brand, name: cigar.name, addedAt: new Date().toISOString() });
           localStorage.setItem("gs_wishlist", JSON.stringify(wishlist));
         }
-      } catch {}
+      } catch {
+        // Wishlist persistence is best-effort for signed-out users.
+      }
     }
   };
 
@@ -132,15 +139,14 @@ const Chat = () => {
     const assistantId = (Date.now() + 1).toString();
 
     try {
-      const response = await fetch("/api/chat", {
+      const response = await fetch(apiUrl("/api/chat"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: [...messages, userMsg], palate, humidor, smokeLog }),
       });
 
       if (!response.ok) {
-        const err = await response.json().catch(() => ({ error: "Request failed" })) as { error?: string };
-        throw new Error(err.error ?? "Request failed");
+        throw new Error("api_error");
       }
 
       if (!response.body) throw new Error("No stream body");
@@ -214,17 +220,17 @@ const Chat = () => {
           }
         }
       }
-    } catch (err) {
-      const message = err instanceof Error ? err.message : "Unknown error";
+    } catch {
       setIsTyping(false);
       setMessages((prev) => {
+        const errMsg = "Something went wrong — give it another try in a moment.";
         const hasAssistant = prev.some((m) => m.id === assistantId);
         if (hasAssistant) {
           return prev.map((m) =>
-            m.id === assistantId ? { ...m, content: `Something went wrong: ${message}` } : m
+            m.id === assistantId ? { ...m, content: errMsg } : m
           );
         }
-        return [...prev, { id: assistantId, role: "assistant", content: `Something went wrong: ${message}` }];
+        return [...prev, { id: assistantId, role: "assistant", content: errMsg }];
       });
     } finally {
       setIsTyping(false);

@@ -1,6 +1,7 @@
 export const config = { runtime: "edge" };
 
-const GOOGLE_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:streamGenerateContent?alt=sse";
+const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
+const OPENROUTER_MODEL = "z-ai/glm-5.2";
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
@@ -196,49 +197,51 @@ export default async function handler(req: Request): Promise<Response> {
       smokeLog?: SmokeLogEntry[];
     };
 
-    // Convert messages to Google AI format, skip leading assistant messages
+    // Skip leading assistant messages (greeting), ensure we start with a user turn
     let chatMessages = messages.filter((_, i) => !(i === 0 && messages[0].role === "assistant"));
-    // Ensure conversation starts with user turn
     while (chatMessages.length > 0 && chatMessages[0].role === "assistant") {
       chatMessages = chatMessages.slice(1);
     }
 
-    const googleMessages = chatMessages.map((m) => ({
-      role: m.role === "assistant" ? "model" : "user",
-      parts: [{ text: m.content }],
-    }));
+    const openRouterMessages = [
+      { role: "system", content: buildSystemPrompt(palate, humidor ?? [], smokeLog) },
+      ...chatMessages.map((m) => ({ role: m.role, content: m.content })),
+    ];
 
-    const apiKey = process.env.GOOGLE_AI_API_KEY ?? "";
-    const googleResponse = await fetch(`${GOOGLE_API_URL}&key=${apiKey}`, {
+    const apiKey = process.env.OPENROUTER_API_KEY ?? "";
+    const aiResponse = await fetch(OPENROUTER_API_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`,
+        "HTTP-Referer": "https://goodsticks.net",
+        "X-Title": "GoodSticks",
+      },
       body: JSON.stringify({
-        system_instruction: {
-          parts: [{ text: buildSystemPrompt(palate, humidor ?? [], smokeLog) }],
-        },
-        contents: googleMessages,
-        generationConfig: {
-          maxOutputTokens: 8192,
-        },
+        model: OPENROUTER_MODEL,
+        messages: openRouterMessages,
+        stream: true,
+        max_tokens: 4096,
       }),
     });
 
-    if (!googleResponse.ok || !googleResponse.body) {
-      const errText = await googleResponse.text().catch(() => "Unknown error");
-      return new Response(JSON.stringify({ error: errText }), {
+    if (!aiResponse.ok || !aiResponse.body) {
+      const errText = await aiResponse.text().catch(() => "Unknown error");
+      console.error("OpenRouter error:", aiResponse.status, errText);
+      return new Response(JSON.stringify({ error: "AI service unavailable" }), {
         status: 500,
         headers: { ...CORS_HEADERS, "Content-Type": "application/json" },
       });
     }
 
-    // Stream Google SSE → our SSE, buffering sentinel text
+    // Stream OpenRouter SSE (OpenAI format) → our SSE, buffering sentinel text
     const { readable, writable } = new TransformStream<Uint8Array, Uint8Array>();
     const writer = writable.getWriter();
     const encoder = new TextEncoder();
     const decoder = new TextDecoder();
 
     (async () => {
-      const reader = googleResponse.body!.getReader();
+      const reader = aiResponse.body!.getReader();
       let lineBuffer = "";
       let fullText = "";
       let forwardedLength = 0;
@@ -259,19 +262,23 @@ export default async function handler(req: Request): Promise<Response> {
 
             try {
               const event = JSON.parse(data) as {
-                candidates?: Array<{
-                  content?: { parts?: Array<{ text?: string }> };
-                  finishReason?: string;
+                choices?: Array<{
+                  delta?: { content?: string };
+                  finish_reason?: string;
                 }>;
               };
 
-              const text = event.candidates?.[0]?.content?.parts?.[0]?.text;
+              const text = event.choices?.[0]?.delta?.content;
               if (text) {
                 fullText += text;
 
-                // Only forward text up to the first ||| sentinel marker
+                // Only forward text up to the first ||| sentinel marker.
+                // Hold back 2 chars when no sentinel found yet — guards against a
+                // split where "||" arrives in one chunk and "|..." in the next.
                 const sentinelIdx = fullText.indexOf("|||");
-                const safeEnd = sentinelIdx === -1 ? fullText.length : sentinelIdx;
+                const safeEnd = sentinelIdx === -1
+                  ? Math.max(forwardedLength, fullText.length - 2)
+                  : sentinelIdx;
 
                 if (safeEnd > forwardedLength) {
                   const chunk = fullText.slice(forwardedLength, safeEnd);
