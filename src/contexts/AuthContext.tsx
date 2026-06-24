@@ -1,6 +1,13 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { App } from "@capacitor/app";
+import { Capacitor } from "@capacitor/core";
 import type { Session, User } from "@supabase/supabase-js";
-import { supabase, migrateFromLocalStorage } from "@/lib/supabase";
+import {
+  supabase,
+  completeMagicLinkSignIn,
+  isSupabaseConfigured,
+  migrateFromLocalStorage,
+} from "@/lib/supabase";
 
 interface AuthContextValue {
   session: Session | null;
@@ -19,11 +26,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const supabaseConfigured = !!(
-      import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_ANON_KEY
-    );
-
-    if (!supabaseConfigured) {
+    if (!isSupabaseConfigured) {
       setLoading(false);
       return;
     }
@@ -42,7 +45,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     );
 
-    return () => subscription.unsubscribe();
+    let appUrlOpenHandle: Awaited<ReturnType<typeof App.addListener>> | undefined;
+    let removed = false;
+
+    if (Capacitor.isNativePlatform()) {
+      App.addListener("appUrlOpen", async ({ url }) => {
+        if (!url.startsWith("goodsticks://auth")) return;
+        try {
+          await completeMagicLinkSignIn(url);
+        } catch (err) {
+          console.error("Magic-link sign-in failed:", err);
+        }
+      }).then((handle) => {
+        if (removed) {
+          void handle.remove();
+        } else {
+          appUrlOpenHandle = handle;
+        }
+      });
+    }
+
+    return () => {
+      removed = true;
+      subscription.unsubscribe();
+      void appUrlOpenHandle?.remove();
+    };
   }, []);
 
   return (

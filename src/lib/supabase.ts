@@ -1,10 +1,14 @@
 import { createClient } from "@supabase/supabase-js";
+import { Capacitor } from "@capacitor/core";
 import type { PalateProfile, HumidorCigar, WishlistCigar, SmokeLogEntry } from "./types";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL as string;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string;
+const NATIVE_AUTH_REDIRECT_URL = "goodsticks://auth";
 
-if (!supabaseUrl || !supabaseAnonKey) {
+export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey);
+
+if (!isSupabaseConfigured) {
   console.warn("Supabase env vars not set — auth and sync disabled");
 }
 
@@ -15,11 +19,65 @@ export const supabase = createClient(
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
-export const sendMagicLink = (email: string) =>
-  supabase.auth.signInWithOtp({
+const authUnavailableError = () =>
+  new Error("Account sync is not configured for this build.");
+
+const authNetworkError = () =>
+  new Error("Could not reach the account service. Check your connection and try again.");
+
+export const getAuthRedirectUrl = (): string => {
+  if (Capacitor.isNativePlatform()) return NATIVE_AUTH_REDIRECT_URL;
+  return window.location.origin;
+};
+
+export const sendMagicLink = async (email: string) => {
+  if (!isSupabaseConfigured) {
+    return {
+      data: { user: null, session: null },
+      error: authUnavailableError(),
+    };
+  }
+
+  const result = await supabase.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: window.location.origin },
+    options: { emailRedirectTo: getAuthRedirectUrl() },
   });
+
+  if (result.error?.message === "Failed to fetch") {
+    return {
+      ...result,
+      error: authNetworkError(),
+    };
+  }
+
+  return result;
+};
+
+export const completeMagicLinkSignIn = async (url: string): Promise<void> => {
+  if (!isSupabaseConfigured) return;
+
+  const callbackUrl = new URL(url);
+  const params = new URLSearchParams(
+    callbackUrl.hash ? callbackUrl.hash.slice(1) : callbackUrl.search.slice(1)
+  );
+  const code = callbackUrl.searchParams.get("code") ?? params.get("code");
+
+  if (code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (error) throw error;
+    return;
+  }
+
+  const accessToken = params.get("access_token");
+  const refreshToken = params.get("refresh_token");
+  if (accessToken && refreshToken) {
+    const { error } = await supabase.auth.setSession({
+      access_token: accessToken,
+      refresh_token: refreshToken,
+    });
+    if (error) throw error;
+  }
+};
 
 export const signOut = () => supabase.auth.signOut();
 
