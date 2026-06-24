@@ -17,7 +17,9 @@ const Chat = () => {
         const parsed = JSON.parse(stored) as ChatMessage[];
         if (parsed.length > 0) return parsed;
       }
-    } catch {}
+    } catch {
+      // Ignore malformed session chat history and fall back to the greeting.
+    }
     return [
       {
         id: "1",
@@ -92,7 +94,9 @@ const Chat = () => {
   useEffect(() => {
     try {
       sessionStorage.setItem("gs_chat_messages", JSON.stringify(messages));
-    } catch {}
+    } catch {
+      // Session storage can be unavailable in private or constrained browsers.
+    }
   }, [messages]);
 
   useEffect(() => {
@@ -113,7 +117,9 @@ const Chat = () => {
           wishlist.unshift({ id: Date.now().toString(), brand: cigar.brand, name: cigar.name, addedAt: new Date().toISOString() });
           localStorage.setItem("gs_wishlist", JSON.stringify(wishlist));
         }
-      } catch {}
+      } catch {
+        // Wishlist persistence is best-effort for signed-out users.
+      }
     }
   };
 

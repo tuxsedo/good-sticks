@@ -41,7 +41,9 @@ const Wishlist = () => {
       try {
         const stored = localStorage.getItem("gs_wishlist");
         if (stored) setCigars(JSON.parse(stored));
-      } catch {}
+      } catch {
+        // Ignore malformed local wishlist data and show an empty wishlist.
+      }
     }
   }, [user]);
 
