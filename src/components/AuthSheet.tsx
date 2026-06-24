@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { LogOut } from "lucide-react";
+import { LogOut, Flame } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { signOut } from "@/lib/supabase";
 import AuthForm from "@/components/AuthForm";
@@ -42,7 +42,7 @@ const AuthSheet = ({ open, onOpenChange }: AuthSheetProps) => {
                 <p className="text-xs text-muted-foreground">Humidor, wishlist &amp; palate synced</p>
               </div>
             </div>
-            <div className="mb-6 grid grid-cols-2 gap-2 md:hidden">
+            <div className="mb-6 grid grid-cols-3 gap-2 md:hidden">
               <button
                 onClick={() => {
                   onOpenChange(false);
@@ -62,6 +62,17 @@ const AuthSheet = ({ open, onOpenChange }: AuthSheetProps) => {
               >
                 <p className="text-xs font-medium text-foreground">Humidor</p>
                 <p className="mt-1 text-[10px] text-muted-foreground">Current stock</p>
+              </button>
+              <button
+                onClick={() => {
+                  onOpenChange(false);
+                  navigate("/log");
+                }}
+                className="min-h-[52px] rounded-lg border border-border/50 bg-secondary/20 px-3 py-3 text-left"
+              >
+                <Flame className="h-3 w-3 text-primary mb-1" />
+                <p className="text-xs font-medium text-foreground">Smoke Log</p>
+                <p className="mt-1 text-[10px] text-muted-foreground">Your history</p>
               </button>
             </div>
             <button

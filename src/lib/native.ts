@@ -9,7 +9,7 @@ export async function initNative(): Promise<void> {
 
   try {
     // Dark app → light status bar text.
-    await StatusBar.setStyle({ style: Style.Dark });
+    await StatusBar.setStyle({ style: Style.Light });
   } catch {
     // StatusBar isn't available on every platform; ignore.
   }

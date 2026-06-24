@@ -104,8 +104,17 @@ const Wishlist = () => {
               initialValue={name ? `${brand} ${name}`.trim() : ""}
               placeholder="Search cigar by brand or name…"
             />
+            {name && !brand && (
+              <input
+                type="text"
+                placeholder="Brand name"
+                value={brand}
+                onChange={(e) => setBrand(e.target.value)}
+                className="w-full rounded-lg border border-border bg-secondary/30 px-3 py-2.5 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
+              />
+            )}
             <div className="grid gap-3 sm:grid-cols-2">
-              {name && (
+              {brand && name && (
                 <div className="rounded-lg border border-border bg-secondary/10 px-3 py-2.5 text-sm text-foreground col-span-full flex items-center justify-between">
                   <span><span className="text-muted-foreground">{brand} · </span>{name}</span>
                   <button onClick={() => { setBrand(""); setName(""); setAutocompleteKey((k) => k + 1); }} className="text-muted-foreground hover:text-foreground ml-2">
@@ -125,7 +134,7 @@ const Wishlist = () => {
               </Select>
             </div>
             <div className="flex gap-2">
-              <Button variant="ember" size="sm" disabled={!name.trim()} onClick={addCigar}>
+              <Button variant="ember" size="sm" disabled={!name.trim() || !brand.trim()} onClick={addCigar}>
                 Add to Wishlist
               </Button>
               <Button variant="ember-ghost" size="sm" onClick={() => setShowForm(false)}>

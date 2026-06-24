@@ -15,11 +15,15 @@ const Login = () => {
     }
   }, [user, loading, navigate]);
 
-  if (loading) return null;
+  if (loading) return <div className="min-h-screen landing-bg" />;
 
   return (
     <div className="min-h-screen landing-bg flex flex-col">
-      <nav className="flex items-center justify-between px-6 py-5">
+      <nav className="flex items-center justify-between px-6 py-5 safe-area-top">
+        <div className="flex items-center gap-2">
+          <Cigarette className="h-5 w-5 text-primary flex-shrink-0" />
+          <span className="font-display text-lg font-semibold text-foreground">GoodSticks</span>
+        </div>
         <button
           type="button"
           onClick={() => navigate("/")}
@@ -28,10 +32,6 @@ const Login = () => {
           <ArrowLeft className="h-4 w-4" />
           <span className="text-sm">Back</span>
         </button>
-        <div className="flex items-center gap-2">
-          <Cigarette className="h-5 w-5 text-primary" />
-          <span className="font-display text-lg font-semibold text-foreground">GoodSticks</span>
-        </div>
       </nav>
 
       <main className="flex flex-1 items-center justify-center px-6 py-10">

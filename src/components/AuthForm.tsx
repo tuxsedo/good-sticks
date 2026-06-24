@@ -89,7 +89,6 @@ const AuthForm = ({
             placeholder="your@email.com"
             className="w-full rounded-lg border border-border bg-secondary/50 py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary/50"
             autoComplete="email"
-            autoFocus
           />
         </div>
         {error && <p className="px-1 text-xs text-destructive">{error}</p>}

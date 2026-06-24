@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search, Flame, ArrowRight, Star, Package, Bookmark } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { addWishlistCigar } from "@/lib/supabase";
 import type { PalateProfile } from "@/lib/types";
 
 const CIGARS = [
@@ -89,9 +90,26 @@ function scoreCigar(cigar: (typeof CIGARS)[number], palate: PalateProfile): numb
 const Home = () => {
   const [search, setSearch] = useState("");
   const [showAllMobile, setShowAllMobile] = useState(false);
+  const [savedNames, setSavedNames] = useState<Set<string>>(new Set());
   const navigate = useNavigate();
   const { user } = useAuth();
   const isMobile = useIsMobile();
+
+  const handleSaveCigar = useCallback(async (cigar: { brand: string; name: string }) => {
+    setSavedNames((prev) => new Set(prev).add(cigar.name));
+    if (user) {
+      await addWishlistCigar({ brand: cigar.brand, name: cigar.name });
+    } else {
+      try {
+        const stored = localStorage.getItem("gs_wishlist");
+        const wishlist = stored ? (JSON.parse(stored) as Array<{ id: string; brand: string; name: string; addedAt: string }>) : [];
+        if (!wishlist.some((c) => c.name.toLowerCase() === cigar.name.toLowerCase())) {
+          wishlist.unshift({ id: Date.now().toString(), brand: cigar.brand, name: cigar.name, addedAt: new Date().toISOString() });
+          localStorage.setItem("gs_wishlist", JSON.stringify(wishlist));
+        }
+      } catch { /* best-effort */ }
+    }
+  }, [user]);
 
   const palate: PalateProfile | null = (() => {
     try {
@@ -244,10 +262,12 @@ const Home = () => {
                     <p className="text-xs text-muted-foreground">{cigar.brand}</p>
                   </div>
                   <button
-                    aria-label={`Save ${cigar.name}`}
-                    className="h-11 w-11 -mr-2 -mt-2 rounded-full flex items-center justify-center text-muted-foreground/30 hover:text-primary hover:bg-primary/10 transition-colors"
+                    aria-label={savedNames.has(cigar.name) ? `Saved ${cigar.name}` : `Save ${cigar.name} to wishlist`}
+                    onClick={() => { if (!savedNames.has(cigar.name)) void handleSaveCigar(cigar); }}
+                    className="h-11 w-11 -mr-2 -mt-2 rounded-full flex items-center justify-center transition-colors"
+                    style={{ color: savedNames.has(cigar.name) ? "hsl(var(--primary))" : undefined }}
                   >
-                    <Star className="h-4 w-4" />
+                    <Star className={savedNames.has(cigar.name) ? "h-4 w-4 fill-primary text-primary" : "h-4 w-4 text-muted-foreground/30 hover:text-primary"} />
                   </button>
                 </div>
                 <div className="flex items-center gap-2 mb-2">

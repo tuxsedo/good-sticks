@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import OnboardingStep from "@/components/OnboardingStep";
 import FavoriteCigarsStep from "@/components/FavoriteCigarsStep";
-import { Cigarette, ArrowRight, SkipForward, X } from "lucide-react";
+import { Cigarette, ArrowRight, SkipForward, X, LogIn } from "lucide-react";
 import type { PalateProfile, FlavorNote } from "@/lib/types";
 import { useAuth } from "@/contexts/AuthContext";
 import { upsertPalate } from "@/lib/supabase";
@@ -187,12 +187,28 @@ const Onboarding = () => {
           <Button
             variant="ember"
             size="lg"
-            className="text-base px-8 py-6"
+            className="text-base px-8 py-6 w-full"
             onClick={() => navigate("/chat")}
           >
             Let's talk cigars
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
+          {!user && (
+            <Button
+              variant="ember-outline"
+              size="lg"
+              className="text-base px-8 py-6 w-full mt-3"
+              onClick={() => navigate("/login")}
+            >
+              <LogIn className="mr-2 h-4 w-4" />
+              Save my profile
+            </Button>
+          )}
+          {!user && (
+            <p className="text-muted-foreground/50 text-xs mt-4">
+              Sign in to sync your palate, humidor, and history across devices.
+            </p>
+          )}
         </div>
       </div>
     );
@@ -200,7 +216,7 @@ const Onboarding = () => {
 
   return (
     <div className="min-h-screen bg-ember-gradient flex flex-col">
-      <div className="flex items-center justify-between px-6 py-5">
+      <div className="flex items-center justify-between px-6 py-5 safe-area-top">
         <div className="flex items-center gap-2">
           <Cigarette className="h-5 w-5 text-primary" />
           <span className="font-display text-lg font-semibold text-foreground">GoodSticks</span>
@@ -251,7 +267,11 @@ const Onboarding = () => {
           <OnboardingStep
             headline={step.headline}
             subtext={step.subtext}
-            options={step.options}
+            options={
+              currentStep === 3
+                ? step.options.filter((o) => !answers.loveFlavors.includes(o.value))
+                : step.options
+            }
             selected={getCurrentValue()}
             multiSelect={step.multiSelect}
             onSelect={handleSelect}

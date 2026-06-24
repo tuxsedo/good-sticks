@@ -5,11 +5,15 @@ import { cn } from "@/lib/utils";
 // Set up a free form at formspree.io and paste your form ID here
 const FORMSPREE_URL = "https://formspree.io/f/YOUR_FORM_ID";
 
+const FORMSPREE_CONFIGURED = !FORMSPREE_URL.includes("YOUR_FORM_ID");
+
 type Status = "idle" | "open" | "sending" | "sent" | "error";
 
 const FeedbackButton = () => {
   const [status, setStatus] = useState<Status>("idle");
   const [message, setMessage] = useState("");
+
+  if (!FORMSPREE_CONFIGURED) return null;
 
   const open = () => setStatus("open");
   const close = () => {

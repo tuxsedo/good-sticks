@@ -14,24 +14,15 @@ const Landing = () => {
     }
   }, [user, loading, navigate]);
 
-  if (loading) return null;
+  if (loading) return <div className="min-h-screen landing-bg" />;
 
   return (
     <div className="min-h-screen landing-bg flex flex-col">
-      <nav className="flex items-center justify-between px-6 py-5">
+      <nav className="flex items-center px-6 py-5 safe-area-top">
         <div className="flex items-center gap-2">
-          <Cigarette className="h-6 w-6 text-primary" />
+          <Cigarette className="h-6 w-6 text-primary flex-shrink-0" />
           <span className="font-display text-xl font-semibold text-foreground">GoodSticks</span>
         </div>
-        <Button
-          type="button"
-          variant="ember-ghost"
-          className="min-h-[44px] px-3"
-          onClick={() => navigate("/login")}
-        >
-          <LogIn className="h-4 w-4" />
-          Sign in
-        </Button>
       </nav>
 
       <main className="flex-1 flex flex-col items-center justify-center px-6 text-center max-w-2xl mx-auto">
@@ -70,9 +61,7 @@ const Landing = () => {
             </Button>
           </div>
 
-          <p className="text-muted-foreground/60 text-sm mt-6">
-            Free to use · Up to 20 conversations
-          </p>
+
         </div>
       </main>
 

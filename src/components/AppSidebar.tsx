@@ -133,8 +133,8 @@ const AppSidebar = () => {
         </div>
       </div>
 
-      {/* Mobile bottom nav */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border/50 grid grid-cols-4 safe-area-bottom">
+      {/* Mobile bottom nav — 5 tabs: Home, Ember, Humidor, Wishlist, Profile */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border/50 grid grid-cols-5 safe-area-bottom">
         {bottomNavItem("/home", <Home className="h-5 w-5" />, "Home")}
         {bottomNavItem(
           "/chat",
@@ -146,20 +146,21 @@ const AppSidebar = () => {
           </div>,
           "Ember"
         )}
-        {bottomNavItem("/log", <Flame className="h-5 w-5" />, "Log")}
+        {bottomNavItem("/humidor", <Package className="h-5 w-5" />, "Humidor")}
+        {bottomNavItem("/wishlist", <Star className="h-5 w-5" />, "Wishlist")}
 
         {/* Profile tab */}
         <button
           onClick={openSheet}
-          className="flex flex-col items-center gap-1 px-4 py-2 text-xs transition-colors min-w-0"
+          className="flex flex-col items-center gap-1 px-2 py-2 text-xs transition-colors min-w-0"
         >
           {user ? (
-            <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center text-[10px] font-bold text-primary">
+            <div className="h-5 w-5 rounded-full bg-primary/20 flex items-center justify-center text-[9px] font-bold text-primary">
               {userInitials}
             </div>
           ) : (
-            <div className="h-6 w-6 rounded-full border border-primary/50 bg-primary/10 flex items-center justify-center">
-              <UserCircle className="h-4 w-4 text-primary" />
+            <div className="h-5 w-5 rounded-full border border-primary/50 bg-primary/10 flex items-center justify-center">
+              <UserCircle className="h-3.5 w-3.5 text-primary" />
             </div>
           )}
           <span className={cn("truncate", user ? "text-muted-foreground" : "text-primary font-medium")}>
